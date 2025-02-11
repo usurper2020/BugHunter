@@ -1,59 +1,60 @@
-from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QLabel, QLineEdit, 
-                             QTextEdit, QPushButton, QMessageBox)
+from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QLabel, 
+                            QPushButton, QTextEdit, QComboBox, QMessageBox)
 
 class ContributionDialog(QDialog):
-    def __init__(self, contribution_system, current_user, parent=None):
+    def __init__(self, parent=None):
         super().__init__(parent)
-        self.contribution_system = contribution_system
-        self.current_user = current_user
-        self.initUI()
-
-    def initUI(self):
-        self.setWindowTitle('Submit Contribution')
-        self.setGeometry(300, 300, 400, 300)
-
-        layout = QVBoxLayout()
-
-        # Tool Name input
-        self.tool_name_label = QLabel('Tool Name:')
-        self.tool_name_input = QLineEdit()
-        layout.addWidget(self.tool_name_label)
-        layout.addWidget(self.tool_name_input)
-
-        # Tool Description input
-        self.tool_description_label = QLabel('Description:')
-        self.tool_description_input = QTextEdit()
-        layout.addWidget(self.tool_description_label)
-        layout.addWidget(self.tool_description_input)
-
-        # Tool File input
-        self.tool_file_label = QLabel('Tool File Path:')
-        self.tool_file_input = QLineEdit()
-        layout.addWidget(self.tool_file_label)
-        layout.addWidget(self.tool_file_input)
-
-        # Submit button
-        self.submit_button = QPushButton('Submit')
-        self.submit_button.clicked.connect(self.submit_contribution)
-        layout.addWidget(self.submit_button)
-
-        self.setLayout(layout)
-
-    def submit_contribution(self):
-        """Submit the contribution"""
-        tool_name = self.tool_name_input.text()
-        tool_description = self.tool_description_input.toPlainText()
-        tool_file = self.tool_file_input.text()
-
-        if not tool_name or not tool_description or not tool_file:
-            QMessageBox.warning(self, 'Error', 'Please fill in all fields')
-            return
-
-        result = self.contribution_system.submit_contribution(
-            self.current_user, tool_name, tool_description, tool_file)
+        self.setWindowTitle("Contribution")
+        self.setMinimumSize(600, 400)
+        self.init_ui()
         
-        if result['status'] == 'success':
-            QMessageBox.information(self, 'Success', 'Contribution submitted successfully')
-            self.close()
-        else:
-            QMessageBox.warning(self, 'Error', result['message'])
+    def init_ui(self):
+        """Initialize the dialog UI"""
+        layout = QVBoxLayout()
+        
+        # Contribution type selector
+        type_layout = QHBoxLayout()
+        type_layout.addWidget(QLabel("Type:"))
+        self.type_combo = QComboBox()
+        self.type_combo.addItems(["Bug Report", "Feature Request", "Documentation", "Other"])
+        type_layout.addWidget(self.type_combo)
+        layout.addLayout(type_layout)
+        
+        # Content area
+        self.content_edit = QTextEdit()
+        self.content_edit.setPlaceholderText("Enter contribution details...")
+        layout.addWidget(self.content_edit)
+        
+        # Buttons
+        button_layout = QHBoxLayout()
+        
+        self.submit_button = QPushButton("Submit")
+        self.submit_button.clicked.connect(self.submit_contribution)
+        
+        self.cancel_button = QPushButton("Cancel")
+        self.cancel_button.clicked.connect(self.reject)
+        
+        button_layout.addWidget(self.submit_button)
+        button_layout.addWidget(self.cancel_button)
+        
+        layout.addLayout(button_layout)
+        self.setLayout(layout)
+        
+    def submit_contribution(self):
+        """Handle contribution submission"""
+        content = self.content_edit.toPlainText()
+        if not content:
+            QMessageBox.warning(self, "Error", "Please enter contribution details")
+            return
+            
+        contribution_data = {
+            'type': self.type_combo.currentText(),
+            'content': content
+        }
+        
+        # Here you would typically send the contribution to the contribution system
+        self.accept()
+        
+    def show(self):
+        """Show the dialog"""
+        return self.exec()

@@ -14,7 +14,7 @@ from services.tool_manager import ToolManager
 
 async def update_all_tools(tool_manager: ToolManager):
     """Update all installed tools"""
-    for tool_name in tool_manager.tools.keys():
+    for tool_name in tool_manager.tools:
         status = await tool_manager.check_tool_status(tool_name)
         if status.get('installed'):
             await tool_manager.update_tool(tool_name)
@@ -29,7 +29,7 @@ async def main():
 
     try:
         # Initialize tool manager
-        tool_manager = ToolManager()
+        tool_manager = ToolManager(None)
 
         # Update all tools
         logger.info("Starting tool updates...")

@@ -1,99 +1,69 @@
-# services/login_dialog.py
-import logging
-from PyQt6.QtWidgets import (
-    QDialog, QVBoxLayout, QHBoxLayout, QLabel, 
-    QLineEdit, QPushButton, QMessageBox
-)
-from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QLabel, QLineEdit, 
+                            QPushButton, QMessageBox)
 
 class LoginDialog(QDialog):
-    def __init__(self, auth_service):
-        super().__init__()
-        self.auth = auth_service
-        self.logger = logging.getLogger('BugHunter.LoginDialog')
-        self.token = None
-        self.username = None
-        self.setup_ui()
+    def __init__(self, auth_manager, parent=None):
+        super().__init__(parent)
+        self.auth_manager = auth_manager
+        self.user_token = None
+        self.initUI()
 
-    def setup_ui(self):
-        """Setup the login dialog UI"""
-        self.setWindowTitle("Login")
-        self.setModal(True)
-        
-        # Create layout
+    def initUI(self):
+        self.setWindowTitle('Login')
+        self.setGeometry(300, 300, 300, 150)
+
         layout = QVBoxLayout()
-        
-        # Username field
-        username_layout = QHBoxLayout()
-        username_label = QLabel("Username:")
+
+        # Username input
+        self.username_label = QLabel('Username:')
         self.username_input = QLineEdit()
-        username_layout.addWidget(username_label)
-        username_layout.addWidget(self.username_input)
-        
-        # Password field
-        password_layout = QHBoxLayout()
-        password_label = QLabel("Password:")
+        layout.addWidget(self.username_label)
+        layout.addWidget(self.username_input)
+
+        # Password input
+        self.password_label = QLabel('Password:')
         self.password_input = QLineEdit()
         self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
-        password_layout.addWidget(password_label)
-        password_layout.addWidget(self.password_input)
-        
-        # Buttons
-        button_layout = QHBoxLayout()
-        login_button = QPushButton("Login")
-        cancel_button = QPushButton("Cancel")
-        button_layout.addWidget(login_button)
-        button_layout.addWidget(cancel_button)
-        
-        # Add all layouts to main layout
-        layout.addLayout(username_layout)
-        layout.addLayout(password_layout)
-        layout.addLayout(button_layout)
-        
-        # Set dialog layout
+        layout.addWidget(self.password_label)
+        layout.addWidget(self.password_input)
+
+        # Login button
+        self.login_button = QPushButton('Login')
+        self.login_button.clicked.connect(self.handle_login)
+        layout.addWidget(self.login_button)
+
+        # Register button
+        self.register_button = QPushButton('Register')
+        self.register_button.clicked.connect(self.handle_register)
+        layout.addWidget(self.register_button)
+
         self.setLayout(layout)
-        
-        # Connect signals
-        login_button.clicked.connect(self.handle_login)
-        cancel_button.clicked.connect(self.reject)
-        self.username_input.returnPressed.connect(self.handle_login)
-        self.password_input.returnPressed.connect(self.handle_login)
 
     def handle_login(self):
-        """Handle login button click"""
-        try:
-            username = self.username_input.text().strip()
-            password = self.password_input.text().strip()
-            
-            # Validate input
-            if not username or not password:
-                QMessageBox.warning(
-                    self,
-                    "Input Error",
-                    "Please enter both username and password."
-                )
-                return
-            
-            # Attempt login
-            success = self.auth.login(username, password)
-            
-            if success:
-                self.username = username
-                self.token = self.auth.token
-                self.logger.info(f"User '{username}' logged in successfully")
-                self.accept()
-            else:
-                QMessageBox.critical(
-                    self,
-                    "Login Failed",
-                    "Invalid username or password."
-                )
-                self.password_input.clear()
-                
-        except Exception as e:
-            self.logger.error(f"Login error: {e}")
-            QMessageBox.critical(
-                self,
-                "Login Error",
-                f"An error occurred during login: {str(e)}"
-            )
+        username = self.username_input.text()
+        password = self.password_input.text()
+
+        if not username or not password:
+            QMessageBox.warning(self, 'Error', 'Please enter both username and password')
+            return
+
+        result = self.auth_manager.login(username, password)
+        if result['status'] == 'success':
+            self.user_token = result['token']
+            self.accept()
+        else:
+            QMessageBox.warning(self, 'Login Failed', result['message'])
+
+    def handle_register(self):
+        username = self.username_input.text()
+        password = self.password_input.text()
+
+        if not username or not password:
+            QMessageBox.warning(self, 'Error', 'Please enter both username and password')
+            return
+
+        # TODO: Implement actual registration
+        QMessageBox.information(self, 'Success', 'Registration successful. Please login.')
+
+    def get_token(self):
+        return self.user_token

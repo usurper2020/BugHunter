@@ -1,193 +1,302 @@
 import sys
-import logging
 import os
-from datetime import datetime
+import json
+import asyncio
+import logging
 from pathlib import Path
 from PyQt6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QVBoxLayout,
-    QTabWidget, QMessageBox, QTextEdit, QPushButton, QComboBox
+    QApplication, QMainWindow, QWidget, QVBoxLayout, 
+    QTabWidget, QMessageBox, QLabel
 )
 from PyQt6.QtCore import Qt
-from dotenv import load_dotenv
-from openai import OpenAI
-import requests
+from PyQt6.QtGui import QFont
 
-# Configure logging first
-def configure_logging():
-    log_dir = Path("logs")
-    log_dir.mkdir(exist_ok=True)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_file = log_dir / f"bughunter_{timestamp}.log"
-    
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        handlers=[
-            logging.StreamHandler(),
-            logging.FileHandler(log_file)
-        ]
-    )
-    return logging.getLogger('BugHunter.Main')
+# Add project root to Python path
+project_root = str(Path(__file__).parent)
+if project_root not in sys.path:
+    sys.path.append(project_root)
+
+from services import (
+    SecuritySystem,
+    IntegrationManager,
+    AISystem,
+    CollaborationSystem,
+    ConfigManager
+)
+from services.user_auth import UserAuth
+from services.login_dialog import LoginDialog
+from services.tool_manager import ToolManager
+from services.vulnerability_scanner import VulnerabilityScanner
+
+from tabs import (
+    AIChatTab,
+    ToolTab,
+    ScannerTab,
+    AmassTab,
+    NucleiTab,
+    ToolManagerTab
+)
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        # Initialize logger first
+        self.setWindowTitle("Bug Hunter")
+        self.setMinimumSize(1200, 800)
+
+        # Initialize configuration and logging
+        self.config_manager = ConfigManager()
         self.logger = logging.getLogger('BugHunter.MainWindow')
-        self.logger.info("Initializing MainWindow")
         
-        # Initialize variables
-        self.openai_client = None
-        self.codegpt_client = None
-        
-        # Setup UI first
-        self.init_ui()
-        
-        # Then initialize APIs
-        self.init_apis()
+        # Initialize authentication with config
+        self.auth_manager = UserAuth()
+        self.user_token = None
+        self.current_user = None
+        self.user_role = None
 
-    def init_ui(self):
-        self.logger.info("Setting up UI")
-        self.setWindowTitle('BugHunter')
-        self.setMinimumSize(800, 600)
+        # Show login dialog
+        if not self.show_login():
+            sys.exit()
 
-        # Create and set central widget
+        # Initialize core services with config
+        self.tool_manager = ToolManager(self.config_manager.get_tool_config())
+        self.vulnerability_scanner = VulnerabilityScanner()
+        
+        # Initialize integrated systems with config
+        self.security_system = SecuritySystem(self.config_manager.get_security_config())
+        self.integration_manager = IntegrationManager(self.config_manager.get_integration_config())
+        self.ai_system = AISystem(self.config_manager.get_ai_config())
+        self.collaboration_system = CollaborationSystem(self.config_manager.get_collaboration_config())
+        
+        # Create required directories and initialize systems
+        self.create_required_directories()
+        self.initialize_systems()
+        
+        # Initialize UI
+        self.setup_ui()
+        
+        self.logger.info("Application initialization completed")
+
+    def setup_ui(self):
+        """Initialize the user interface"""
+        # Create central widget and layout
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
-        
-        # Create main layout
         layout = QVBoxLayout(central_widget)
-        
+
+        # Add header
+        header = QLabel("Bug Hunter")
+        header.setFont(QFont('Arial', 16, QFont.Weight.Bold))
+        header.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        header.setStyleSheet("color: #2196f3; margin: 10px;")
+        layout.addWidget(header)
+
         # Create tab widget
         self.tab_widget = QTabWidget()
         layout.addWidget(self.tab_widget)
-        
-        # Setup tabs
+
+        # Add tabs
         self.setup_tabs()
-        
-        self.logger.info("UI setup completed")
 
-    def init_apis(self):
-        self.logger.info("Initializing APIs")
-        try:
-            # Create .env file if it doesn't exist
-            env_path = Path('.env')
-            if not env_path.exists():
-                template = (
-                    "OPENAI_API_KEY=your_openai_api_key_here\n"
-                    "CODEGPT_API_KEY=your_codegpt_api_key_here\n"
-                )
-                env_path.write_text(template)
-                QMessageBox.warning(
-                    self,
-                    "Environment Setup",
-                    "A template .env file has been created. Please add your API keys."
-                )
-                return
-
-            # Load environment variables
-            load_dotenv(override=True)
-            
-            # Initialize OpenAI client
-            openai_key = os.getenv('OPENAI_API_KEY')
-            if openai_key and openai_key != 'your_openai_api_key_here':
-                try:
-                    self.openai_client = OpenAI(api_key=openai_key)
-                    self.logger.info("OpenAI client initialized successfully")
-                except Exception as e:
-                    self.logger.error(f"Failed to initialize OpenAI client: {e}")
-            
-            # Initialize CodeGPT client
-            codegpt_key = os.getenv('CODEGPT_API_KEY')
-            if codegpt_key and codegpt_key != 'your_codegpt_api_key_here':
-                try:
-                    self.codegpt_client = CodeGPTClient(codegpt_key)
-                    self.logger.info("CodeGPT client initialized successfully")
-                except Exception as e:
-                    self.logger.error(f"Failed to initialize CodeGPT client: {e}")
-
-        except Exception as e:
-            self.logger.error(f"Failed to initialize API clients: {e}")
-            QMessageBox.warning(
-                self,
-                "Setup Warning",
-                f"Failed to initialize API clients: {str(e)}"
-            )
+        # Set dark theme
+        self.setStyleSheet("""
+            QMainWindow, QWidget {
+                background-color: #1e1e1e;
+                color: #ffffff;
+            }
+            QTabWidget::pane {
+                border: 1px solid #333333;
+                background: #1e1e1e;
+            }
+            QTabBar::tab {
+                background: #2d2d2d;
+                color: #ffffff;
+                padding: 8px 20px;
+                margin: 2px;
+            }
+            QTabBar::tab:selected {
+                background: #2196f3;
+            }
+            QTabBar::tab:hover:!selected {
+                background: #1976d2;
+            }
+            QTextEdit, QLineEdit {
+                background-color: #2d2d2d;
+                color: #ffffff;
+                border: 1px solid #333333;
+                border-radius: 4px;
+                padding: 8px;
+                font-family: 'Consolas', monospace;
+            }
+            QPushButton {
+                background-color: #2196f3;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 16px;
+                min-width: 100px;
+            }
+            QPushButton:hover {
+                background-color: #1976d2;
+            }
+            QPushButton:pressed {
+                background-color: #0d47a1;
+            }
+            QPushButton:disabled {
+                background-color: #333333;
+                color: #666666;
+            }
+            QLabel {
+                color: #ffffff;
+            }
+            QComboBox {
+                background-color: #2d2d2d;
+                color: #ffffff;
+                border: 1px solid #333333;
+                border-radius: 4px;
+                padding: 5px;
+            }
+            QComboBox::drop-down {
+                border: none;
+            }
+            QComboBox::down-arrow {
+                image: none;
+                border-left: 5px solid #666666;
+                border-right: 5px solid #666666;
+                border-top: 5px solid #ffffff;
+                width: 0;
+                height: 0;
+            }
+            QProgressBar {
+                border: 1px solid #333333;
+                border-radius: 4px;
+                text-align: center;
+            }
+            QProgressBar::chunk {
+                background-color: #2196f3;
+            }
+        """)
 
     def setup_tabs(self):
-        self.logger.info("Setting up tabs")
-        # Create AI Chat tab
-        ai_chat_tab = AIChatTab(
-            openai_client=self.openai_client,
-            codegpt_client=self.codegpt_client
-        )
-        self.tab_widget.addTab(ai_chat_tab, "AI Chat")
-        
-        # Add placeholder tabs
-        self.tab_widget.addTab(QWidget(), "Scanner")
-        self.tab_widget.addTab(QWidget(), "Tools")
-        self.tab_widget.addTab(QWidget(), "Amass")
-        self.tab_widget.addTab(QWidget(), "Nuclei")
-        
-        self.logger.info("Tabs setup completed")
+        """Set up application tabs"""
+        try:
+            # AI Chat Tab with integrated AI system
+            self.ai_chat_tab = AIChatTab(ai_system=self.ai_system)
+            self.tab_widget.addTab(self.ai_chat_tab, "AI Assistant")
 
-class AIChatTab(QWidget):
-    def __init__(self, openai_client=None, codegpt_client=None):
-        super().__init__()
-        self.logger = logging.getLogger('BugHunter.AIChatTab')
-        self.openai_client = openai_client
-        self.codegpt_client = codegpt_client
-        self.init_ui()
+            # Scanner Tab
+            self.scanner_tab = ScannerTab()
+            self.tab_widget.addTab(self.scanner_tab, "Vulnerability Scanner")
 
-    def init_ui(self):
-        layout = QVBoxLayout()
-        
-        # API Selection
-        self.api_selector = QComboBox()
-        self.api_selector.addItems(['OpenAI', 'CodeGPT'])
-        layout.addWidget(self.api_selector)
-        
-        # Chat display
-        self.chat_display = QTextEdit()
-        self.chat_display.setReadOnly(True)
-        layout.addWidget(self.chat_display)
-        
-        # Input field
-        self.input_field = QTextEdit()
-        self.input_field.setMaximumHeight(100)
-        layout.addWidget(self.input_field)
-        
-        # Send button
-        self.send_button = QPushButton("Send")
-        self.send_button.clicked.connect(self.send_message)
-        layout.addWidget(self.send_button)
-        
-        self.setLayout(layout)
+            # Tool Management Tab
+            self.tool_tab = ToolTab()
+            self.tab_widget.addTab(self.tool_tab, "Tool Management")
 
-    def send_message(self):
-        # Implementation of send_message method
-        pass
+            # Amass Tab
+            self.amass_tab = AmassTab()
+            self.tab_widget.addTab(self.amass_tab, "Amass")
+
+            # Nuclei Tab
+            self.nuclei_tab = NucleiTab()
+            self.tab_widget.addTab(self.nuclei_tab, "Nuclei")
+
+            # Tool Manager Tab
+            self.tool_manager_tab = ToolManagerTab()
+            self.tab_widget.addTab(self.tool_manager_tab, "Tool Manager")
+
+        except Exception as e:
+            QMessageBox.critical(
+                self,
+                "Error",
+                f"Error setting up tabs: {str(e)}"
+            )
+            raise
+
+    def show_login(self) -> bool:
+        """Show login dialog and return True if login successful"""
+        dialog = LoginDialog(self.auth_manager)
+        if dialog.exec():
+            self.user_token = dialog.get_token()
+            result = self.auth_manager.verify_token(self.user_token)
+            if result['status'] == 'success':
+                self.current_user = result['payload']['username']
+                self.user_role = result['payload']['role']
+                return True
+        return False
+
+    def create_required_directories(self):
+        """Create required directories"""
+        try:
+            directories = ['logs', 'data', 'reports', 'tools', 'cache', 'config']
+            for directory in directories:
+                os.makedirs(directory, exist_ok=True)
+            self.logger.info("Required directories created successfully")
+        except Exception as e:
+            self.logger.error(f"Error creating directories: {str(e)}")
+            raise
+            
+    def initialize_systems(self):
+        """Initialize all integrated systems"""
+        try:
+            # Initialize security system
+            self.security_system.initialize()
+            self.logger.info("Security system initialized")
+            
+            # Initialize integration manager
+            self.integration_manager.initialize_integrations()
+            self.logger.info("Integration manager initialized")
+            
+            # Initialize AI system
+            self.ai_system.initialize()
+            self.logger.info("AI system initialized")
+            
+            # Initialize collaboration system
+            self.collaboration_system.initialize()
+            self.logger.info("Collaboration system initialized")
+            
+        except Exception as e:
+            QMessageBox.critical(
+                self,
+                "System Initialization Error",
+                f"Error initializing systems: {str(e)}"
+            )
+            raise
 
 def main():
-    # Create application instance
-    app = QApplication(sys.argv)
-    
-    # Configure logging
-    logger = configure_logging()
-    logger.info("Starting BugHunter application")
-    
     try:
+        # Create logs directory if it doesn't exist
+        os.makedirs('logs', exist_ok=True)
+        
+        # Setup logging
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.FileHandler('logs/bughunter.log'),
+                logging.StreamHandler()
+            ]
+        )
+        
+        logger = logging.getLogger('BugHunter')
+        logger.info("Starting Bug Hunter application")
+        
+        # Initialize application
+        app = QApplication(sys.argv)
+        app.setStyle('Fusion')
+        
         # Create and show main window
         window = MainWindow()
         window.show()
-        logger.info("Main window displayed")
         
         # Start event loop
-        return app.exec()
+        sys.exit(app.exec())
         
     except Exception as e:
-        logger.critical(f"Fatal error in main: {e}", exc_info=True)
-        return 1
+        QMessageBox.critical(
+            None,
+            "Fatal Error",
+            f"Application error: {str(e)}"
+        )
+        sys.exit(1)
 
 if __name__ == '__main__':
-    sys.exit(main())
+    main()

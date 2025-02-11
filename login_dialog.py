@@ -50,6 +50,11 @@ class LoginDialog(QDialog):
         result = self.auth_manager.login(username, password)
         if result['status'] == 'success':
             self.user_token = result['token']
+            # Verify the token after successful login
+            verification_result = self.auth_manager.verify_token(self.user_token)
+            if verification_result['status'] != 'success':
+                QMessageBox.warning(self, 'Token Verification Failed', verification_result['message'])
+                return
             self.accept()
         else:
             QMessageBox.warning(self, 'Login Failed', result['message'])
