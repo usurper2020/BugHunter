@@ -1,0 +1,45 @@
+# config/tools.yaml
+amass:
+  version: latest
+  config_file: config/amass.ini
+  dependencies:
+    - dnspython
+    - aiodns
+  settings:
+    max_dns_queries: 20000
+    max_depth: 5
+
+nuclei:
+  version: latest
+  config_file: config/nuclei.yaml
+  dependencies:
+    - PyYAML
+    - requests
+  settings:
+    threads: 10
+    timeout: 5
+    retries: 3
+
+nmap:
+  version: latest
+  dependencies:
+    - python-nmap
+  settings:
+    max_retries: 3
+    timeout: 300
+
+gobuster:
+  version: latest
+  config_file: config/gobuster.yaml
+  dependencies: []
+  settings:
+    threads: 10
+    timeout: 10
+
+ffuf:
+  version: latest
+  config_file: config/ffuf.yaml
+  dependencies: []
+  settings:
+    threads: 40
+    timeout: 10

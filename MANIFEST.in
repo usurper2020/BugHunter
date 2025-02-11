@@ -1,0 +1,59 @@
+# Documentation
+include README.md
+include LICENSE
+include docs/*.md
+include docs/user_guide.md
+
+# Configuration files
+include requirements.txt
+include requirements-dev.txt
+include pytest.ini
+include .bandit.yaml
+include .pre-commit-config.yaml
+include Makefile
+
+# Package data
+recursive-include data *.json
+recursive-include tools *
+recursive-include tests *.py
+
+# Exclude unnecessary files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude *.so
+global-exclude *.dylib
+global-exclude .git*
+global-exclude .pytest_cache
+global-exclude .coverage
+global-exclude htmlcov
+global-exclude *.egg-info
+global-exclude *.egg
+global-exclude build
+global-exclude dist
+global-exclude .tox
+global-exclude .env
+global-exclude venv
+global-exclude .venv
+
+# Include test data
+recursive-include tests/data *
+
+# Include GUI resources
+recursive-include src/gui *.py
+recursive-include src/gui/icons *.png
+recursive-include src/gui/styles *.css
+
+# Include documentation images
+recursive-include docs/images *.png
+recursive-include docs/images *.jpg
+recursive-include docs/images *.gif
+
+# Include example configurations
+include examples/*.yaml
+include examples/*.json
+include examples/*.conf
+
+# Include CI/CD configurations
+include .github/workflows/*.yml

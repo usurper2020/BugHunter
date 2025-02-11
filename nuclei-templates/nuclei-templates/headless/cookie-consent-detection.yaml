@@ -1,0 +1,34 @@
+id: cookie-consent-detection
+
+info:
+  name: Cookie Consent Detection
+  author: rxerium
+  severity: info
+  description: |
+    This template detects the presence of cookie consent forms
+  tags: headless,cookie,detect
+
+headless:
+  - steps:
+      - action: navigate
+        args:
+          url: "{{BaseURL}}"
+      - action: waitload
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        name: keyword
+        words:
+          - 'cookie-consent'
+          - 'cookie-popup'
+          - 'cookie-notice'
+          - 'We use cookies'
+          - 'Manage privacy preferences'
+          - 'Accept all cookies'
+        condition: or
+
+      - type: status
+        status:
+          - 200
+# digest: 4b0a00483046022100fb60756aa0ddcdb3cda07877678cc99d2f2e618e4974447a29bf7b9a061b2e5b022100fe3677c59e56158da6765a94cc9df340e3b8f08ccfcaff59d2a1765359dd991c:922c64590222798bb761d5b6d8e72950

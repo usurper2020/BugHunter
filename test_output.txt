@@ -1,0 +1,2 @@
+This is a test output file to verify writing permissions.
+If this file is created successfully, then writing to files is working.

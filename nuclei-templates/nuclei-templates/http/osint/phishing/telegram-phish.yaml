@@ -1,0 +1,35 @@
+id: telegram-phish
+
+info:
+  name: telegram phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A telegram phishing website was detected
+  reference:
+    - https://telegram.org
+  metadata:
+    max-request: 1
+  tags: phishing,telegram,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'Telegram is a cloud-based mobile and desktop messaging app with a focus on security and speed.'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"telegram.org")'
+# digest: 4a0a0047304502202dbd69513654f21271f32d06999cd9279a2af4f5abdf3d2560eb93f603d5cdc8022100c5211a2517f8f6be13e01278d0c658d7336fdcfc93a59a4675d517be74502c10:922c64590222798bb761d5b6d8e72950

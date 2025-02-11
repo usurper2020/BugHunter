@@ -1,0 +1,31 @@
+id: ackee-panel
+
+info:
+  name: Ackee Panel - Detect
+  author: userdehghani
+  severity: info
+  description: |
+    self-hosted, node.js based analytics tool for those who care about privacy.
+  reference:
+    - https://ackee.electerious.com/
+    - https://docs.ackee.electerious.com/
+  metadata:
+    verified: true
+    max-request: 2
+    shodan-query: http.favicon.hash:-1495233116
+  tags: panel,ackee,login,detect
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+      - "{{BaseURL}}/favicon.ico"
+
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - 'status_code==200 && contains(tolower(body), "<title>ackee")'
+          - "status_code==200 && (\"-1495233116\" == mmh3(base64_py(body)))"
+        condition: or
+# digest: 4a0a0047304502206d52fcd861c325a262354334567495029c93447e51f1166d1fc243825287a47302210084681bc0725d95d0eecf086edc7008117841d32f4f07818ebd0acadbf5b3c183:922c64590222798bb761d5b6d8e72950

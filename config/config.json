@@ -1,0 +1,16 @@
+{
+    "version": "1.0.0",
+    "window": {
+        "title": "BugHunter",
+        "min_width": 1200,
+        "min_height": 800,
+        "default_theme": "dark"
+    },
+    "directories": [
+        "logs",
+        "data",
+        "reports",
+        "tools",
+        "cache"
+    ]
+}

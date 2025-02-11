@@ -1,0 +1,48 @@
+=== Debug Output ===
+
+Python Version: 3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]
+File System Encoding: utf-8
+
+Current Directory: C:\Users\clabb\Desktop\BugHunter
+
+OPENAI_API_KEY environment variable: Not found
+config.json contents:
+{
+  "DB_HOST": "localhost",
+  "DB_PORT": 5432,
+  "DB_NAME": "bughunter",
+  "DB_USER": "bughunter",
+  "DB_PASSWORD": "",
+  "JWT_SECRET_KEY": "3b106d6261d33bc4b0951637d87256fe2c641904d04e0643c0771152ae1dcad3",
+  "JWT_EXPIRATION_HOURS": 24,
+  "PASSWORD_MIN_LENGTH": 12,
+  "MAX_LOGIN_ATTEMPTS": 5,
+  "LOGIN_LOCKOUT_MINUTES": 15,
+  "RATE_LIMIT_REQUESTS": 100,
+  "RATE_LIMIT_WINDOW_MINUTES": 60,
+  "MAX_CONCURRENT_SCANS": 5,
+  "SCAN_TIMEOUT_MINUTES": 30,
+  "DEFAULT_SCAN_DEPTH": "medium",
+  "REPORT_RETENTION_DAYS": 30,
+  "ENCRYPT_REPORTS": true,
+  "LOG_LEVEL": "INFO",
+  "LOG_FILE": "logs/bughunter.log",
+  "LOG_ROTATION_DAYS": 7,
+  "REDIS_HOST": "localhost",
+  "REDIS_PORT": 6379,
+  "CACHE_TTL_MINUTES": 60,
+  "TOOLS_DIRECTORY": "tools",
+  "NUCLEI_TEMPLATES": "nuclei-templates",
+  "AI_API_TYPE": "codegpt",
+  "AI_API_KEY": "sk-0a5623f9-e2be-4702-9167-3f47614ee815",
+  "AI_MODEL": "gpt-4",
+  "AI_TEMPERATURE": 0.7,
+  "AI_CACHE_TTL_MINUTES": 60,
+  "AI_MAX_TOKENS": 2000,
+  "AI_ANALYSIS_ENABLED": true,
+  "ENABLE_COLLABORATION": true,
+  "ENABLE_ANALYTICS": true,
+  "CODEGPT_WIDGET_ID": "83b8e7bc-6f29-4501-8690-2b1220a9c581"
+}
+
+=== Debug Output Complete ===

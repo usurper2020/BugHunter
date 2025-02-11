@@ -1,0 +1,42 @@
+// config/config.json
+{
+    "version": "1.0.0",
+    "window": {
+        "title": "BugHunter",
+        "min_width": 1200,
+        "min_height": 800,
+        "default_theme": "dark"
+    },
+    "directories": [
+        "logs",
+        "data",
+        "reports",
+        "tools",
+        "cache"
+    ],
+    "api": {
+        "base_url": "https://api.bughunter.local",
+        "timeout": 30
+    },
+    "tools": {
+        "amass": {
+            "path": "tools/amass",
+            "version": "latest",
+            "config_file": "config/amass.ini"
+        },
+        "nuclei": {
+            "path": "tools/nuclei",
+            "version": "latest",
+            "templates_dir": "tools/nuclei-templates"
+        }
+    },
+    "scanning": {
+        "threads": 10,
+        "timeout": 300,
+        "user_agent": "BugHunter/1.0.0"
+    },
+    "ai_assistant": {
+        "model": "gpt-4",
+        "max_tokens": 2000
+    }
+}

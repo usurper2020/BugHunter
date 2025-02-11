@@ -1,0 +1,90 @@
+{
+    "database": {
+        "type": "postgresql",
+        "host": "localhost",
+        "port": 5432,
+        "name": "bughunter_db",
+        "user": "bughunter_user",
+        "password": "your-secure-password-here",
+        "pool_size": 5,
+        "max_overflow": 10,
+        "pool_timeout": 30,
+        "pool_recycle": 3600,
+        "ssl_mode": "prefer"
+    },
+    "redis": {
+        "host": "localhost",
+        "port": 6379,
+        "db": 0,
+        "password": null,
+        "ssl": false,
+        "timeout": 10
+    },
+    "security": {
+        "jwt_secret_key": "your-jwt-secret-key-here",
+        "jwt_expiration_hours": 24,
+        "password_min_length": 12,
+        "max_login_attempts": 5,
+        "login_lockout_minutes": 15,
+        "rate_limit_requests": 100,
+        "rate_limit_window_minutes": 60
+    },
+    "ai": {
+        "api_type": "codegpt",
+        "api_key": "your-codegpt-api-key-here",
+        "model": "gpt-4",
+        "temperature": 0.7,
+        "max_tokens": 2000,
+        "cache_ttl_minutes": 60,
+        "analysis_enabled": true,
+        "widget_id": "83b8e7bc-6f29-4501-8690-2b1220a9c581"
+    },
+    "scanning": {
+        "max_concurrent_scans": 5,
+        "scan_timeout_minutes": 30,
+        "default_scan_depth": "medium",
+        "report_retention_days": 30,
+        "encrypt_reports": true
+    },
+    "logging": {
+        "level": "INFO",
+        "file": "logs/bughunter.log",
+        "rotation_days": 7,
+        "max_size_mb": 100,
+        "backup_count": 5
+    },
+    "paths": {
+        "tools_directory": "tools",
+        "reports_directory": "reports",
+        "templates_directory": "templates",
+        "cache_directory": "cache",
+        "data_directory": "data"
+    },
+    "features": {
+        "enable_collaboration": true,
+        "enable_analytics": true,
+        "enable_ai_analysis": true,
+        "enable_vulnerability_scanning": true,
+        "enable_tool_management": true
+    },
+    "api": {
+        "shodan_api_key": "your-shodan-api-key-here",
+        "wayback_machine_api_key": "your-wayback-machine-api-key-here",
+        "nuclei_templates": "nuclei-templates"
+    },
+    "email": {
+        "smtp_server": "smtp.gmail.com",
+        "smtp_port": 587,
+        "smtp_user": "your-email@gmail.com",
+        "smtp_password": "your-app-specific-password",
+        "use_tls": true,
+        "from_address": "your-email@gmail.com",
+        "admin_email": "admin@yourdomain.com"
+    },
+    "notifications": {
+        "enable_email": true,
+        "enable_slack": false,
+        "enable_desktop": true,
+        "notification_check_interval": 5
+    }
+}
