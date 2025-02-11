@@ -1,16 +1,24 @@
-# services/__init__.py
-from .user_auth import UserAuth
-from .login_dialog import LoginDialog
-from .tool_manager import ToolManager
-from .vulnerability_scanner import VulnerabilityScanner
+"""
+BugHunter Services Package
+
+This package contains core services for the BugHunter application:
+- Security System
+- Integration Manager
+- AI System
+- Collaboration System
+- Configuration Management
+"""
+
+from .security_system import SecuritySystem
+from .integration_manager import IntegrationManager
+from .ai_system import AISystem
+from .collaboration_system import CollaborationSystem
 from .config_manager import ConfigManager
-from .update_checker import UpdateChecker
 
 __all__ = [
-    'UserAuth',
-    'LoginDialog',
-    'ToolManager',
-    'VulnerabilityScanner',
-    'ConfigManager',
-    'UpdateChecker'
+    'SecuritySystem',
+    'IntegrationManager',
+    'AISystem',
+    'CollaborationSystem',
+    'ConfigManager'
 ]

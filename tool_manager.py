@@ -7,8 +7,9 @@ import logging
 logging.basicConfig(filename='bug_bounty_tool.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class ToolManager:
-    def __init__(self):
+    def __init__(self, config=None):
         self.tools = []
+        self.config = config if config else {}
 
     def search_tool(self, search_query):
         # Search for GitHub tools based on the search_query

@@ -20,26 +20,18 @@ class CodeHighlighter(QSyntaxHighlighter):
             "and", "or", "True", "False", "None"
         ]
         for word in keywords:
-            self.highlighting_rules.append((
-                f"\\b{word}\\b", keyword_format
-            ))
+            self.highlighting_rules.append((f"\\b{word}\\b", keyword_format))
 
         # String format
         string_format = QTextCharFormat()
         string_format.setForeground(QColor("#CE9178"))
-        self.highlighting_rules.append((
-            r'"[^"\\]*(\\.[^"\\]*)*"', string_format
-        ))
-        self.highlighting_rules.append((
-            r"'[^'\\]*(\\.[^'\\]*)*'", string_format
-        ))
+        self.highlighting_rules.append((r'"[^"\\]*(\\.[^"\\]*)*"', string_format))
+        self.highlighting_rules.append((r"'[^'\\]*(\\.[^'\\]*)*'", string_format))
 
         # Comment format
         comment_format = QTextCharFormat()
         comment_format.setForeground(QColor("#6A9955"))
-        self.highlighting_rules.append((
-            r"#[^\n]*", comment_format
-        ))
+        self.highlighting_rules.append((r"#[^\n]*", comment_format))
 
     def highlightBlock(self, text):
         for pattern, format in self.highlighting_rules:
@@ -51,11 +43,9 @@ class CodeHighlighter(QSyntaxHighlighter):
                 index = text.find(expression, index + length)
 
 class AIChatTab(QWidget):
-    def __init__(self, openai_client=None, codegpt_client=None):
+    def __init__(self, ai_system=None):
         super().__init__()
-        self.openai_client = openai_client
-        self.codegpt_client = codegpt_client
-        self.current_client = 'openai' if openai_client else 'codegpt'
+        self.ai_system = ai_system
         self.chat_history = []
         self.logger = logging.getLogger('BugHunter.AIChatTab')
         self.typing_timer = QTimer()
@@ -73,7 +63,7 @@ class AIChatTab(QWidget):
         api_label = QLabel("API:")
         api_label.setStyleSheet("color: #CCCCCC;")
         self.api_selector = QComboBox()
-        self.api_selector.setStyleSheet("""
+        self.api_selector.setStyleSheet(""" 
             QComboBox {
                 background-color: #2D2D2D;
                 color: #FFFFFF;
@@ -91,29 +81,16 @@ class AIChatTab(QWidget):
             }
         """)
         self.api_selector.addItems(['OpenAI', 'CodeGPT'])
-        if self.openai_client:
-            self.api_selector.setCurrentText('OpenAI')
-        elif self.codegpt_client:
-            self.api_selector.setCurrentText('CodeGPT')
         self.api_selector.currentTextChanged.connect(self.change_api)
-        
-        # Model Selection
-        model_label = QLabel("Model:")
-        model_label.setStyleSheet("color: #CCCCCC;")
-        self.model_selector = QComboBox()
-        self.model_selector.setStyleSheet(self.api_selector.styleSheet())
-        self.update_model_list()
         
         # Add to top controls
         top_controls.addWidget(api_label)
         top_controls.addWidget(self.api_selector)
-        top_controls.addWidget(model_label)
-        top_controls.addWidget(self.model_selector)
         top_controls.addStretch()
         
         # Clear chat button
         self.clear_button = QPushButton("Clear Chat")
-        self.clear_button.setStyleSheet("""
+        self.clear_button.setStyleSheet(""" 
             QPushButton {
                 background-color: #DC3545;
                 color: white;
@@ -133,7 +110,7 @@ class AIChatTab(QWidget):
         # Chat display
         self.chat_display = QTextEdit()
         self.chat_display.setReadOnly(True)
-        self.chat_display.setStyleSheet("""
+        self.chat_display.setStyleSheet(""" 
             QTextEdit {
                 background-color: #1E1E1E;
                 color: #FFFFFF;
@@ -148,7 +125,7 @@ class AIChatTab(QWidget):
         
         # Input area
         input_frame = QFrame()
-        input_frame.setStyleSheet("""
+        input_frame.setStyleSheet(""" 
             QFrame {
                 background-color: #2D2D2D;
                 border: 1px solid #3D3D3D;
@@ -161,7 +138,7 @@ class AIChatTab(QWidget):
         self.input_field = QTextEdit()
         self.input_field.setMaximumHeight(100)
         self.input_field.setPlaceholderText("Type your message here... (Ctrl+Enter to send)")
-        self.input_field.setStyleSheet("""
+        self.input_field.setStyleSheet(""" 
             QTextEdit {
                 background-color: #1E1E1E;
                 color: #FFFFFF;
@@ -175,7 +152,7 @@ class AIChatTab(QWidget):
         input_layout.addWidget(self.input_field)
         
         self.send_button = QPushButton("Send")
-        self.send_button.setStyleSheet("""
+        self.send_button.setStyleSheet(""" 
             QPushButton {
                 background-color: #007BFF;
                 color: white;
@@ -198,7 +175,7 @@ class AIChatTab(QWidget):
         
         # Status bar
         self.status_label = QLabel("Ready")
-        self.status_label.setStyleSheet("""
+        self.status_label.setStyleSheet(""" 
             QLabel {
                 color: #6C757D;
                 padding: 5px;
@@ -208,13 +185,6 @@ class AIChatTab(QWidget):
         layout.addWidget(self.status_label)
         
         self.setLayout(layout)
-
-    def update_model_list(self):
-        self.model_selector.clear()
-        if self.current_client == 'openai':
-            self.model_selector.addItems(['gpt-3.5-turbo', 'gpt-4'])
-        else:  # codegpt
-            self.model_selector.addItems(['gpt-3.5-turbo'])
 
     def change_api(self, api_name):
         self.current_client = api_name.lower()
@@ -227,29 +197,6 @@ class AIChatTab(QWidget):
         self.chat_history.clear()
         self.status_label.setText("Chat cleared")
         self.logger.info("Chat cleared")
-
-    def format_message(self, role, content):
-        if role == "user":
-            return (
-                '<div style="margin-bottom: 10px; background-color: #2D2D2D; padding: 10px; border-radius: 5px;">'
-                '<span style="color: #4EC9B0; font-weight: bold;">You:</span><br>'
-                f'<span style="color: #FFFFFF;">{content}</span>'
-                '</div>'
-            )
-        else:
-            return (
-                '<div style="margin-bottom: 10px; background-color: #1E1E1E; padding: 10px; border-radius: 5px;">'
-                '<span style="color: #569CD6; font-weight: bold;">AI:</span><br>'
-                f'<span style="color: #FFFFFF;">{content}</span>'
-                '</div>'
-            )
-
-    def show_typing_indicator(self):
-        cursor = self.chat_display.textCursor()
-        cursor.movePosition(QTextCursor.MoveOperation.End)
-        cursor.insertHtml('<span style="color: #6C757D;">AI is typing...</span><br>')
-        self.chat_display.setTextCursor(cursor)
-        self.chat_display.ensureCursorVisible()
 
     def send_message(self):
         user_message = self.input_field.toPlainText().strip()
@@ -268,19 +215,10 @@ class AIChatTab(QWidget):
         self.typing_timer.start(500)
 
         try:
-            if self.current_client == 'openai' and self.openai_client:
-                response = self.openai_client.chat.completions.create(
-                    model=self.model_selector.currentText(),
-                    messages=self.chat_history
-                )
-                ai_response = response.choices[0].message.content
-            elif self.current_client == 'codegpt' and self.codegpt_client:
-                response = self.codegpt_client.create_completion(
-                    messages=self.chat_history
-                )
-                ai_response = response['choices'][0]['message']['content']
+            if self.ai_system:
+                ai_response = self.ai_system.process_message(self.chat_history)
             else:
-                raise Exception("No API client configured for the selected service.")
+                raise Exception("AI system not initialized")
             
             # Stop typing indicator
             self.typing_timer.stop()
@@ -304,6 +242,29 @@ class AIChatTab(QWidget):
         
         finally:
             self.send_button.setEnabled(True)
+
+    def format_message(self, role, content):
+        if role == "user":
+            return (
+                '<div style="margin-bottom: 10px; background-color: #2D2D2D; padding: 10px; border-radius: 5px;">'
+                '<span style="color: #4EC9B0; font-weight: bold;">You:</span><br>'
+                f'<span style="color: #FFFFFF;">{content}</span>'
+                '</div>'
+            )
+        else:
+            return (
+                '<div style="margin-bottom: 10px; background-color: #1E1E1E; padding: 10px; border-radius: 5px;">'
+                '<span style="color: #569CD6; font-weight: bold;">AI:</span><br>'
+                f'<span style="color: #FFFFFF;">{content}</span>'
+                '</div>'
+            )
+
+    def show_typing_indicator(self):
+        cursor = self.chat_display.textCursor()
+        cursor.movePosition(QTextCursor.MoveOperation.End)
+        cursor.insertHtml('<span style="color: #6C757D;">AI is typing...</span><br>')
+        self.chat_display.setTextCursor(cursor)
+        self.chat_display.ensureCursorVisible()
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key.Key_Return and (

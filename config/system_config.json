@@ -1,0 +1,72 @@
+{
+    "ai_system": {
+        "default_model": "gpt-3.5-turbo",
+        "temperature": 0.7,
+        "max_tokens": 2000,
+        "models": [
+            "gpt-3.5-turbo",
+            "gpt-4"
+        ]
+    },
+    "security_system": {
+        "log_level": "INFO",
+        "max_login_attempts": 3,
+        "session_timeout": 3600,
+        "token_expiry": 86400
+    },
+    "integration": {
+        "shodan": {
+            "rate_limit": 1000,
+            "timeout": 30
+        },
+        "wayback": {
+            "max_snapshots": 100,
+            "timeout": 30
+        },
+        "nuclei": {
+            "templates_dir": "nuclei-templates",
+            "timeout": 300
+        },
+        "amass": {
+            "max_depth": 2,
+            "timeout": 600
+        }
+    },
+    "collaboration": {
+        "max_team_size": 10,
+        "file_size_limit": 10485760,
+        "supported_formats": [
+            "pdf",
+            "txt",
+            "json",
+            "yaml",
+            "xml"
+        ]
+    },
+    "tools": {
+        "auto_update": true,
+        "check_interval": 86400,
+        "storage_path": "tools",
+        "temp_path": "cache"
+    },
+    "analytics": {
+        "enabled": true,
+        "log_level": "INFO",
+        "retention_days": 30
+    },
+    "middleware": {
+        "rate_limit": {
+            "window": 3600,
+            "max_requests": 1000
+        },
+        "cors": {
+            "allowed_origins": [
+                "*"
+            ],
+            "allowed_methods": [
+                "GET",
+                "POST"
+            ]
+        }
+    }
+}

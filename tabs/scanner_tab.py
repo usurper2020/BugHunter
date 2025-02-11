@@ -1,4 +1,3 @@
-# tabs/scanner_tab.py
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, 
     QLineEdit, QPushButton, QComboBox, QTextEdit,
@@ -7,9 +6,10 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt, QTimer
 import asyncio
+import json
+import logging
 from typing import Optional
 from services.vulnerability_scanner import VulnerabilityScanner, ScanTarget
-import json
 
 class ScannerTab(QWidget):
     def __init__(self, scanner: Optional[VulnerabilityScanner] = None):
@@ -17,6 +17,7 @@ class ScannerTab(QWidget):
         self.scanner = scanner or VulnerabilityScanner()
         self.current_scan_id: Optional[str] = None
         self.status_timer: Optional[QTimer] = None
+        self.logger = logging.getLogger('BugHunter.ScannerTab')
         self.setup_ui()
 
     def setup_ui(self):
@@ -38,7 +39,7 @@ class ScannerTab(QWidget):
 
         # Start scan button
         self.start_button = QPushButton("Start Scan")
-        self.start_button.clicked.connect(self.start_scan)
+        self.start_button.clicked.connect(self.handle_start_scan)
         target_layout.addWidget(self.start_button)
 
         layout.addLayout(target_layout)
@@ -68,13 +69,29 @@ class ScannerTab(QWidget):
 
         self.setLayout(layout)
 
-    async def start_scan(self):
-        """Start a new vulnerability scan"""
+    def handle_start_scan(self):
+        """Handle start scan button click"""
         target_url = self.target_input.text().strip()
         if not target_url:
             QMessageBox.warning(self, "Input Error", "Please enter a target URL")
             return
 
+        # Create event loop if it doesn't exist
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+
+        try:
+            # Start scan asynchronously
+            loop.run_until_complete(self.start_scan(target_url))
+        except Exception as e:
+            self.logger.error(f"Failed to start scan: {e}")
+            QMessageBox.critical(self, "Scan Error", str(e))
+
+    async def start_scan(self, target_url: str):
+        """Start a new vulnerability scan"""
         try:
             # Create scan target
             target = ScanTarget(url=target_url)
@@ -91,12 +108,29 @@ class ScannerTab(QWidget):
             self.progress_bar.setRange(0, 0)  # Indeterminate progress
             
             # Start status update timer
-            self.status_timer = QTimer()
-            self.status_timer.timeout.connect(self.update_scan_status)
+            if self.status_timer is None:
+                self.status_timer = QTimer()
+                self.status_timer.timeout.connect(self.handle_status_update)
             self.status_timer.start(1000)  # Update every second
 
         except Exception as e:
-            QMessageBox.critical(self, "Scan Error", str(e))
+            self.logger.error(f"Failed to start scan: {e}")
+            raise
+
+    def handle_status_update(self):
+        """Handle status update timer tick"""
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+
+        try:
+            loop.run_until_complete(self.update_scan_status())
+        except Exception as e:
+            self.logger.error(f"Failed to update status: {e}")
+            self.status_timer.stop()
+            QMessageBox.critical(self, "Status Error", str(e))
 
     async def update_scan_status(self):
         """Update the scan status and results"""
@@ -127,6 +161,7 @@ class ScannerTab(QWidget):
 
         except Exception as e:
             self.logger.error(f"Failed to update scan status: {e}")
+            raise
 
     async def load_scan_results(self):
         """Load and display scan results"""
@@ -151,7 +186,8 @@ class ScannerTab(QWidget):
             self.details_text.setText(json.dumps(results, indent=2))
 
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to load scan results: {e}")
+            self.logger.error(f"Failed to load scan results: {e}")
+            raise
 
     def closeEvent(self, event):
         """Handle tab close event"""
@@ -165,7 +201,13 @@ class ScannerTab(QWidget):
             )
 
             if reply == QMessageBox.StandardButton.Yes:
-                asyncio.create_task(self.scanner.stop_scan(self.current_scan_id))
+                try:
+                    loop = asyncio.get_event_loop()
+                except RuntimeError:
+                    loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(loop)
+                    
+                loop.run_until_complete(self.scanner.stop_scan(self.current_scan_id))
                 self.status_timer.stop()
             else:
                 event.ignore()
