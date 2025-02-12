@@ -1,24 +1,10 @@
 """
-BugHunter Services Package
-
-This package contains core services for the BugHunter application:
-- Security System
-- Integration Manager
-- AI System
-- Collaboration System
-- Configuration Management
+Services package for the BugHunter application.
 """
 
-from .security_system import SecuritySystem
-from .integration_manager import IntegrationManager
+from .vulnerability_scanner import VulnerabilityScanner
 from .ai_system import AISystem
-from .collaboration_system import CollaborationSystem
-from .config_manager import ConfigManager
+from .user_auth import UserAuth
+from .login_dialog import LoginDialog
 
-__all__ = [
-    'SecuritySystem',
-    'IntegrationManager',
-    'AISystem',
-    'CollaborationSystem',
-    'ConfigManager'
-]
+__all__ = ['VulnerabilityScanner', 'AISystem', 'UserAuth', 'LoginDialog']
