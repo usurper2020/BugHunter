@@ -5,18 +5,49 @@ import secrets
 import sys
 
 def generate_secret_key():
-    """Generate a secure secret key"""
+    """
+    Generate a cryptographically secure secret key.
+    
+    Returns:
+        str: A 64-character hexadecimal string suitable for use
+             as a secret key in cryptographic operations.
+    """
     return secrets.token_hex(32)
 
 def create_directories():
-    """Create required directories"""
+    """
+    Create required application directories if they don't exist.
+    
+    Creates the following directories:
+    - logs: For application log files
+    - tools: For security testing tools
+    - reports: For scan reports and output
+    - cache: For temporary data storage
+    
+    Each directory is created with appropriate permissions,
+    and existing directories are preserved.
+    """
     directories = ['logs', 'tools', 'reports', 'cache']
     for directory in directories:
         os.makedirs(directory, exist_ok=True)
         print(f"Created directory: {directory}")
 
 def create_config():
-    """Create default config.json if it doesn't exist"""
+    """
+    Create default configuration file if it doesn't exist.
+    
+    Creates config.json with default settings including:
+    - API keys (placeholders)
+    - JWT configuration
+    - Database settings
+    - Logging configuration
+    - Directory paths
+    - Application settings
+    
+    Note:
+        Does not overwrite existing configuration file to
+        preserve user settings.
+    """
     config_path = 'config.json'
     if not os.path.exists(config_path):
         config = {
@@ -47,7 +78,16 @@ def create_config():
         print(f"{config_path} already exists")
 
 def check_python_version():
-    """Check if Python version is 3.7 or higher"""
+    """
+    Verify that Python version meets requirements.
+    
+    Checks if the current Python version is 3.7 or higher,
+    which is required for application functionality.
+    
+    Raises:
+        SystemExit: If Python version is below 3.7, exits
+                   with status code 1.
+    """
     version = sys.version_info
     if version.major < 3 or (version.major == 3 and version.minor < 7):
         print("Error: Python 3.7 or higher is required")
@@ -55,7 +95,17 @@ def check_python_version():
     print(f"Python version {version.major}.{version.minor}.{version.micro} OK")
 
 def check_dependencies():
-    """Check if required packages are installed"""
+    """
+    Verify that all required Python packages are installed.
+    
+    Reads requirements from requirements.txt and checks if
+    they are installed in the current environment.
+    
+    Raises:
+        SystemExit: If any required packages are missing,
+                   exits with status code 1 and displays
+                   installation instructions.
+    """
     try:
         import pkg_resources
         with open('requirements.txt', 'r') as f:
@@ -83,7 +133,18 @@ def check_dependencies():
         sys.exit(1)
 
 def main():
-    """Main setup function"""
+    """
+    Main entry point for environment setup.
+    
+    Performs complete environment setup:
+    1. Verifies Python version
+    2. Checks package dependencies
+    3. Creates required directories
+    4. Sets up configuration file
+    
+    Provides feedback for each step and instructions
+    for running the application after setup.
+    """
     print("Setting up Bug Hunter environment...")
     
     print("\nChecking Python version...")

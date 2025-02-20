@@ -1,13 +1,43 @@
+"""
+Console-based OpenAI API test module for the BugHunter application.
+
+This module provides detailed console output for testing OpenAI API
+connectivity, including timestamped logs and configuration details.
+Used for debugging and verifying OpenAI integration setup.
+"""
+
 import os
 import json
 from openai import OpenAI
 from datetime import datetime
 
 def print_log(message):
+    """
+    Print a timestamped log message to console.
+    
+    Parameters:
+        message (str): Message to log
+        
+    Format:
+        [YYYY-MM-DD HH:MM:SS] message
+    """
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     print(f"[{timestamp}] {message}")
 
 def load_config():
+    """
+    Load and display configuration from config.json file.
+    
+    Attempts to load the configuration file and prints its contents
+    for debugging purposes.
+    
+    Returns:
+        dict: Configuration dictionary if successful,
+              empty dictionary if file not found or invalid.
+              
+    Note:
+        Logs all steps and any errors encountered during loading.
+    """
     try:
         print_log("Attempting to load config.json...")
         with open('config.json', 'r') as f:
@@ -20,6 +50,25 @@ def load_config():
         return {}
 
 def test_openai_connection():
+    """
+    Test OpenAI API connectivity with detailed console output.
+    
+    This function:
+    1. Loads API key from config.json or environment
+    2. Initializes OpenAI client
+    3. Tests API with a simple chat completion request
+    4. Logs each step and its outcome
+    
+    The test provides detailed feedback about:
+    - Configuration loading
+    - API key source and availability
+    - Client initialization
+    - API response testing
+    
+    Note:
+        API key is partially obscured in logs for security.
+        All steps and errors are logged with timestamps.
+    """
     print_log("Starting OpenAI connection test")
     
     # Try getting API key from config.json first

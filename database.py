@@ -32,12 +32,39 @@ Base = declarative_base()
 redis_client = redis.from_url(config.get_redis_url())
 
 class DatabaseManager:
-    """Manage database connections and operations"""
+    """
+    Manage database connections and operations in the BugHunter application.
+    
+    This class provides static methods for:
+    - Managing database sessions with automatic cleanup
+    - Initializing and dropping database schemas
+    - Handling transaction management
+    
+    Uses SQLAlchemy for database operations with connection pooling
+    configured for optimal performance.
+    """
     
     @staticmethod
     @contextmanager
     def get_session() -> Generator:
-        """Get a database session with automatic cleanup"""
+        """
+        Get a database session with automatic cleanup using context management.
+        
+        This method provides a session that will automatically:
+        - Commit changes on successful execution
+        - Rollback changes on exception
+        - Close the session when finished
+        
+        Yields:
+            Session: An SQLAlchemy session object
+            
+        Raises:
+            Exception: Any database-related exceptions that occur during operations
+            
+        Example:
+            with DatabaseManager.get_session() as session:
+                user = session.query(User).filter_by(id=1).first()
+        """
         session = Session()
         try:
             yield session
@@ -51,7 +78,16 @@ class DatabaseManager:
     
     @staticmethod
     def init_db() -> None:
-        """Initialize the database schema"""
+        """
+        Initialize the database schema.
+        
+        Creates all tables defined in SQLAlchemy models.
+        Should be called when setting up the application
+        for the first time or after dropping the schema.
+        
+        Raises:
+            Exception: If schema initialization fails
+        """
         try:
             Base.metadata.create_all(engine)
             logger.info("Database schema initialized successfully")
@@ -61,7 +97,15 @@ class DatabaseManager:
     
     @staticmethod
     def drop_db() -> None:
-        """Drop all database tables (use with caution!)"""
+        """
+        Drop all database tables and schema.
+        
+        WARNING: This operation is destructive and will delete all data.
+        Should only be used in development or when resetting the application.
+        
+        Raises:
+            Exception: If schema deletion fails
+        """
         try:
             Base.metadata.drop_all(engine)
             logger.info("Database schema dropped successfully")
@@ -70,11 +114,31 @@ class DatabaseManager:
             raise
 
 class CacheManager:
-    """Manage Redis caching operations"""
+    """
+    Manage Redis caching operations in the BugHunter application.
+    
+    This class provides static methods for:
+    - Getting and setting cached values
+    - Deleting cache entries
+    - Flushing the entire cache
+    
+    Uses Redis for fast in-memory caching with optional expiration times.
+    """
     
     @staticmethod
     def get(key: str) -> str:
-        """Get a value from cache"""
+        """
+        Retrieve a value from the Redis cache.
+        
+        Parameters:
+            key (str): The cache key to retrieve
+            
+        Returns:
+            str: The cached value if found, None otherwise
+            
+        Raises:
+            Exception: If cache retrieval fails (logged and returns None)
+        """
         try:
             return redis_client.get(key)
         except Exception as e:
@@ -83,7 +147,21 @@ class CacheManager:
     
     @staticmethod
     def set(key: str, value: str, expire: int = None) -> bool:
-        """Set a value in cache with optional expiration"""
+        """
+        Store a value in the Redis cache.
+        
+        Parameters:
+            key (str): The cache key to store
+            value (str): The value to cache
+            expire (int, optional): Time in seconds until the key expires.
+                                  If None, uses default from config
+                                  
+        Returns:
+            bool: True if successful, False otherwise
+            
+        Raises:
+            Exception: If cache storage fails (logged and returns False)
+        """
         try:
             if expire is None:
                 expire = config.get('CACHE_TTL_MINUTES') * 60
@@ -94,7 +172,19 @@ class CacheManager:
     
     @staticmethod
     def delete(key: str) -> bool:
-        """Delete a value from cache"""
+        """
+        Remove a value from the Redis cache.
+        
+        Parameters:
+            key (str): The cache key to delete
+            
+        Returns:
+            bool: True if key was deleted, False if key didn't exist
+                 or deletion failed
+            
+        Raises:
+            Exception: If cache deletion fails (logged and returns False)
+        """
         try:
             return redis_client.delete(key) > 0
         except Exception as e:
@@ -103,7 +193,18 @@ class CacheManager:
     
     @staticmethod
     def flush() -> bool:
-        """Flush all cache entries (use with caution!)"""
+        """
+        Remove all entries from the Redis cache.
+        
+        WARNING: This operation is destructive and will delete all cached data.
+        Should only be used when a complete cache reset is needed.
+        
+        Returns:
+            bool: True if flush was successful, False otherwise
+            
+        Raises:
+            Exception: If cache flush fails (logged and returns False)
+        """
         try:
             return redis_client.flushall()
         except Exception as e:
