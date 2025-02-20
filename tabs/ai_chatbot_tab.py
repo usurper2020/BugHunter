@@ -6,7 +6,8 @@ the AI system, specifically focused on vulnerability information
 retrieval and security-related queries.
 """
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QTextEdit, QPushButton
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QTextEdit, QPushButton
+
 from backend.ai_integration import AIIntegration
 from backend.models import AIModel
 

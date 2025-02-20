@@ -2,7 +2,8 @@
 main_gui.py
 
 This module sets up the main graphical user interface (GUI) for the Bug Bounty Platform application.
-It utilizes PyQt5 to create a window with multiple tabs, each containing different tools for security testing.
+It utilizes PyQt6 to create a window with multiple tabs, each containing different tools for security testing.
+
 
 Tabs included:
 - Nmap Scanner
@@ -21,9 +22,10 @@ from config_gui import ConfigTab
 from fuzzer_gui import FuzzerTab
 from logging_gui import LoggingTab
 from nmap_scanner_gui import NmapScannerTab
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QMessageBox,
+from PyQt6.QtWidgets import (QApplication, QMainWindow, QMessageBox,
                              QSizePolicy, QStatusBar, QTabWidget, QVBoxLayout,
                              QWidget)
+
 from sql_injection_gui import SQLInjectionTab
 from ssh_scanner_gui import SSHScannerTab
 from tabs.dashboard_tab import DashboardTab

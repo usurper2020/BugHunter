@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QPushButton, QMessageBox)
-from PyQt5.QtCore import Qt
+from PyQt6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QPushButton, QMessageBox)
+from PyQt6.QtCore import Qt
+
 from src.core.advanced_features import AdvancedProjectManager
 from src.core.ai_assistant import AIAssistant
 from src.core.architecture_optimizer import ArchitectureOptimizer

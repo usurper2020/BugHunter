@@ -1,60 +1,67 @@
 """
-Bug Bounty target management tab for the BugHunter application.
+Bug Bounty Target tab for the BugHunter application.
 
-This module provides a simple interface for users to input and
-manage target websites for bug bounty hunting. It serves as the
-entry point for initiating security assessments on target sites.
+This tab provides an interface for managing bug bounty targets,
+including adding, removing, and scanning targets.
 """
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QListWidget
+from services.vulnerability_scanner import VulnerabilityScanner
 
 class BugBountyTargetTab(QWidget):
     """
-    Tab widget for managing bug bounty target websites.
+    Tab widget for managing bug bounty targets.
     
     This widget provides:
-    - Input field for target website URLs
-    - Submission button for processing targets
-    - Basic input validation and handling
-    
-    The interface serves as the starting point for
-    security assessments and vulnerability scanning.
+    - Input field for adding new targets
+    - List of current targets
+    - Buttons for managing targets
+    - Integration with the vulnerability scanner
     """
     
     def __init__(self):
-        """
-        Initialize the bug bounty target interface.
-        
-        Sets up:
-        - Target URL input field
-        - Submit button for processing
-        - Vertical layout for components
-        """
         super().__init__()
+        self.init_ui()
+        self.scanner = VulnerabilityScanner()
+
+    def init_ui(self):
+        """Initialize the UI components."""
         layout = QVBoxLayout()
-        layout.addWidget(QLabel("Enter Target Website:"))
+        
+        # Target input
         self.target_input = QLineEdit()
+        self.target_input.setPlaceholderText("Enter target URL or IP address")
         layout.addWidget(self.target_input)
-        self.submit_button = QPushButton("Submit")
-        self.submit_button.clicked.connect(self.submit_target)
-        layout.addWidget(self.submit_button)
+        
+        # Add target button
+        add_button = QPushButton("Add Target")
+        add_button.clicked.connect(self.add_target)
+        layout.addWidget(add_button)
+        
+        # Target list
+        self.target_list = QListWidget()
+        layout.addWidget(QLabel("Current Targets:"))
+        layout.addWidget(self.target_list)
+        
+        # Scan button
+        scan_button = QPushButton("Scan Selected Target")
+        scan_button.clicked.connect(self.scan_target)
+        layout.addWidget(scan_button)
+        
         self.setLayout(layout)
 
-    def submit_target(self):
-        """
-        Process the submitted target website.
-        
-        This method:
-        1. Retrieves the target URL from input
-        2. Processes the target (placeholder)
-        3. Clears the input field
-        
-        Note:
-            Currently contains placeholder logic.
-            Implement actual target processing in
-            production version.
-        """
-        target_website = self.target_input.text()
-        # Here you would add the logic to process the target website
-        print(f"Target website submitted: {target_website}")  # Placeholder for processing logic
-        self.target_input.clear()  # Clear the input box after submission
+    def add_target(self):
+        """Add a new target to the list."""
+        target = self.target_input.text().strip()
+        if target and target not in [self.target_list.item(i).text() 
+                                   for i in range(self.target_list.count())]:
+            self.target_list.addItem(target)
+            self.target_input.clear()
+
+    def scan_target(self):
+        """Scan the selected target for vulnerabilities."""
+        selected = self.target_list.currentItem()
+        if selected:
+            target = selected.text()
+            results = self.scanner.scan(target)
+            # TODO: Display scan results

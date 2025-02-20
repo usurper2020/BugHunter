@@ -93,10 +93,10 @@ class LoggerConfig:
         file_handler.setLevel(self.log_level)
         root_logger.addHandler(file_handler)
         
-        # Console handler
+        # Console handler with DEBUG level
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(formatter)
-        console_handler.setLevel(self.log_level)
+        console_handler.setLevel(logging.DEBUG)
         root_logger.addHandler(console_handler)
         
         # Create security logger for sensitive operations
