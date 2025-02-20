@@ -1,216 +1,70 @@
+"""
+Scanner tab interface for the BugHunter application.
+"""
+
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, 
-    QLineEdit, QPushButton, QComboBox, QTextEdit,
-    QProgressBar, QTableWidget, QTableWidgetItem,
-    QMessageBox
+    QLineEdit, QPushButton, QTextEdit, QMessageBox
 )
-from PyQt6.QtCore import Qt, QTimer
-import asyncio
-import json
-import logging
-from typing import Optional
-from services.vulnerability_scanner import VulnerabilityScanner, ScanTarget
+from services.vulnerability_scanner import VulnerabilityScanner
+from models.scan_target import ScanTarget
 
 class ScannerTab(QWidget):
-    def __init__(self, scanner: Optional[VulnerabilityScanner] = None):
+    """Tab widget for vulnerability scanning."""
+    
+    def __init__(self, scanner: VulnerabilityScanner):
+        """Initialize the scanner interface."""
         super().__init__()
-        self.scanner = scanner or VulnerabilityScanner()
-        self.current_scan_id: Optional[str] = None
-        self.status_timer: Optional[QTimer] = None
-        self.logger = logging.getLogger('BugHunter.ScannerTab')
+        self.scanner = scanner
         self.setup_ui()
 
     def setup_ui(self):
-        """Setup the scanner tab UI"""
+        """Set up the user interface."""
         layout = QVBoxLayout()
-
-        # Target input section
+        
+        # Target section
         target_layout = QHBoxLayout()
         self.target_input = QLineEdit()
-        self.target_input.setPlaceholderText("Enter target URL or IP")
+        self.target_input.setPlaceholderText("Enter target URL")
         target_layout.addWidget(QLabel("Target:"))
         target_layout.addWidget(self.target_input)
-
-        # Scan type selection
-        self.scan_type = QComboBox()
-        self.scan_type.addItems(['full', 'recon', 'vuln', 'port'])
-        target_layout.addWidget(QLabel("Scan Type:"))
-        target_layout.addWidget(self.scan_type)
-
-        # Start scan button
-        self.start_button = QPushButton("Start Scan")
-        self.start_button.clicked.connect(self.handle_start_scan)
-        target_layout.addWidget(self.start_button)
-
+        self.scan_button = QPushButton("Start Scan")
+        self.scan_button.clicked.connect(self.start_scan)
+        target_layout.addWidget(self.scan_button)
         layout.addLayout(target_layout)
-
-        # Progress section
-        progress_layout = QHBoxLayout()
-        self.progress_bar = QProgressBar()
-        self.status_label = QLabel("Ready")
-        progress_layout.addWidget(self.progress_bar)
-        progress_layout.addWidget(self.status_label)
-        layout.addLayout(progress_layout)
-
-        # Results table
-        self.results_table = QTableWidget()
-        self.results_table.setColumnCount(5)
-        self.results_table.setHorizontalHeaderLabels([
-            "Vulnerability", "Severity", "Description", "Proof", "Tool"
-        ])
-        self.results_table.horizontalHeader().setStretchLastSection(True)
-        layout.addWidget(self.results_table)
-
-        # Details section
-        self.details_text = QTextEdit()
-        self.details_text.setReadOnly(True)
-        layout.addWidget(QLabel("Details:"))
-        layout.addWidget(self.details_text)
-
+        
+        # Results section
+        layout.addWidget(QLabel("Scan Results:"))
+        self.output_text = QTextEdit()
+        self.output_text.setReadOnly(True)
+        layout.addWidget(self.output_text)
+        
         self.setLayout(layout)
 
-    def handle_start_scan(self):
-        """Handle start scan button click"""
-        target_url = self.target_input.text().strip()
-        if not target_url:
-            QMessageBox.warning(self, "Input Error", "Please enter a target URL")
+    def start_scan(self):
+        """Start vulnerability scan."""
+        url = self.target_input.text().strip()
+        if not url:
+            QMessageBox.warning(self, "Input Error", "Please enter a target URL.")
             return
-
-        # Create event loop if it doesn't exist
-        try:
-            loop = asyncio.get_event_loop()
-        except RuntimeError:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-
-        try:
-            # Start scan asynchronously
-            loop.run_until_complete(self.start_scan(target_url))
-        except Exception as e:
-            self.logger.error(f"Failed to start scan: {e}")
-            QMessageBox.critical(self, "Scan Error", str(e))
-
-    async def start_scan(self, target_url: str):
-        """Start a new vulnerability scan"""
-        try:
-            # Create scan target
-            target = ScanTarget(url=target_url)
             
-            # Start scan
-            self.current_scan_id = await self.scanner.start_scan(
-                target, 
-                self.scan_type.currentText()
-            )
+        # Create scan target
+        if not url.startswith(('http://', 'https://')):
+            url = 'https://' + url
+        target = ScanTarget(url)
             
-            # Update UI
-            self.start_button.setEnabled(False)
-            self.status_label.setText("Scanning...")
-            self.progress_bar.setRange(0, 0)  # Indeterminate progress
-            
-            # Start status update timer
-            if self.status_timer is None:
-                self.status_timer = QTimer()
-                self.status_timer.timeout.connect(self.handle_status_update)
-            self.status_timer.start(1000)  # Update every second
-
-        except Exception as e:
-            self.logger.error(f"Failed to start scan: {e}")
-            raise
-
-    def handle_status_update(self):
-        """Handle status update timer tick"""
-        try:
-            loop = asyncio.get_event_loop()
-        except RuntimeError:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-
-        try:
-            loop.run_until_complete(self.update_scan_status())
-        except Exception as e:
-            self.logger.error(f"Failed to update status: {e}")
-            self.status_timer.stop()
-            QMessageBox.critical(self, "Status Error", str(e))
-
-    async def update_scan_status(self):
-        """Update the scan status and results"""
-        if not self.current_scan_id:
-            return
-
-        try:
-            status = await self.scanner.get_scan_status(self.current_scan_id)
-            
-            if status['status'] == 'completed':
-                self.status_timer.stop()
-                self.progress_bar.setRange(0, 100)
-                self.progress_bar.setValue(100)
-                self.status_label.setText("Scan completed")
-                self.start_button.setEnabled(True)
-                await self.load_scan_results()
-                
-            elif status['status'] == 'failed':
-                self.status_timer.stop()
-                self.status_label.setText("Scan failed")
-                self.start_button.setEnabled(True)
-                QMessageBox.critical(self, "Scan Error", status.get('error', 'Unknown error'))
-                
-            elif status['status'] == 'cancelled':
-                self.status_timer.stop()
-                self.status_label.setText("Scan cancelled")
-                self.start_button.setEnabled(True)
-
-        except Exception as e:
-            self.logger.error(f"Failed to update scan status: {e}")
-            raise
-
-    async def load_scan_results(self):
-        """Load and display scan results"""
-        try:
-            results = await self.scanner.get_scan_results(self.current_scan_id)
-            
-            # Clear existing results
-            self.results_table.setRowCount(0)
-            
-            # Add new results
-            for finding in results['findings']:
-                row = self.results_table.rowCount()
-                self.results_table.insertRow(row)
-                
-                self.results_table.setItem(row, 0, QTableWidgetItem(finding['vulnerability_type']))
-                self.results_table.setItem(row, 1, QTableWidgetItem(finding['severity']))
-                self.results_table.setItem(row, 2, QTableWidgetItem(finding['description']))
-                self.results_table.setItem(row, 3, QTableWidgetItem(finding['proof']))
-                self.results_table.setItem(row, 4, QTableWidgetItem(finding['tool']))
-
-            # Update details text
-            self.details_text.setText(json.dumps(results, indent=2))
-
-        except Exception as e:
-            self.logger.error(f"Failed to load scan results: {e}")
-            raise
-
-    def closeEvent(self, event):
-        """Handle tab close event"""
-        if self.current_scan_id and self.status_timer and self.status_timer.isActive():
-            reply = QMessageBox.question(
-                self,
-                'Confirm Exit',
-                'A scan is currently running. Do you want to stop it?',
-                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-                QMessageBox.StandardButton.No
-            )
-
-            if reply == QMessageBox.StandardButton.Yes:
-                try:
-                    loop = asyncio.get_event_loop()
-                except RuntimeError:
-                    loop = asyncio.new_event_loop()
-                    asyncio.set_event_loop(loop)
-                    
-                loop.run_until_complete(self.scanner.stop_scan(self.current_scan_id))
-                self.status_timer.stop()
-            else:
-                event.ignore()
-                return
-
-        event.accept()
+        # Start scan
+        self.output_text.clear()
+        self.output_text.append(f"Starting scan on {target.url}...")
+        
+        # Run the scan
+        scan_result = self.scanner.run_scan(target)
+        if scan_result['status'] == 'success':
+            self.output_text.append("\nScan completed successfully!")
+            self.output_text.append("\nFindings:")
+            for finding in scan_result['results']['findings']:
+                self.output_text.append(f"\n• {finding['type']} ({finding['severity']} severity)")
+                self.output_text.append(f"  Description: {finding['description']}")
+                self.output_text.append(f"  Details: {finding['details']}")
+        else:
+            self.output_text.append(f"\nScan failed: {scan_result['message']}")

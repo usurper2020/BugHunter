@@ -7,7 +7,18 @@ from typing import Dict, Any
 from config import config
 
 class LoggerConfig:
-    """Configure logging for the Bug Hunter application"""
+    """
+    Configure and manage logging for the BugHunter application.
+    
+    This class provides comprehensive logging configuration including:
+    - File-based logging with rotation
+    - Console output
+    - Separate security and audit logging
+    - Error tracking with context
+    
+    The logging system supports multiple log levels and specialized
+    loggers for different types of events (security, audit, etc.).
+    """
     
     def __init__(self):
         self.log_dir = 'logs'
@@ -22,7 +33,19 @@ class LoggerConfig:
         self._configure_logging()
     
     def _get_log_level(self) -> int:
-        """Convert string log level to logging constant"""
+        """
+        Convert string log level to corresponding logging constant.
+        
+        Maps configuration string values to logging module constants:
+        - DEBUG -> logging.DEBUG (10)
+        - INFO -> logging.INFO (20)
+        - WARNING -> logging.WARNING (30)
+        - ERROR -> logging.ERROR (40)
+        - CRITICAL -> logging.CRITICAL (50)
+        
+        Returns:
+            int: The numeric logging level (defaults to INFO if invalid)
+        """
         levels = {
             'DEBUG': logging.DEBUG,
             'INFO': logging.INFO,
@@ -33,7 +56,20 @@ class LoggerConfig:
         return levels.get(config.get('LOG_LEVEL', 'INFO').upper(), logging.INFO)
     
     def _configure_logging(self) -> None:
-        """Configure logging with file and console handlers"""
+        """
+        Configure the logging system with all necessary handlers.
+        
+        Sets up:
+        - Root logger with file and console handlers
+        - Security logger for security-related events
+        - Audit logger for user actions
+        
+        Each logger is configured with:
+        - Appropriate log level from configuration
+        - File rotation at midnight
+        - Consistent formatting across all handlers
+        - Separate log files for different concerns
+        """
         # Create formatter
         formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -91,18 +127,44 @@ class LoggerConfig:
     
     @staticmethod
     def get_logger(name: str) -> logging.Logger:
-        """Get a logger instance with the specified name"""
+        """
+        Get a configured logger instance for a specific module.
+        
+        Parameters:
+            name (str): The name for the logger, typically __name__
+                       of the calling module
+                       
+        Returns:
+            logging.Logger: A configured logger instance that inherits
+                          the root logger's configuration
+        """
         return logging.getLogger(name)
     
     @staticmethod
     def log_security_event(event_type: str, details: Dict[str, Any]) -> None:
-        """Log a security event"""
+        """
+        Log a security-related event to the security log.
+        
+        Parameters:
+            event_type (str): Type of security event (e.g., 'login_attempt',
+                            'permission_change')
+            details (Dict[str, Any]): Additional details about the event,
+                                    such as usernames, IP addresses, etc.
+        """
         security_logger = logging.getLogger('security')
         security_logger.info(f"Security Event - Type: {event_type} - Details: {details}")
     
     @staticmethod
     def log_audit_event(user: str, action: str, details: Dict[str, Any]) -> None:
-        """Log an audit event"""
+        """
+        Log a user action for audit purposes.
+        
+        Parameters:
+            user (str): Username of the person performing the action
+            action (str): Description of the action performed
+            details (Dict[str, Any]): Additional context about the action,
+                                    such as affected resources, parameters, etc.
+        """
         audit_logger = logging.getLogger('audit')
         audit_logger.info(
             f"Audit Event - User: {user} - Action: {action} - Details: {details}"
@@ -110,7 +172,22 @@ class LoggerConfig:
     
     @staticmethod
     def log_error(logger_name: str, error: Exception, context: Dict[str, Any] = None) -> None:
-        """Log an error with context"""
+        """
+        Log an error with additional context information.
+        
+        Parameters:
+            logger_name (str): Name of the logger to use
+            error (Exception): The exception that occurred
+            context (Dict[str, Any], optional): Additional context about
+                                              the error, such as operation
+                                              being performed, relevant IDs, etc.
+                                              
+        The error log includes:
+        - Error type and message
+        - Timestamp of occurrence
+        - Stack trace
+        - Any provided context
+        """
         logger = logging.getLogger(logger_name)
         error_details = {
             'error_type': type(error).__name__,

@@ -31,7 +31,35 @@ from xss_scanner_tab import XSSScannerTab
 
 
 class MainWindow(QMainWindow):
+    """
+    Main window of the Bug Bounty Platform application.
+    
+    This class provides the primary GUI container that includes:
+    - Multiple specialized security testing tabs
+    - Configuration management
+    - Logging interface
+    - Dashboard overview
+    - Status bar for user feedback
+    
+    Each tab represents a different security testing tool or
+    functionality, organized in a user-friendly interface.
+    """
+    
     def __init__(self):
+        """
+        Initialize the main window and all its components.
+        
+        Sets up:
+        - Window properties (title, size)
+        - Tab widget with security testing tools
+        - Configuration interface
+        - Logging system
+        - Status bar
+        - Error handling
+        
+        Raises:
+            Exception: If there's an error during initialization
+        """
         super().__init__()
         self.setWindowTitle("Bug Bounty Platform")
         self.setGeometry(100, 100, 1200, 800)  # Set the initial window size
@@ -88,7 +116,18 @@ class MainWindow(QMainWindow):
             self.show_error_message(f"Error initializing MainWindow: {e}")
 
     def show_status_message(self, message):
-        """Show a status message in the status bar."""
+        """
+        Display a message in the status bar.
+        
+        Parameters:
+            message (str): The message to display
+            
+        Raises:
+            Exception: If there's an error showing the message
+            
+        Note:
+            Messages are also logged at INFO level
+        """
         try:
             self.status_bar.showMessage(message)
             self.logger.info(f"Status: {message}")
@@ -97,7 +136,18 @@ class MainWindow(QMainWindow):
             self.show_error_message(f"Error showing status message: {e}")
 
     def show_error_message(self, message):
-        """Show an error message in a message box."""
+        """
+        Display an error message in a modal dialog box.
+        
+        Parameters:
+            message (str): The error message to display
+            
+        Raises:
+            Exception: If there's an error showing the message
+            
+        Note:
+            Messages are also logged at ERROR level
+        """
         try:
             QMessageBox.critical(self, "Error", message)
             self.logger.error(f"Error: {message}")
@@ -106,7 +156,18 @@ class MainWindow(QMainWindow):
             self.show_error_message(f"Error showing error message: {e}")
 
     def show_success_message(self, message):
-        """Show a success message in a message box."""
+        """
+        Display a success message in a modal dialog box.
+        
+        Parameters:
+            message (str): The success message to display
+            
+        Raises:
+            Exception: If there's an error showing the message
+            
+        Note:
+            Messages are also logged at INFO level
+        """
         try:
             QMessageBox.information(self, "Success", message)
             self.logger.info(f"Success: {message}")
@@ -115,7 +176,21 @@ class MainWindow(QMainWindow):
             self.show_error_message(f"Error showing success message: {e}")
 
     def perform_long_running_operation(self, operation, message):
-        """Perform a long-running operation with a progress indicator and status message."""
+        """
+        Execute a long-running operation with progress feedback.
+        
+        Parameters:
+            operation (callable): The operation to perform
+            message (str): Description of the operation for status updates
+            
+        Returns:
+            Any: The result of the operation, or None if it fails
+            
+        Shows progress through:
+        - Initial status message
+        - Completion status message
+        - Success/error dialog
+        """
         try:
             self.show_status_message(f"Starting {message}...")
             result = operation()
@@ -128,19 +203,48 @@ class MainWindow(QMainWindow):
             return None
 
     def add_tooltips(self):
-        """Add tooltips to all widgets for user guidance."""
+        """
+        Add helpful tooltips to all major UI components.
+        
+        Adds descriptive hover text to:
+        - Tab widget
+        - Configuration tab
+        - Logging tab
+        - Dashboard tab
+        
+        These tooltips provide quick guidance for users.
+        """
         self.tabs.setToolTip("Select a tool to use.")
         self.config_tab.setToolTip("Configure the application settings.")
         self.logging_tab.setToolTip("View and manage application logs.")
         self.dashboard_tab.setToolTip("View an overview of the application status.")
 
     def validate_inputs(self):
-        """Validate user inputs before performing actions."""
+        """
+        Validate all user inputs across all tabs.
+        
+        Calls validate_inputs() on each tab that supports input
+        validation. This ensures data integrity before performing
+        operations.
+        
+        Note:
+            Tabs must implement validate_inputs() to participate
+            in validation.
+        """
         for tab in [self.tabs.widget(i) for i in range(self.tabs.count())]:
             if hasattr(tab, 'validate_inputs'):
                 tab.validate_inputs()
 
 def main():
+    """
+    Entry point for the Bug Bounty Platform application.
+    
+    Creates and displays the main application window.
+    Initializes the Qt application and starts the event loop.
+    
+    Returns:
+        int: Application exit code
+    """
     app = QApplication(sys.argv)
     main_window = MainWindow()
     main_window.show()

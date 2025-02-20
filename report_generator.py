@@ -43,7 +43,8 @@ class ReportGenerator:
         pdf.set_font('Arial', 'B', 12)
         pdf.cell(0, 10, 'Scan Information', 0, 1)
         pdf.set_font('Arial', '', 12)
-        pdf.cell(0, 10, f"Target: {scan_results['target']}", 0, 1)
+        target_str = scan_results['target'].to_dict()['url'] if hasattr(scan_results['target'], 'to_dict') else str(scan_results['target'])
+        pdf.cell(0, 10, f"Target: {target_str}", 0, 1)
         pdf.cell(0, 10, f"Scan ID: {scan_results['id']}", 0, 1)
         pdf.cell(0, 10, f"Timestamp: {scan_results['timestamp']}", 0, 1)
         pdf.ln(10)
@@ -69,9 +70,21 @@ class ReportGenerator:
 
     def generate_json_report(self, scan_results, report_id):
         """Generate a JSON report"""
+        # Convert scan results to JSON-serializable format
+        serializable_results = {
+            'target': scan_results['target'].to_dict() if hasattr(scan_results['target'], 'to_dict') else str(scan_results['target']),
+            'id': scan_results['id'],
+            'timestamp': scan_results['timestamp'],
+            'findings': scan_results['findings']
+        }
+        
         filename = os.path.join(self.reports_directory, f"{report_id}.json")
-        with open(filename, 'w') as f:
-            json.dump(scan_results, f, indent=4)
+        try:
+            with open(filename, 'w') as f:
+                json.dump(serializable_results, f, indent=4)
+        except Exception as e:
+            print(f"Error generating JSON report: {e}")
+            return None
         return filename
 
     def generate_html_report(self, scan_results, report_id):
@@ -93,7 +106,7 @@ class ReportGenerator:
         <body>
             <h1>Vulnerability Scan Report</h1>
             <div class="scan-info">
-                <p><strong>Target:</strong> {scan_results['target']}</p>
+                <p><strong>Target:</strong> {scan_results['target'].to_dict()['url'] if hasattr(scan_results['target'], 'to_dict') else str(scan_results['target'])}</p>
                 <p><strong>Scan ID:</strong> {scan_results['id']}</p>
                 <p><strong>Timestamp:</strong> {scan_results['timestamp']}</p>
             </div>

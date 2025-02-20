@@ -12,7 +12,7 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont
 
-from services.tool_manager import ToolManager
+from tool_manager import ToolManager
 from services.ai_integration import AIIntegration
 from services.ai_training import AITraining
 from services.scope_manager import ScopeManager
@@ -69,19 +69,23 @@ class IntegratedApp(QMainWindow):
 
     def init_components(self):
         """Initialize all system components"""
-        self.tool_manager = ToolManager()
-        self.ai_integration = AIIntegration()
-        self.ai_training = AITraining()
-        self.scope_manager = ScopeManager()
-        self.shodan_integration = ShodanIntegration(config.get('SHODAN_API_KEY', ''))
-        self.wayback_integration = WaybackMachineIntegration()
-        self.report_generator = ReportGenerator()
-        self.scanner = VulnerabilityScanner()
-        self.profiles_manager = ScanningProfiles()
-        self.vulnerability_database = VulnerabilityDatabase()
-        self.collaboration_system = CollaborationSystem()
-        self.analytics_system = AnalyticsSystem()
-        self.contribution_system = ContributionSystem()
+        try:
+            self.tool_manager = ToolManager()  # Initialize without parameters
+            self.ai_integration = AIIntegration()
+            self.ai_training = AITraining()
+            self.scope_manager = ScopeManager()
+            self.shodan_integration = ShodanIntegration(config.get('SHODAN_API_KEY', ''))
+            self.wayback_integration = WaybackMachineIntegration()
+            self.report_generator = ReportGenerator()
+            self.scanner = VulnerabilityScanner()
+            self.profiles_manager = ScanningProfiles()
+            self.vulnerability_database = VulnerabilityDatabase()
+            self.collaboration_system = CollaborationSystem()
+            self.analytics_system = AnalyticsSystem()
+            self.contribution_system = ContributionSystem()
+        except Exception as e:
+            logger.error(f"Error initializing components: {e}")
+            raise
 
     def init_base_ui(self):
         """Initialize base UI elements needed before login"""
@@ -174,25 +178,24 @@ class IntegratedApp(QMainWindow):
         """Set up all application tabs"""
         try:
             # AI Assistant Tab
-            self.ai_chat_tab = AIChatTab()
+            self.ai_chat_tab = AIChatTab(self)
             self.tabs.addTab(self.ai_chat_tab, "AI Assistant")
             logger.info("AI Assistant tab added successfully")
 
             # Scanner Tab
-            self.scanner_tab = ScannerTab()
+            self.scanner_tab = ScannerTab(self)
             self.tabs.addTab(self.scanner_tab, "Vulnerability Scanner")
             logger.info("Scanner tab added successfully")
 
             # Tool Management Tab
-            self.tool_tab = ToolTab()
+            self.tool_tab = ToolTab(tool_manager=self.tool_manager)  # Pass tool_manager as a keyword argument
             self.tabs.addTab(self.tool_tab, "Tool Management")
             logger.info("Tool Management tab added successfully")
-
-            # Other tabs can be added here...
 
         except Exception as e:
             logger.error(f"Error setting up tabs: {str(e)}", exc_info=True)
             raise
+
 
     def show_login(self):
         """Show login dialog and return True if login successful"""

@@ -6,7 +6,29 @@ from pathlib import Path
 import json
 
 def setup_database(args):
-    """Set up the database with proper configuration"""
+    """
+    Set up and configure the BugHunter database.
+    
+    This function:
+    1. Loads or creates database configuration
+    2. Updates configuration with provided arguments
+    3. Initializes the database with required schema
+    
+    Parameters:
+        args (Namespace): Parsed command line arguments containing:
+            - host: Database host address
+            - port: Database port number
+            - name: Database name
+            - user: Database username
+            - password: Database password
+            
+    Returns:
+        bool: True if setup succeeds, False otherwise
+        
+    Note:
+        If configuration values are not provided via arguments,
+        defaults from config.json or config.template.json are used.
+    """
     try:
         print("\nSetting up Bug Hunter Database")
         print("=============================")
@@ -61,6 +83,26 @@ def setup_database(args):
         return False
 
 def main():
+    """
+    Main entry point for database setup utility.
+    
+    This function:
+    1. Parses command line arguments for database configuration
+    2. Sets up Python path to include project root
+    3. Executes database setup process
+    4. Provides next steps for application deployment
+    
+    Command Line Arguments:
+        --host: Database host address (default: localhost)
+        --port: Database port number (default: 5432)
+        --name: Database name (default: bughunter_db)
+        --user: Database username (default: bughunter_user)
+        --password: Database password
+        
+    Exit Codes:
+        0: Setup completed successfully
+        1: Setup failed
+    """
     parser = argparse.ArgumentParser(description='Set up Bug Hunter database')
     
     # Database connection options
