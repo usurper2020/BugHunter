@@ -1,70 +1,75 @@
+
 """
-Scanner tab interface for the BugHunter application.
+Scanner Tab Module
+
+This module implements the ScannerTab class, which provides the user interface
+for executing security scans within the BugHunter application. The tab allows
+users to:
+
+- Select from predefined scan profiles
+- Input target URLs or IP addresses
+- Execute scans with selected profiles
+- View detailed scan results
+
+The tab integrates with the VulnerabilityScanner service to perform actual
+scan operations and display results in real-time.
 """
 
-from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLabel, 
-    QLineEdit, QPushButton, QTextEdit, QMessageBox
-)
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QComboBox, QTextEdit
 from services.vulnerability_scanner import VulnerabilityScanner
-from models.scan_target import ScanTarget
 
 class ScannerTab(QWidget):
-    """Tab widget for vulnerability scanning."""
+    """Provides a comprehensive interface for security scanning operations.
     
-    def __init__(self, scanner: VulnerabilityScanner):
-        """Initialize the scanner interface."""
+    The ScannerTab widget offers a complete workflow for vulnerability scanning,
+    including target selection, profile configuration, scan execution, and
+    results visualization. It serves as the primary interface for users to
+    interact with the BugHunter scanning capabilities.
+    
+    Attributes:
+        profile_selector (QComboBox): Dropdown for selecting scan profiles
+        target_input (QTextEdit): Field for entering scan targets
+        results_display (QTextEdit): Area for displaying scan results
+        scanner (VulnerabilityScanner): Service for executing scans
+    """
+    
+    def __init__(self):
         super().__init__()
-        self.scanner = scanner
-        self.setup_ui()
+        self.init_ui()
+        self.scanner = VulnerabilityScanner()
 
-    def setup_ui(self):
-        """Set up the user interface."""
+    def init_ui(self):
+        """Initialize the UI components."""
         layout = QVBoxLayout()
         
-        # Target section
-        target_layout = QHBoxLayout()
-        self.target_input = QLineEdit()
-        self.target_input.setPlaceholderText("Enter target URL")
-        target_layout.addWidget(QLabel("Target:"))
-        target_layout.addWidget(self.target_input)
-        self.scan_button = QPushButton("Start Scan")
-        self.scan_button.clicked.connect(self.start_scan)
-        target_layout.addWidget(self.scan_button)
-        layout.addLayout(target_layout)
+        # Scan profile selection
+        self.profile_selector = QComboBox()
+        self.profile_selector.addItems(self.scanner.get_profiles())
+        layout.addWidget(QLabel("Select Scan Profile:"))
+        layout.addWidget(self.profile_selector)
         
-        # Results section
+        # Target input
+        self.target_input = QTextEdit()
+        self.target_input.setPlaceholderText("Enter target URLs (one per line)")
+        layout.addWidget(self.target_input)
+        
+        # Scan button
+        scan_button = QPushButton("Run Scan")
+        scan_button.clicked.connect(self.run_scan)
+        layout.addWidget(scan_button)
+        
+        # Results display
+        self.results_display = QTextEdit()
+        self.results_display.setReadOnly(True)
         layout.addWidget(QLabel("Scan Results:"))
-        self.output_text = QTextEdit()
-        self.output_text.setReadOnly(True)
-        layout.addWidget(self.output_text)
+        layout.addWidget(self.results_display)
         
         self.setLayout(layout)
 
-    def start_scan(self):
-        """Start vulnerability scan."""
-        url = self.target_input.text().strip()
-        if not url:
-            QMessageBox.warning(self, "Input Error", "Please enter a target URL.")
-            return
-            
-        # Create scan target
-        if not url.startswith(('http://', 'https://')):
-            url = 'https://' + url
-        target = ScanTarget(url)
-            
-        # Start scan
-        self.output_text.clear()
-        self.output_text.append(f"Starting scan on {target.url}...")
-        
-        # Run the scan
-        scan_result = self.scanner.run_scan(target)
-        if scan_result['status'] == 'success':
-            self.output_text.append("\nScan completed successfully!")
-            self.output_text.append("\nFindings:")
-            for finding in scan_result['results']['findings']:
-                self.output_text.append(f"\n• {finding['type']} ({finding['severity']} severity)")
-                self.output_text.append(f"  Description: {finding['description']}")
-                self.output_text.append(f"  Details: {finding['details']}")
-        else:
-            self.output_text.append(f"\nScan failed: {scan_result['message']}")
+    def run_scan(self):
+        """Run a security scan on the specified targets."""
+        profile = self.profile_selector.currentText()
+        targets = self.target_input.toPlainText().strip().split('\n')
+        if targets:
+            results = self.scanner.scan(targets, profile)
+            self.results_display.setPlainText(results)

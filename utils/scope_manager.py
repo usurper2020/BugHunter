@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+
 class ScopeManager:
     """
     Manages scanning scope definitions for the BugHunter application.
@@ -20,6 +23,9 @@ class ScopeManager:
         """
         self.allowed_scopes = []
         self.disallowed_scopes = []
+        self.current_scope = {}
+        self.scopes_dir = Path("data/scopes")
+        self.scopes_dir.mkdir(parents=True, exist_ok=True)
 
     def add_allowed_scope(self, scope):
         """
@@ -69,3 +75,46 @@ class ScopeManager:
         """
         self.allowed_scopes.clear()
         self.disallowed_scopes.clear()
+        self.current_scope = {}
+
+    def save_scope(self, scope_data):
+        """
+        Save scope configuration to file.
+        
+        Parameters:
+            scope_data (dict): Dictionary containing scope configuration
+        """
+        scope_id = scope_data['target_url'].replace('/', '_').replace(':', '')
+        scope_file = self.scopes_dir / f"{scope_id}.json"
+        
+        with open(scope_file, 'w') as f:
+            json.dump(scope_data, f, indent=2)
+        
+        self.current_scope = scope_data
+
+    def get_scope(self, target_url):
+        """
+        Retrieve scope configuration for a target URL.
+        
+        Parameters:
+            target_url (str): URL to retrieve scope for
+            
+        Returns:
+            dict: Scope configuration if found, None otherwise
+        """
+        scope_id = target_url.replace('/', '_').replace(':', '')
+        scope_file = self.scopes_dir / f"{scope_id}.json"
+        
+        if scope_file.exists():
+            with open(scope_file, 'r') as f:
+                return json.load(f)
+        return None
+
+    def get_current_scope(self):
+        """
+        Get the currently active scope.
+        
+        Returns:
+            dict: Current scope configuration
+        """
+        return self.current_scope

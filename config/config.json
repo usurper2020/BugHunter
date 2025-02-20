@@ -1,16 +1,21 @@
 {
-    "version": "1.0.0",
-    "window": {
-        "title": "BugHunter",
-        "min_width": 1200,
-        "min_height": 800,
-        "default_theme": "dark"
-    },
-    "directories": [
-        "logs",
-        "data",
-        "reports",
-        "tools",
-        "cache"
-    ]
+    "AI_API_KEY": "sk-0a5623f9-e2be-4702-9167-3f47614ee815",
+    "SHODAN_API_KEY": "",
+    "JWT_SECRET_KEY": "3b106d6261d33bc4b0951637d87256fe2c641904d04e0643c0771152ae1dcad3",
+    "JWT_EXPIRATION_HOURS": 24,
+    "DB_HOST": "localhost",
+    "DB_PORT": 5432,
+    "DB_NAME": "bughunter",
+    "DB_USER": "bughunter",
+    "DB_PASSWORD": "",
+    "LOG_LEVEL": "DEBUG",
+    "LOG_FILE": "logs/bughunter.log",
+    "TOOLS_DIRECTORY": "tools",
+    "REPORTS_DIRECTORY": "reports",
+    "CACHE_DIRECTORY": "cache",
+    "MAX_CONCURRENT_SCANS": 5,
+    "SCAN_TIMEOUT_MINUTES": 30,
+    "DEFAULT_SCAN_DEPTH": "medium",
+    "ENABLE_COLLABORATION": true,
+    "ENABLE_ANALYTICS": true
 }
