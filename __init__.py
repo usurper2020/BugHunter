@@ -1,2 +1,2 @@
 # Main package initialization
-from .config_new import config
+from srcconfig_new import config

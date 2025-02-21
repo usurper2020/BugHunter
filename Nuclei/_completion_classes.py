@@ -7,7 +7,7 @@ import click
 import click.parser
 import click.shell_completion
 
-from ._completion_shared import (
+from src_completion_shared import (
     COMPLETION_SCRIPT_BASH,
     COMPLETION_SCRIPT_FISH,
     COMPLETION_SCRIPT_POWER_SHELL,

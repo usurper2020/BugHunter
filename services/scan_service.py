@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 from config import config
 from logger_config import logger_config
 from database import DatabaseManager
-from models import ScanResult, Finding, ScanStatus, SeverityLevel, User
+from src.models import ScanResult, Finding, ScanStatus, SeverityLevel, User
 from middleware import error_handler
 
 logger = logger_config.get_logger(__name__)

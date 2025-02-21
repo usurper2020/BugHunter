@@ -11,7 +11,7 @@ structure, such as temporal data (hour of day, day of week, day of year, seasons
 complex numbers or other phase data.
 """
 
-from ._swatches import _swatches, _swatches_continuous, _swatches_cyclical
+from src_swatches import _swatches, _swatches_continuous, _swatches_cyclical
 
 
 def swatches(template=None):

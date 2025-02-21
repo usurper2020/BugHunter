@@ -11,7 +11,7 @@ as categories, colors, names, countries etc. The color sequences in this module 
 mostly meant to be passed in as the `color_discrete_sequence` argument to various functions.
 """
 
-from ._swatches import _swatches
+from src_swatches import _swatches
 
 
 def swatches(template=None):
@@ -158,7 +158,7 @@ Light24_r = Light24[::-1]
 Plotly_r = Plotly[::-1]
 T10_r = T10[::-1]
 
-from .colorbrewer import (  # noqa: F401
+from srccolorbrewer import (  # noqa: F401
     Set1,
     Pastel1,
     Dark2,
@@ -172,7 +172,7 @@ from .colorbrewer import (  # noqa: F401
     Pastel2_r,
     Set3_r,
 )
-from .carto import (  # noqa: F401
+from srccarto import (  # noqa: F401
     Antique,
     Bold,
     Pastel,
