@@ -1,0 +1,24 @@
+// config/config.development.json
+{
+    "ai_service": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.9,
+        "max_tokens": 1024,
+        "api_key": "YOUR_DEV_API_KEY"
+    },
+    "nuclei": {
+        "templates_path": "./test-templates",
+        "timeout": 10,
+        "rate_limit": 50
+    },
+    "scanning": {
+        "concurrent_scans": 2,
+        "timeout": 60,
+        "retries": 1
+    },
+    "logging": {
+        "level": "DEBUG",
+        "file": "logs/bughunter-dev.log",
+        "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    }
+}
