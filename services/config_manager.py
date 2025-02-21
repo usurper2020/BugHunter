@@ -1,84 +1,107 @@
-import os
+"""
+Configuration management service for the BugHunter application.
+Handles loading, saving, and accessing application configurations.
+"""
+
 import json
+import yaml
+import logging
+from pathlib import Path
 from typing import Any, Dict, Optional
 
 class ConfigManager:
-    _instance = None
-    
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(ConfigManager, cls).__new__(cls)
-            cls._instance._initialized = False
-        return cls._instance
+    """Manages application configuration settings"""
     
     def __init__(self):
-        if self._initialized:
-            return
+        self.logger = logging.getLogger('BugHunter.ConfigManager')
+        self.config: Dict[str, Any] = {}
+        self.config_dir = Path('config')
+        self.config_dir.mkdir(exist_ok=True)
+    
+    def load_config(self, filename: str) -> bool:
+        """Load configuration from file"""
+        try:
+            file_path = Path(filename)
+            if not file_path.is_absolute():
+                file_path = self.config_dir / file_path
             
-        self.config_path = os.path.join('config', 'system_config.json')
-        self.config_data = {}
-        self.load_config()
-        self._initialized = True
-    
-    def load_config(self) -> None:
-        """Load configuration from the JSON file"""
-        try:
-            if os.path.exists(self.config_path):
-                with open(self.config_path, 'r') as f:
-                    self.config_data = json.load(f)
-            else:
-                raise FileNotFoundError(f"Configuration file not found: {self.config_path}")
+            if not file_path.exists():
+                self.logger.warning(f"Configuration file not found: {file_path}")
+                return False
+            
+            with open(file_path, 'r') as f:
+                if file_path.suffix == '.json':
+                    config_data = json.load(f)
+                elif file_path.suffix in ['.yml', '.yaml']:
+                    config_data = yaml.safe_load(f)
+                else:
+                    self.logger.error(f"Unsupported configuration format: {file_path.suffix}")
+                    return False
+            
+            self.config.update(config_data)
+            self.logger.info(f"Configuration loaded: {filename}")
+            return True
+            
         except Exception as e:
-            raise Exception(f"Error loading configuration: {str(e)}")
+            self.logger.error(f"Failed to load configuration {filename}: {str(e)}")
+            return False
     
-    def get_ai_config(self) -> Dict[str, Any]:
-        """Get AI system configuration"""
-        return self.config_data.get('ai_system', {})
-    
-    def get_security_config(self) -> Dict[str, Any]:
-        """Get security system configuration"""
-        return self.config_data.get('security_system', {})
-    
-    def get_integration_config(self) -> Dict[str, Any]:
-        """Get integration configuration"""
-        return self.config_data.get('integration', {})
-    
-    def get_collaboration_config(self) -> Dict[str, Any]:
-        """Get collaboration system configuration"""
-        return self.config_data.get('collaboration', {})
-    
-    def get_tool_config(self) -> Dict[str, Any]:
-        """Get tools configuration"""
-        return self.config_data.get('tools', {})
-    
-    def get_analytics_config(self) -> Dict[str, Any]:
-        """Get analytics configuration"""
-        return self.config_data.get('analytics', {})
-    
-    def get_middleware_config(self) -> Dict[str, Any]:
-        """Get middleware configuration"""
-        return self.config_data.get('middleware', {})
-    
-    def get_config_value(self, section: str, key: str, default: Any = None) -> Any:
-        """Get a specific configuration value"""
+    def save_config(self, filename: str) -> bool:
+        """Save current configuration to file"""
         try:
-            return self.config_data[section][key]
-        except KeyError:
+            file_path = Path(filename)
+            if not file_path.is_absolute():
+                file_path = self.config_dir / file_path
+            
+            file_path.parent.mkdir(parents=True, exist_ok=True)
+            
+            with open(file_path, 'w') as f:
+                if file_path.suffix == '.json':
+                    json.dump(self.config, f, indent=4)
+                elif file_path.suffix in ['.yml', '.yaml']:
+                    yaml.safe_dump(self.config, f)
+                else:
+                    self.logger.error(f"Unsupported configuration format: {file_path.suffix}")
+                    return False
+            
+            self.logger.info(f"Configuration saved: {filename}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to save configuration {filename}: {str(e)}")
+            return False
+    
+    def get_setting(self, section: str, key: str, default: Any = None) -> Any:
+        """Get a configuration setting"""
+        try:
+            return self.config.get(section, {}).get(key, default)
+        except Exception as e:
+            self.logger.error(f"Error retrieving setting {section}.{key}: {str(e)}")
             return default
     
-    def update_config(self, section: str, key: str, value: Any) -> None:
-        """Update a specific configuration value"""
-        if section not in self.config_data:
-            self.config_data[section] = {}
-        
-        self.config_data[section][key] = value
-        self._save_config()
-    
-    def _save_config(self) -> None:
-        """Save the current configuration to file"""
+    def set_setting(self, section: str, key: str, value: Any) -> bool:
+        """Set a configuration setting"""
         try:
-            os.makedirs(os.path.dirname(self.config_path), exist_ok=True)
-            with open(self.config_path, 'w') as f:
-                json.dump(self.config_data, f, indent=4)
+            if section not in self.config:
+                self.config[section] = {}
+            self.config[section][key] = value
+            return True
         except Exception as e:
-            raise Exception(f"Error saving configuration: {str(e)}")
+            self.logger.error(f"Error setting {section}.{key}: {str(e)}")
+            return False
+    
+    def get_window_state(self) -> Optional[bytes]:
+        """Get saved window state"""
+        try:
+            return self.get_setting('window', 'state')
+        except Exception as e:
+            self.logger.error(f"Error retrieving window state: {str(e)}")
+            return None
+    
+    def save_window_state(self, state: bytes) -> bool:
+        """Save window state"""
+        try:
+            return self.set_setting('window', 'state', state)
+        except Exception as e:
+            self.logger.error(f"Error saving window state: {str(e)}")
+            return False

@@ -2,7 +2,7 @@ import unittest
 import json
 import os
 from unittest.mock import patch, mock_open
-from user_auth import UserAuth
+from services.user_auth import UserAuth
 
 class TestUserAuth(unittest.TestCase):
     def setUp(self):
