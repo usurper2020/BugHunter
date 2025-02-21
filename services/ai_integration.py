@@ -1,14 +1,80 @@
-"""
-AI integration for the BugHunter application.
-"""
-
 import re
 import logging
 from typing import Dict, List
 import requests
 from bs4 import BeautifulSoup
+from pathlib import Path
 
-logger = logging.getLogger('BugHunter.AIIntegration')
+
+class AIService:
+    """
+    Unified AI service that combines functionality from AISystem, AIIntegration, and AIModels
+    """
+    def __init__(self, config=None, nuclei_analyzer=None):
+        self.config = config or {}
+        self.nuclei_analyzer = nuclei_analyzer
+        self.initialized = False
+        self.technology_patterns = {
+            'wordpress': [r'wp-content', r'wp-includes', r'wordpress'],
+            'php': [r'\.php', r'PHPSESSID'],
+            'java': [r'\.jsp', r'\.do', r'jsessionid'],
+            'python': [r'\.py', r'django', r'flask'],
+            'node.js': [r'node_modules', r'express', r'nextjs'],
+            'database': [r'mysql', r'postgresql', r'mongodb']
+        }
+        
+    def initialize(self):
+        """Initialize the AI service components"""
+        try:
+            self.initialized = True
+            logger.info("AI service initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize AI service: {str(e)}")
+            self.initialized = False
+            raise
+
+    def process_message(self, context: Dict) -> Dict:
+        """Process a message with context"""
+        if not self.initialized:
+            raise RuntimeError("AI service not initialized")
+            
+        try:
+            processed = self._process_context(context)
+            response = self._generate_response(processed)
+            return self._format_response(response)
+        except Exception as e:
+            logger.error(f"Error processing message: {str(e)}")
+            raise
+
+    def analyze_website(self, url: str) -> Dict:
+        """Analyze a website for vulnerabilities"""
+        if not self.initialized:
+            raise RuntimeError("AI service not initialized")
+            
+        try:
+            response = requests.get(url, timeout=30)
+            content = response.text
+            soup = BeautifulSoup(content, 'html.parser')
+            
+            technologies = self._detect_technologies(content, soup)
+            vulnerabilities = self._analyze_vulnerabilities(url, content, soup, technologies)
+            recommendations = self._generate_recommendations(technologies, vulnerabilities)
+            
+            template_suggestions = []
+            if self.nuclei_analyzer:
+                template_suggestions = self.nuclei_analyzer.get_template_suggestions(url, technologies)
+            
+            return {
+                'status': 'success',
+                'technologies': technologies,
+                'template_suggestions': template_suggestions,
+                'potential_vulnerabilities': vulnerabilities,
+                'recommendations': recommendations
+            }
+        except Exception as e:
+            logger.error(f"Error analyzing website: {str(e)}")
+            return {'status': 'error', 'message': str(e)}
+        
 
 class AIIntegration:
     """Class for managing AI integration within the BugHunter application."""
