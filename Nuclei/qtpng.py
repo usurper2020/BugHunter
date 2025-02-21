@@ -3,7 +3,7 @@
 # Copyright (c) IPython Development Team.
 # Distributed under the terms of the Modified BSD License.
 
-from .qt_exporter import QtExporter
+from srcqt_exporter import QtExporter
 
 
 class QtPNGExporter(QtExporter):

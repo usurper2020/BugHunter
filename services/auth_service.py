@@ -7,7 +7,7 @@ from argon2.exceptions import VerifyMismatchError
 from config import config
 from logger_config import logger_config
 from database import DatabaseManager
-from models import User, UserRole
+from src.models import User, UserRole
 from middleware import error_handler
 
 logger = logger_config.get_logger(__name__)

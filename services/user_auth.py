@@ -40,7 +40,7 @@ class UserAuth:
     def verify_credentials(self, username: str, password: str) -> Dict[str, Any]:
         """Verify user credentials and return authentication result"""
         try:
-            from models import User
+            from src.models import User
             from services.database import DatabaseManager
             
             db = DatabaseManager()
@@ -124,7 +124,7 @@ class UserAuth:
     def change_password(self, user_id: int, old_password: str, new_password: str) -> bool:
         """Change user password"""
         try:
-            from models import User
+            from src.models import User
             from services.database import DatabaseManager
             
             db = DatabaseManager()

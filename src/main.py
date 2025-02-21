@@ -16,7 +16,7 @@ if project_root not in sys.path:
     sys.path.append(project_root)
 
 # Core imports
-from gui.main_window import MainWindow
+from src.gui.main_window import MainWindow
 from services.config_manager import ConfigManager
 from services.database import DatabaseManager
 from services.user_auth import UserAuth

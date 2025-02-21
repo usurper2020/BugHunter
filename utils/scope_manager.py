@@ -42,7 +42,7 @@ class ScopeManager:
         Add a scope to the list of disallowed targets.
         
         Parameters:
-            scope (str): Target specification to restrict from scanning.
+            scope (str): Target specification to restrict from src.scanning.
                         Can be IP, domain, or URL pattern.
                         
         Note:
