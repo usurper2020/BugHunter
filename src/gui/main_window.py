@@ -1,76 +1,129 @@
-from PyQt6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QPushButton, QMessageBox)
-from PyQt6.QtCore import Qt
+"""
+Enhanced MainWindow implementation for the BugHunter application.
+Integrates all security tools, utilities, and services.
+"""
 
-from src.core.advanced_features import AdvancedProjectManager
-from src.core.ai_assistant import AIAssistant
-from src.core.architecture_optimizer import ArchitectureOptimizer
-from src.core.build_system import BuildSystem
-from src.core.code_restructurer import CodeRestructurer
-from src.core.code_transformer import CodeTransformer
-from src.core.config_manager import ConfigurationManager
-from src.core.dependency_manager import DependencyManager
-from src.core.dependency_resolver import DependencyResolver
-from src.core.file_analyzer import FileAnalyzer
-from src.core.logging_manager import LoggingManager
-from src.core.performance_monitor import PerformanceMonitor
+import logging
+from typing import Optional, Dict, Any
+from PyQt6.QtWidgets import (
+    QMainWindow, QWidget, QVBoxLayout, QTabWidget,
+    QLabel, QStatusBar, QToolBar, QMessageBox,
+    QMenu, QMenuBar, QDockWidget, QSplitter,
+    QTreeView, QSystemTrayIcon
+)
+from PyQt6.QtCore import Qt, QSize, QTimer, pyqtSlot
+from PyQt6.QtGui import QFont, QIcon, QAction, QKeySequence
+
+# Core services
+from services.config_manager import ConfigManager
+from services.database import DatabaseManager
+from services.user_auth import UserAuth
+from services.tool_manager import ToolManager
+from services.vulnerability_scanner import VulnerabilityScanner
+from services.ai_system import AISystem
+from services.collaboration_system import CollaborationSystem
+from services.analytics_system import AnalyticsSystem
+
+# Additional services
+from services.notification import NotificationSystem
+from services.chat_system import ChatSystem
+from services.scope_manager import ScopeManager
+from services.role_manager import RoleManager
+from services.scanning_profiles import ScanningProfiles
+from services.vulnerability_database import VulnerabilityDatabase
+from services.wayback_machine_integration import WaybackMachineIntegration
+from services.shodan_integration import ShodanIntegration
+
+# Tabs
+from tabs.ai_chat_tab import AIChatTab
+from tabs.scanner_tab import ScannerTab
+from tabs.nuclei_tab import NucleiTab
+from tabs.amass_tab import AmassTab
+from tabs.tool_manager_tab import ToolManagerTab
+from tabs.bug_bounty_target_tab import BugBountyTargetTab
+from tabs.collaboration_tab import CollaborationTab
+from tabs.analytics_tab import AnalyticsTab
+from tabs.settings_tab import SettingsTab
+from tabs.wayback_tab import WaybackTab
+from tabs.shodan_tab import ShodanTab
+from tabs.scope_tab import ScopeTab
+from tabs.role_tab import RoleTab
+from tabs.profiles_tab import ProfilesTab
+from tabs.vulnerability_db_tab import VulnerabilityDBTab
+
+# Components
+from components.status_window import StatusWindow
+from components.notification_panel import NotificationPanel
+from components.chat_panel import ChatPanel
+from components.tool_panel import ToolPanel
+from components.scope_tree import ScopeTree
+from components.profile_manager import ProfileManager
 
 class MainWindow(QMainWindow):
-    def __init__(self, project_manager: AdvancedProjectManager, ai_assistant: AIAssistant, architecture_optimizer: ArchitectureOptimizer, build_system: BuildSystem, code_restructurer: CodeRestructurer, code_transformer: CodeTransformer, config_manager: ConfigurationManager, dependency_manager: DependencyManager, dependency_resolver: DependencyResolver, file_analyzer: FileAnalyzer, logging_manager: LoggingManager, performance_monitor: PerformanceMonitor, settings, callback_handlers):
+    """Enhanced main window of the BugHunter application"""
+    
+    def __init__(
+        self,
+        config_manager: ConfigManager,
+        db_manager: DatabaseManager,
+        auth_manager: UserAuth,
+        tool_manager: ToolManager,
+        vulnerability_scanner: VulnerabilityScanner,
+        ai_system: AISystem,
+        collaboration_system: CollaborationSystem,
+        analytics_system: AnalyticsSystem,
+        notification_system: NotificationSystem,
+        chat_system: ChatSystem,
+        scope_manager: ScopeManager,
+        role_manager: RoleManager,
+        scanning_profiles: ScanningProfiles,
+        vulnerability_database: VulnerabilityDatabase,
+        wayback_integration: WaybackMachineIntegration,
+        shodan_integration: ShodanIntegration
+    ):
         super().__init__()
-        self.project_manager = project_manager
-        self.ai_assistant = ai_assistant
-        self.architecture_optimizer = architecture_optimizer
-        self.build_system = build_system
-        self.code_restructurer = code_restructurer
-        self.code_transformer = code_transformer
+        
+        # Store service instances
         self.config_manager = config_manager
-        self.dependency_manager = dependency_manager
-        self.dependency_resolver = dependency_resolver
-        self.file_analyzer = file_analyzer
-        self.logging_manager = logging_manager
-        self.performance_monitor = performance_monitor
-        self.settings = settings
-        self.callbacks = callback_handlers
+        self.db_manager = db_manager
+        self.auth_manager = auth_manager
+        self.tool_manager = tool_manager
+        self.vulnerability_scanner = vulnerability_scanner
+        self.ai_system = ai_system
+        self.collaboration_system = collaboration_system
+        self.analytics_system = analytics_system
+        self.notification_system = notification_system
+        self.chat_system = chat_system
+        self.scope_manager = scope_manager
+        self.role_manager = role_manager
+        self.scanning_profiles = scanning_profiles
+        self.vulnerability_database = vulnerability_database
+        self.wayback_integration = wayback_integration
+        self.shodan_integration = shodan_integration
         
-        self.init_ui()
-
-    def init_ui(self):
-        """Initialize the user interface with a basic setup."""
-        self.setWindowTitle('Project Generator')
-        self.setMinimumSize(800, 600)
+        # Initialize logger
+        self.logger = logging.getLogger('BugHunter.MainWindow')
         
-        # Create central widget and main layout
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
-        main_layout = QVBoxLayout(central_widget)
+        # Setup authentication
+        if not self._handle_authentication():
+            raise Exception("Authentication failed")
         
-        # Add a simple button to demonstrate functionality
-        start_button = QPushButton("Start")
-        start_button.clicked.connect(self.show_message)
-        main_layout.addWidget(start_button)
-
-        # Add a settings button
-        settings_button = QPushButton("Settings")
-        settings_button.clicked.connect(self.open_settings)
-        main_layout.addWidget(settings_button)
-
-        # Add buttons for running tests
-        run_tests_button = QPushButton("Run Tests")
-        run_tests_button.clicked.connect(self.run_tests)
-        main_layout.addWidget(run_tests_button)
-
-    def show_message(self):
-        """Show a message box when the button is clicked."""
-        QMessageBox.information(self, "Hello", "Welcome to the Project Generator!")
-
-    def open_settings(self):
-        """Open the settings dialog."""
-        QMessageBox.information(self, "Settings", "Settings functionality is not yet implemented.")
-
-    def run_tests(self):
-        """Run the test files."""
-        try:
-            # Placeholder for running tests logic
-            QMessageBox.information(self, "Run Tests", "Test functionality is not yet implemented.")
-        except Exception as e:
-            QMessageBox.warning(self, "Error", str(e))
+        # Initialize UI components
+        self._setup_window()
+        self._setup_menubar()
+        self._setup_toolbar()
+        self._setup_statusbar()
+        self._setup_dock_widgets()
+        self._setup_central_widget()
+        self._setup_tabs()
+        self._setup_tray_icon()
+        self._setup_shortcuts()
+        self._setup_theme()
+        
+        # Initialize timers and background tasks
+        self._setup_timers()
+        
+        # Connect signals
+        self._connect_signals()
+        
+        self.logger.info("Main window initialized successfully")

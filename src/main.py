@@ -1,199 +1,252 @@
 """
 Main entry point for the BugHunter application.
+Enhanced version with integrated security tools and utilities.
 """
 
 import sys
 import os
 import logging
 from pathlib import Path
+from PyQt6.QtWidgets import QApplication, QMessageBox
+from PyQt6.QtCore import Qt, QCoreApplication
 
 # Add project root to Python path
 project_root = str(Path(__file__).parent)
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QTabWidget, QMessageBox, QLabel
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont
-
-# Import services
+# Core imports
+from gui.main_window import MainWindow
+from services.config_manager import ConfigManager
+from services.database import DatabaseManager
+from services.user_auth import UserAuth
+from services.tool_manager import ToolManager
 from services.vulnerability_scanner import VulnerabilityScanner
 from services.ai_system import AISystem
-from services.user_auth import UserAuth
-from services.login_dialog import LoginDialog
-from tool_manager import ToolManager
+from services.collaboration_system import CollaborationSystem
+from services.analytics_system import AnalyticsSystem
+from services.wayback_machine_integration import WaybackMachineIntegration
+from services.shodan_integration import ShodanIntegration
 
-# Import tabs
-from tabs.ai_chat_tab import AIChatTab
-from tabs.nuclei_tab import NucleiTab
-from tabs.amass_tab import AmassTab
-from tabs.scanner_tab import ScannerTab
-from tabs.tool_manager_tab import ToolManagerTab
+# Additional service imports
+from services.notification import NotificationSystem
+from services.chat_system import ChatSystem
+from services.scope_manager import ScopeManager
+from services.role_manager import RoleManager
+from services.scanning_profiles import ScanningProfiles
+from services.vulnerability_database import VulnerabilityDatabase
 
-class MainWindow(QMainWindow):
-    """Main window of the BugHunter application."""
+# Configuration
+from logger_config import logger_config
+
+class BugHunterApp:
+    """Enhanced BugHunter application class with integrated security tools"""
     
     def __init__(self):
-        """Initialize the main window."""
-        super().__init__()
-        self.setWindowTitle("Bug Hunter")
-        self.setMinimumSize(1200, 800)
+        self.app = QApplication(sys.argv)
+        self.logger = logging.getLogger('BugHunter.App')
         
-        # Initialize logger
-        self.logger = logging.getLogger('BugHunter.MainWindow')
+        # Enable High DPI support
+        QCoreApplication.setAttribute(Qt.ApplicationAttribute.AA_EnableHighDpiScaling)
+        QCoreApplication.setAttribute(Qt.ApplicationAttribute.AA_UseHighDpiPixmaps)
         
-        # Initialize services
+        # Initialize core managers
+        self.config_manager = ConfigManager()
+        self.db_manager = DatabaseManager()
         self.auth_manager = UserAuth()
+        
+        # Initialize security tools
         self.tool_manager = ToolManager()
         self.vulnerability_scanner = VulnerabilityScanner()
         self.ai_system = AISystem()
+        self.collaboration_system = CollaborationSystem()
+        self.analytics_system = AnalyticsSystem()
         
-        # Show login dialog
-        if not self.show_login():
-            sys.exit()
+        # Initialize additional services
+        self.notification_system = NotificationSystem()
+        self.chat_system = ChatSystem()
+        self.scope_manager = ScopeManager()
+        self.role_manager = RoleManager()
+        self.scanning_profiles = ScanningProfiles()
+        self.vulnerability_database = VulnerabilityDatabase()
+        self.wayback_integration = WaybackMachineIntegration()
+        self.shodan_integration = ShodanIntegration()
+    
+    def initialize(self):
+        """Initialize the application and all its components"""
+        try:
+            # Create required directories
+            self._create_directories()
             
-        # Create required directories
-        self.create_required_directories()
-        
-        # Initialize UI
-        self.setup_ui()
-        
-        self.logger.info("Application initialization completed")
-
-    def setup_ui(self):
-        """Set up the user interface."""
-        # Create central widget and layout
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
-        layout = QVBoxLayout(central_widget)
-
-        # Add header
-        header = QLabel("Bug Hunter")
-        header.setFont(QFont('Arial', 16, QFont.Weight.Bold))
-        header.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        header.setStyleSheet("color: #2196f3; margin: 10px;")
-        layout.addWidget(header)
-
-        # Create tab widget
-        self.tab_widget = QTabWidget()
-        layout.addWidget(self.tab_widget)
-
-        # Add tabs
-        self.setup_tabs()
-
-        # Set dark theme
-        self.setStyleSheet("""
-            QMainWindow, QWidget {
-                background-color: #1e1e1e;
-                color: #ffffff;
-            }
-            QTabWidget::pane {
-                border: 1px solid #333333;
-                background: #1e1e1e;
-            }
-            QTabBar::tab {
-                background: #2d2d2d;
-                color: #ffffff;
-                padding: 8px 20px;
-                margin: 2px;
-            }
-            QTabBar::tab:selected {
-                background: #2196f3;
-            }
-            QTabBar::tab:hover:!selected {
-                background: #1976d2;
-            }
-        """)
-
-    def setup_tabs(self):
-        """Set up application tabs."""
-        try:
-            # AI Chat Tab
-            self.ai_chat_tab = AIChatTab(ai_system=self.ai_system)
-            self.tab_widget.addTab(self.ai_chat_tab, "AI Assistant")
-
-            # Scanner Tab
-            self.scanner_tab = ScannerTab(scanner=self.vulnerability_scanner)
-            self.tab_widget.addTab(self.scanner_tab, "Vulnerability Scanner")
-
-            # Tool Management Tab
-            self.tool_tab = ToolManagerTab(tool_manager=self.tool_manager)
-            self.tab_widget.addTab(self.tool_tab, "Tool Management")
-
-            # Amass Tab
-            self.amass_tab = AmassTab(scanner=self.vulnerability_scanner)
-            self.tab_widget.addTab(self.amass_tab, "Amass")
-
-            # Nuclei Tab
-            self.nuclei_tab = NucleiTab(scanner=self.vulnerability_scanner)
-            self.tab_widget.addTab(self.nuclei_tab, "Nuclei")
-
-        except Exception as e:
-            QMessageBox.critical(
-                self,
-                "Error",
-                f"Error setting up tabs: {str(e)}"
+            # Setup application style
+            self._setup_application_style()
+            
+            # Initialize database
+            self.db_manager.initialize()
+            
+            # Initialize all services
+            self._initialize_services()
+            
+            # Load configurations
+            self._load_configurations()
+            
+            # Create main window with all services
+            self.window = MainWindow(
+                config_manager=self.config_manager,
+                db_manager=self.db_manager,
+                auth_manager=self.auth_manager,
+                tool_manager=self.tool_manager,
+                vulnerability_scanner=self.vulnerability_scanner,
+                ai_system=self.ai_system,
+                collaboration_system=self.collaboration_system,
+                analytics_system=self.analytics_system,
+                notification_system=self.notification_system,
+                chat_system=self.chat_system,
+                scope_manager=self.scope_manager,
+                role_manager=self.role_manager,
+                scanning_profiles=self.scanning_profiles,
+                vulnerability_database=self.vulnerability_database,
+                wayback_integration=self.wayback_integration,
+                shodan_integration=self.shodan_integration
             )
-            raise
-
-    def show_login(self):
-        """Show login dialog."""
-        dialog = LoginDialog(self.auth_manager)
-        if dialog.exec():
-            self.user_token = dialog.get_token()
-            result = self.auth_manager.verify_token(self.user_token)
-            if result['status'] == 'success':
-                self.current_user = result['payload']['username']
-                self.user_role = result['payload']['role']
-                return True
-        return False
-
-    def create_required_directories(self):
-        """Create required directories."""
-        try:
-            directories = ['logs', 'data', 'reports', 'tools', 'cache', 'config']
-            for directory in directories:
-                os.makedirs(directory, exist_ok=True)
-            self.logger.info("Required directories created successfully")
+            
+            self.logger.info("Application initialized successfully")
+            return True
+            
         except Exception as e:
-            self.logger.error(f"Error creating directories: {str(e)}")
+            self.logger.error(f"Failed to initialize application: {str(e)}", exc_info=True)
+            QMessageBox.critical(
+                None,
+                "Initialization Error",
+                f"Failed to initialize application: {str(e)}"
+            )
+            return False
+    
+    def _create_directories(self):
+        """Create necessary application directories"""
+        directories = [
+            'logs',
+            'data',
+            'reports',
+            'tools',
+            'cache',
+            'config',
+            'temp',
+            'downloads',
+            'uploads',
+            'backups',
+            'profiles',
+            'templates',
+            'assets/icons',
+            'assets/styles',
+            'assets/templates'
+        ]
+        
+        for directory in directories:
+            os.makedirs(directory, exist_ok=True)
+        self.logger.info("Application directories created")
+    
+    def _initialize_services(self):
+        """Initialize all application services"""
+        try:
+            # Initialize core services
+            self.ai_system.initialize()
+            self.collaboration_system.initialize()
+            self.analytics_system.initialize()
+            
+            # Initialize security tools
+            self.tool_manager.initialize()
+            self.vulnerability_scanner.initialize()
+            self.vulnerability_database.initialize()
+            
+            # Initialize additional services
+            self.notification_system.initialize()
+            self.chat_system.initialize()
+            self.scope_manager.initialize()
+            self.role_manager.initialize()
+            self.scanning_profiles.initialize()
+            self.wayback_integration.initialize()
+            self.shodan_integration.initialize()
+            
+            self.logger.info("All services initialized successfully")
+            
+        except Exception as e:
+            self.logger.error(f"Service initialization failed: {str(e)}")
             raise
+    
+    def _load_configurations(self):
+        """Load all configuration files"""
+        try:
+            # Load main configurations
+            self.config_manager.load_config('config.json')
+            self.config_manager.load_config('config/system_config.json')
+            
+            # Load tool configurations
+            self.config_manager.load_config('tools.yml')
+            self.config_manager.load_config('nuclei.yaml')
+            self.config_manager.load_config('amass.ini')
+            
+            # Load scanning profiles
+            self.scanning_profiles.load_profiles('scanning_profiles.json')
+            
+            self.logger.info("All configurations loaded successfully")
+            
+        except Exception as e:
+            self.logger.error(f"Configuration loading failed: {str(e)}")
+            raise
+    
+    def _setup_application_style(self):
+        """Setup application-wide style and theme"""
+        self.app.setStyle('Fusion')
+        self.app.setApplicationName("BugHunter")
+        self.app.setApplicationVersion("2.0.0")
+        
+        # Load and apply application stylesheet
+        try:
+            with open('assets/styles/dark_theme.qss', 'r') as style_file:
+                self.app.setStyleSheet(style_file.read())
+        except Exception as e:
+            self.logger.warning(f"Could not load stylesheet: {str(e)}")
+    
+    def run(self):
+        """Run the application"""
+        try:
+            if not self.initialize():
+                return 1
+                
+            self.window.show()
+            return self.app.exec()
+            
+        except Exception as e:
+            self.logger.error(f"Application error: {str(e)}", exc_info=True)
+            QMessageBox.critical(
+                None,
+                "Fatal Error",
+                f"Application error: {str(e)}"
+            )
+            return 1
 
 def main():
-    """Application entry point."""
+    """Application entry point"""
     try:
-        # Create logs directory if it doesn't exist
-        os.makedirs('logs', exist_ok=True)
-        
         # Setup logging
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler('logs/bughunter.log'),
-                logging.StreamHandler()
-            ]
-        )
-        
+        logger_config.setup_logging()
         logger = logging.getLogger('BugHunter')
-        logger.info("Starting Bug Hunter application")
+        logger.info("Starting BugHunter application")
         
-        # Initialize application
-        app = QApplication(sys.argv)
-        app.setStyle('Fusion')
+        # Create and run application
+        app = BugHunterApp()
+        exit_code = app.run()
         
-        # Create and show main window
-        window = MainWindow()
-        window.show()
-        
-        # Start event loop
-        sys.exit(app.exec())
+        logger.info(f"Application exiting with code: {exit_code}")
+        sys.exit(exit_code)
         
     except Exception as e:
+        logging.error(f"Fatal error: {str(e)}", exc_info=True)
         QMessageBox.critical(
             None,
             "Fatal Error",
-            f"Application error: {str(e)}"
+            f"Fatal application error: {str(e)}"
         )
         sys.exit(1)
 
