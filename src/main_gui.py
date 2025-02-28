@@ -16,6 +16,55 @@ from tabs.shodan_tab import ShodanTab
 from tabs.wayback_tab import WaybackTab
 from tabs.scope_tab import ScopeTab
 
+
+# main_gui.py
+from PyQt6.QtWidgets import QApplication, QMainWindow, QTabWidget
+import sys
+import asyncio
+import qasync
+from ai_tab import AITab
+from ai_system import AISystem, SecureConfigManager, AIClientFactory
+import redis
+import aiohttp
+import os
+from pathlib import Path
+
+class MainWindow(QMainWindow):
+    def __init__(self, ai_system):
+        super().__init__()
+        self.ai_system = ai_system
+        self.init_ui()
+
+    def init_ui(self):
+        self.setWindowTitle("AI System GUI")
+        self.setGeometry(100, 100, 800, 600)
+
+        self.tabs = QTabWidget(self)
+        self.setCentralWidget(self.tabs)
+
+        self.ai_tab = AITab(self.ai_system)
+        self.tabs.addTab(self.ai_tab, "AI Interaction")
+
+async def main():
+    encryption_key = os.getenv('ENCRYPTION_KEY')
+    config_manager = SecureConfigManager(Path('src/config/ai_config.json'), encryption_key)
+    config = config_manager.get('ai_config')
+    cache_client = redis.Redis(host='localhost', port=6379, db=0)
+    async with aiohttp.ClientSession() as session:
+        ai_client = await AIClientFactory.create_client(config['ai_api_type'], config, session)
+        ai_system = AISystem(config_manager, ai_client, cache_client)
+
+        app = QApplication(sys.argv)
+        loop = qasync.QEventLoop(app)
+        asyncio.set_event_loop(loop)
+
+        main_window = MainWindow(ai_system)
+        main_window.show()
+
+        with loop:
+            loop.run_forever()
+
+
 class MainWindow(QMainWindow):
     """
     Main application window for BugHunter.
@@ -27,7 +76,7 @@ class MainWindow(QMainWindow):
         report_tab (ReportGeneratorTab): Report generator tab instance.
         scope_tab (ScopeTab): Scope management tab instance.
         status_bar (QStatusBar): Status bar for system messages.
-    """
+    ""
 
     def __init__(self):
         """Initialize the main window and its components."""
@@ -113,3 +162,6 @@ class MainWindow(QMainWindow):
         self.report_tab.cleanup()
         self.scope_tab.cleanup()
         event.accept()
+
+if __name__ == "__main__":
+    asyncio.run(main())

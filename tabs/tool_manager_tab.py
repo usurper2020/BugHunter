@@ -15,7 +15,7 @@ from PyQt6.QtWidgets import (
     QHeaderView, QProgressBar, QMessageBox
 )
 from PyQt6.QtCore import Qt, pyqtSignal
-from tool_manager import ToolManager
+from src.services.tool_manager import ToolManager
 import os
 
 class ToolManagerTab(QWidget):
@@ -44,9 +44,11 @@ class ToolManagerTab(QWidget):
         """
         super().__init__(parent)
         self.tool_manager = tool_manager if tool_manager else ToolManager()
+
         self.init_ui()
         self.connect_signals()
         self.refresh_tool_list()
+
 
     def init_ui(self):
         """
@@ -105,7 +107,10 @@ class ToolManagerTab(QWidget):
         Sets up the event handling for user interactions.
         """
         self.search_button.clicked.connect(self.search_tools)
-        self.tool_manager.progress_signal.connect(self.update_progress)
+        self.tool_manager.progress_signal.connect(self.update_progress)  
+        self.tool_manager.status_signal.connect(self.update_status)  
+        self.tool_manager.error_signal.connect(self.show_error)  
+
         self.tool_manager.status_signal.connect(self.update_status)
         self.tool_manager.error_signal.connect(self.show_error)
 
@@ -113,34 +118,21 @@ class ToolManagerTab(QWidget):
         """
         Search for tools and update the results table.
 
-        Executes a search query and displays the results in the table.
-        Handles any errors that occur during the search process.
-        """
-        query = self.search_input.text()
+        self.tool_manager.progress_signal.connect(self.update_progress)  
+        self.tool_manager.status_signal.connect(self.update_status)  
+        self.tool_manager.error_signal.connect(self.show_error)
         try:
-            results = self.tool_manager.search_github(query)
-            self.results_table.setRowCount(len(results))
+            # Description
+            desc_item = QTableWidgetItem(tool.get('description', 'No description'))
+            desc_item.setFlags(desc_item.flags() & ~Qt.ItemFlag.ItemIsEditable)
+            self.results_table.setItem(row, 1, desc_item)
             
-            for row, tool in enumerate(results):
-                # Name
-                name_item = QTableWidgetItem(tool['name'])
-                name_item.setFlags(name_item.flags() & ~Qt.ItemFlag.ItemIsEditable)
-                self.results_table.setItem(row, 0, name_item)
-                
-                # Description
-                desc_item = QTableWidgetItem(tool.get('description', 'No description'))
-                desc_item.setFlags(desc_item.flags() & ~Qt.ItemFlag.ItemIsEditable)
-                self.results_table.setItem(row, 1, desc_item)
-                
-                # Install button
-                install_btn = QPushButton("Install")
-                install_btn.clicked.connect(lambda checked, t=tool: self.install_tool(t))
-                self.results_table.setCellWidget(row, 2, install_btn)
+            # Install button
+            install_btn = QPushButton("Install")
+            install_btn.clicked.connect(lambda checked, t=tool: self.install_tool(t))
+            self.results_table.setCellWidget(row, 2, install_btn)
         except Exception as e:
             self.show_error(f"Search error: {str(e)}")
-
-    def install_tool(self, tool):
-        """
         Install a selected tool.
 
         Args:

@@ -1,0 +1,15 @@
+{
+    "ai_api_type": "codegpt",
+    "ai_options": [
+        "codegpt",
+        "openai"
+    ],
+    "openai_api_key": "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",
+    "codegpt_api_key": "sk-950e8c72-2f6d-4ed3-979f-4209bae61abf",
+    "temperature": 0.3,
+    "max_tokens": 2000,
+    "vulnerability_analysis": {
+        "enabled": true
+    },
+    "severity_threshold": "high"
+}

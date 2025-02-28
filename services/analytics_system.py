@@ -42,15 +42,17 @@ class AnalyticsSystem:
         self.config: Dict[str, Any] = {}
         self.db_engine = None
         self.initialized = False
-    
+        
     def initialize(self) -> bool:
         """Initialize analytics system"""
         try:
             # Load configuration
-            config_file = Path('config/analytics_config.json')
+            config_file = Path('config/system_config.json')
             if config_file.exists():
                 with open(config_file, 'r') as f:
-                    self.config = json.load(f)
+                    system_config = json.load(f)
+                    if 'analytics' in system_config:
+                        self.config = system_config['analytics']
             
             # Initialize database connection
             db_url = self.config.get('database_url')
@@ -60,7 +62,7 @@ class AnalyticsSystem:
             self.db_engine = create_engine(db_url)
             
             # Set up plotting style
-            plt.style.use('seaborn')
+            plt.style.use('default')
             
             self.initialized = True
             self.logger.info("Analytics system initialized successfully")

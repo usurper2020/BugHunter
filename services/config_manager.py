@@ -5,6 +5,7 @@ Handles loading, saving, and accessing application configurations.
 
 import json
 import yaml
+import configparser
 import logging
 from pathlib import Path
 from typing import Any, Dict, Optional
@@ -21,9 +22,7 @@ class ConfigManager:
     def load_config(self, filename: str) -> bool:
         """Load configuration from file"""
         try:
-            file_path = Path(filename)
-            if not file_path.is_absolute():
-                file_path = self.config_dir / file_path
+            file_path = self.config_dir / filename
             
             if not file_path.exists():
                 self.logger.warning(f"Configuration file not found: {file_path}")
@@ -34,6 +33,10 @@ class ConfigManager:
                     config_data = json.load(f)
                 elif file_path.suffix in ['.yml', '.yaml']:
                     config_data = yaml.safe_load(f)
+                elif file_path.suffix == '.ini':
+                    parser = configparser.ConfigParser()
+                    parser.read(file_path)
+                    config_data = {section: dict(parser[section]) for section in parser.sections()}
                 else:
                     self.logger.error(f"Unsupported configuration format: {file_path.suffix}")
                     return False

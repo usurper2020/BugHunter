@@ -1,0 +1,95 @@
+"""
+Simplified authentication service for the BugHunter application.
+Provides basic login and registration functionality.
+"""
+
+import logging
+import json
+import datetime
+from pathlib import Path
+from bcrypt import hashpw, gensalt, checkpw
+
+
+class SimpleAuth:
+    """Manages basic user authentication"""
+    
+    def __init__(self):
+        self.logger = logging.getLogger('BugHunter.SimpleAuth')
+        self.users_file = Path('data/users.json')
+        self.users = self._load_users()
+
+
+    
+    def _load_users(self):
+        """Load users from JSON file"""
+        try:
+            if self.users_file.exists():
+                with open(self.users_file, 'r') as f:
+                    return json.load(f)['users']
+            return []
+        except Exception as e:
+            self.logger.error(f"Error loading users: {str(e)}")
+            return []
+
+    def _save_users(self):
+        """Save users to JSON file"""
+        try:
+            with open(self.users_file, 'w') as f:
+                json.dump({'users': self.users}, f, indent=2)
+            return True
+        except Exception as e:
+            self.logger.error(f"Error saving users: {str(e)}")
+            return False
+
+    def login(self, username: str, password: str) -> bool:
+        """
+        Authenticate user login
+        
+        Args:
+            username: User's username
+            password: User's password
+            
+        Returns:
+            bool: True if login successful, False otherwise
+        """
+        user = next((u for u in self.users if u['username'] == username), None)
+        if user and checkpw(password.encode('utf-8'), user['password_hash'].encode('utf-8')):
+            self.logger.info(f"User {username} logged in successfully")
+            return True
+        self.logger.warning(f"Failed login attempt for user {username}")
+        return False
+
+
+    
+    def register(self, username: str, password: str) -> bool:
+        """
+        Register a new user
+        
+        Args:
+            username: User's username
+            password: User's password
+            
+        Returns:
+            bool: True if registration successful, False otherwise
+        """
+        if any(u['username'] == username for u in self.users):
+            self.logger.warning(f"Username {username} already exists")
+            return False
+        
+        # Create new user with hashed password
+        hashed_password = hashpw(password.encode('utf-8'), gensalt()).decode('utf-8')
+        new_user = {
+            'username': username,
+            'password_hash': hashed_password,
+            'email': f"{username}@example.com",
+            'created_at': datetime.datetime.utcnow().isoformat(),
+            'last_login': None,
+            'role': 'user'
+        }
+        
+        self.users.append(new_user)
+        if self._save_users():
+            self.logger.info(f"User {username} registered successfully")
+            return True
+        self.logger.error(f"Failed to register user {username}")
+        return False

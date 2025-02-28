@@ -1,0 +1,26 @@
+"""Base tab implementation for the BugHunter application."""
+
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel
+from PyQt6.QtCore import Qt
+
+class BaseTab(QWidget):
+    """Base class for all tabs in the application"""
+    
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.layout = QVBoxLayout()
+        self.setLayout(self.layout)
+        self._setup_ui()
+        self._connect_signals()
+    
+    def _setup_ui(self):
+        """Setup the UI components"""
+        pass
+    
+    def _connect_signals(self):
+        """Connect Qt signals"""
+        pass
+    
+    def refresh(self):
+        """Refresh tab content"""
+        pass

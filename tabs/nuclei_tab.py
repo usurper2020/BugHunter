@@ -6,7 +6,7 @@ and managing Nuclei templates.
 """
 
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QTextEdit
-from services.nuclei_analyzer import NucleiAnalyzer
+from src.services.nuclei_analyzer import NucleiAnalyzer
 
 class NucleiTab(QWidget):
     """

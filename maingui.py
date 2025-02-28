@@ -1,37 +1,76 @@
-import tkinter as tk
-from tkinter import ttk, filedialog, scrolledtext
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QFileDialog, QProgressBar, QTextEdit, QLineEdit
+
+
+
+
+from PyQt6.QtCore import QSettings
+
+
 import threading
 from pathlib import Path
 import sys
 import queue
 from datetime import datetime
-from code_analyzer import CodeAnalyzer  # Import CodeAnalyzer from the appropriate module
 
-class CodeAnalyzerGUI:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Python Code Analyzer")
-        self.root.geometry("800x600")
+
+class CodeAnalyzerGUI(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Python Code Analyzer")
+        self.setGeometry(100, 100, 800, 600)
+        
+        # Create main frame
+        self.main_frame = QWidget()
+        self.setCentralWidget(self.main_frame)
+
+        
+        # Initialize settings
+        self.settings = QSettings("BugHunter", "Theme")
+        self.current_theme = self.settings.value("theme", "light")
+
+        
+        # Central widget
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+        
+        # Layout
+        self.layout = QVBoxLayout(self.central_widget)
+
         
         # Message queue for thread communication
         self.msg_queue = queue.Queue()
         
         # Create main frame
-        self.main_frame = ttk.Frame(self.root, padding="10")
-        self.main_frame.grid(row=0, column=0, sticky="nsew")
+        # Message queue for thread communication
+        self.msg_queue = queue.Queue()
         
+        # Setup GUI components
         self.setup_gui()
+
+        
+        # Setup styles
         self.setup_styles()
+
         
         # Start message checking
         self.check_msg_queue()
 
     def setup_styles(self):
-        """Setup ttk styles"""
+        """Setup application styles and themes"""
+        # Load the appropriate theme
+        theme_file = f"assets/styles/{self.current_theme}_theme.qss"
+        try:
+            with open(theme_file, "r") as f:
+                self.setStyleSheet(f.read())
+        except FileNotFoundError:
+            print(f"Theme file not found: {theme_file}")
+            
+        # Setup ttk styles
         style = ttk.Style()
         style.configure('Success.TLabel', foreground='green')
         style.configure('Error.TLabel', foreground='red')
         style.configure('Header.TLabel', font=('Helvetica', 12, 'bold'))
+
 
     def setup_gui(self):
         """Setup GUI components"""
@@ -49,34 +88,45 @@ class CodeAnalyzerGUI:
 
     def setup_file_selection(self):
         """Setup file selection section"""
-        file_frame = ttk.LabelFrame(self.main_frame, text="File Selection", padding="5")
-        file_frame.grid(row=0, column=0, columnspan=2, sticky="we", pady=5)
+        # File selection label and button
+        file_frame = QWidget(self.main_frame)
+        file_layout = QHBoxLayout(file_frame)
+
         
-        self.file_path = tk.StringVar()
-        self.file_entry = ttk.Entry(file_frame, textvariable=self.file_path, width=50)
-        self.file_entry.grid(row=0, column=0, padx=5)
+        self.file_label = QLabel("Select Python File:")
+        self.layout.addWidget(self.file_label)
         
-        browse_btn = ttk.Button(file_frame, text="Browse", command=self.browse_file)
-        browse_btn.grid(row=0, column=1, padx=5)
+        self.file_path = QLineEdit()
+        self.layout.addWidget(self.file_path)
+        
+        browse_btn = QPushButton("Browse...")
+        browse_btn.clicked.connect(self.browse_file)
+        self.layout.addWidget(browse_btn)
+
+
 
     def setup_progress_section(self):
         """Setup progress and status section"""
-        progress_frame = ttk.LabelFrame(self.main_frame, text="Progress", padding="5")
-        progress_frame.grid(row=1, column=0, columnspan=2, sticky="we", pady=5)
+        progress_frame = QGroupBox("Progress", self.main_frame)
+        progress_layout = QVBoxLayout(progress_frame)
+
         
-        self.status_label = ttk.Label(progress_frame, text="Ready")
-        self.status_label.grid(row=0, column=0, sticky=tk.W)
+        self.status_label = QLabel("Ready")
+        self.layout.addWidget(self.status_label)
         
-        self.progress_bar = ttk.Progressbar(progress_frame, length=300, mode='determinate')
-        self.progress_bar.grid(row=1, column=0, sticky="we", pady=5)
+        self.progress_bar = QProgressBar()
+        self.layout.addWidget(self.progress_bar)
+
 
     def setup_log_display(self):
         """Setup log display section"""
-        log_frame = ttk.LabelFrame(self.main_frame, text="Log", padding="5")
-        log_frame.grid(row=2, column=0, columnspan=2, sticky="nsew", pady=5)
+        log_frame = QGroupBox("Log", self.main_frame)
+        log_layout = QVBoxLayout(log_frame)
+
         
-        self.log_text = scrolledtext.ScrolledText(log_frame, height=20, width=80)
-        self.log_text.grid(row=0, column=0, sticky="nsew")
+        self.log_text = QTextEdit()
+        self.layout.addWidget(self.log_text)
+
         
         # Configure grid weights
         self.root.grid_columnconfigure(0, weight=1)
@@ -88,30 +138,38 @@ class CodeAnalyzerGUI:
 
     def setup_action_buttons(self):
         """Setup action buttons section"""
-        button_frame = ttk.Frame(self.main_frame)
-        button_frame.grid(row=3, column=0, columnspan=2, pady=10)
+        button_frame = QWidget(self.main_frame)
+        button_layout = QHBoxLayout(button_frame)
+
         
-        self.analyze_btn = ttk.Button(button_frame, text="Analyze Code", command=self.start_analysis)
-        self.analyze_btn.grid(row=0, column=0, padx=5)
+        # Add theme toggle button
+        self.theme_btn = QPushButton("Toggle Theme")
+        self.theme_btn.clicked.connect(self.toggle_theme)
+        self.layout.addWidget(self.theme_btn)
+
         
-        clear_btn = ttk.Button(button_frame, text="Clear Log", command=self.clear_log)
-        clear_btn.grid(row=0, column=1, padx=5)
+        self.analyze_btn = QPushButton("Analyze Code")
+        self.analyze_btn.clicked.connect(self.start_analysis)
+        self.layout.addWidget(self.analyze_btn)
+        
+        clear_btn = QPushButton("Clear Log")
+        clear_btn.clicked.connect(self.clear_log)
+        self.layout.addWidget(clear_btn)
+
 
     def browse_file(self):
         """Open file browser dialog"""
-        filename = filedialog.askopenfilename(
-            title="Select Python File",
-            filetypes=[("Python files", "*.py"), ("All files", "*.*")]
-        )
+        filename, _ = QFileDialog.getOpenFileName(self, "Select Python File", "", "Python files (*.py);;All files (*)")
         if filename:
-            self.file_path.set(filename)
+            self.file_path.setText(filename)
             self.log_message(f"Selected file: {filename}")
+
 
     def log_message(self, message):
         """Add message to log with timestamp"""
         timestamp = datetime.now().strftime("%H:%M:%S")
-        self.log_text.insert(tk.END, f"[{timestamp}] {message}\n")
-        self.log_text.see(tk.END)
+        self.log_text.append(f"[{timestamp}] {message}")
+
 
     def clear_log(self):
         """Clear the log display"""
@@ -120,17 +178,18 @@ class CodeAnalyzerGUI:
 
     def start_analysis(self):
         """Start the code analysis in a separate thread"""
-        if not self.file_path.get():
+        if not self.file_path.text():
             self.log_message("Error: No file selected!")
             return
         
-        self.analyze_btn.state(['disabled'])
-        self.progress_bar['value'] = 0
+        self.analyze_btn.setEnabled(False)
+        self.progress_bar.setValue(0)
         
         # Start analysis thread
         thread = threading.Thread(target=self.run_analysis)
         thread.daemon = True
         thread.start()
+
 
     def run_analysis(self):
         """Run the code analysis"""
@@ -161,10 +220,17 @@ class CodeAnalyzerGUI:
         finally:
             self.msg_queue.put(('enable_button', None))
 
+    def toggle_theme(self):
+        """Toggle between light and dark themes"""
+        self.current_theme = "dark" if self.current_theme == "light" else "light"
+        self.settings.setValue("theme", self.current_theme)
+        self.setup_styles()
+
     def check_msg_queue(self):
         """Check for messages from the analysis thread"""
         try:
             while True:
+
                 msg_type, msg_content = self.msg_queue.get_nowait()
                 
                 if msg_type == 'status':
@@ -186,9 +252,11 @@ class CodeAnalyzerGUI:
             self.root.after(100, self.check_msg_queue)
 
 def main():
-    root = tk.Tk()
-    app = CodeAnalyzerGUI(root)
-    root.mainloop()
+    app = QApplication(sys.argv)
+    window = CodeAnalyzerGUI()
+    window.show()
+    sys.exit(app.exec())
+
 
 if __name__ == "__main__":
     main()

@@ -10,7 +10,22 @@ class WaybackMachineIntegration:
     def __init__(self):
         self.base_url = "https://archive.org/wayback/available"
         self.results_dir = os.path.join('data', 'wayback_results')
-        os.makedirs(self.results_dir, exist_ok=True)
+        self.initialized = False
+        
+    def initialize(self) -> bool:
+        """Initialize the Wayback Machine integration"""
+        try:
+            os.makedirs(self.results_dir, exist_ok=True)
+            
+            # Test API connection
+            response = requests.get(f"{self.base_url}?url=example.com")
+            response.raise_for_status()
+            
+            self.initialized = True
+            return True
+        except Exception as e:
+            print(f"Failed to initialize Wayback Machine integration: {str(e)}")
+            return False
         
     def search_url(self, url: str, timestamp: Optional[str] = None) -> Dict:
         """Search for archived versions of a URL"""

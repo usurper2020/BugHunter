@@ -8,8 +8,20 @@ class ScopeManager:
     
     def __init__(self):
         self.scope_file = os.path.join('data', 'scope.json')
+        self.initialized = False
         self.ensure_files()
         self.load_scope()
+        
+    def initialize(self) -> bool:
+        """Initialize the scope manager."""
+        try:
+            # Ensure the scope file exists
+            self.ensure_files()
+            self.initialized = True
+            return True
+        except Exception as e:
+            print(f"Failed to initialize scope manager: {str(e)}")
+            return False
         
     def ensure_files(self):
         """Ensure required files exist"""

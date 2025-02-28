@@ -22,7 +22,7 @@ class ShodanIntegration:
         self.api_key = None
         self.initialized = False
         
-    def initialize(self, api_key=None):
+    def initialize(self, api_key=None) -> bool:
         """
         Initialize the Shodan integration with API key.
         
@@ -30,9 +30,23 @@ class ShodanIntegration:
             api_key (str, optional): Shodan API key for authentication.
                                    If not provided, some functionality
                                    may be limited.
+        
+        Returns:
+            bool: True if initialization successful, False otherwise
         """
-        self.api_key = api_key
-        self.initialized = True
+        try:
+            self.api_key = api_key
+            
+            # Test basic functionality even without API key
+            if self.api_key:
+                # TODO: Add actual API test when implementing Shodan API calls
+                pass
+            
+            self.initialized = True
+            return True
+        except Exception as e:
+            print(f"Failed to initialize Shodan integration: {str(e)}")
+            return False
         
     def get_status(self):
         """

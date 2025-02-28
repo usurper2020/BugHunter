@@ -14,7 +14,8 @@ from PyQt6.QtWidgets import (
     QMessageBox
 )
 from PyQt6.QtCore import pyqtSignal
-from services.wayback_machine_integration import WaybackClient
+from services.wayback_machine_integration import WaybackMachineIntegration
+
 
 class WaybackTab(QWidget):
     """
@@ -30,7 +31,8 @@ class WaybackTab(QWidget):
     def __init__(self):
         """Initialize the Wayback tab."""
         super().__init__()
-        self.wayback_client = WaybackClient()
+        self.wayback_client = WaybackMachineIntegration()
+
         self.init_ui()
         self.connect_signals()
 

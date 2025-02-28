@@ -1,0 +1,52 @@
+# Security Tools Configuration
+
+amass:
+  version: latest
+  executable: amass
+  repository: https://github.com/OWASP/Amass.git
+  config_file: config/amass.ini
+  dependencies:
+    - go
+  install_commands:
+    - go build
+  version_command: amass -version
+
+nuclei:
+  version: latest
+  executable: nuclei
+  repository: https://github.com/projectdiscovery/nuclei.git
+  config_file: config/nuclei.yaml
+  dependencies:
+    - go
+  install_commands:
+    - go build
+  version_command: nuclei -version
+
+gobuster:
+  version: latest
+  executable: gobuster
+  repository: https://github.com/OJ/gobuster.git
+  config_file: config/gobuster.yaml
+  dependencies:
+    - go
+  install_commands:
+    - go build
+  version_command: gobuster version
+
+ffuf:
+  version: latest
+  executable: ffuf
+  repository: https://github.com/ffuf/ffuf.git
+  config_file: config/ffuf.yaml
+  dependencies:
+    - go
+  install_commands:
+    - go build
+  version_command: ffuf -V
+
+nmap:
+  version: latest
+  executable: nmap
+  dependencies:
+    - nmap
+  version_command: nmap --version

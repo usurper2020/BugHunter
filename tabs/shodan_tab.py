@@ -14,7 +14,8 @@ from PyQt6.QtWidgets import (
     QMessageBox
 )
 from PyQt6.QtCore import pyqtSignal
-from services.shodan_integration import ShodanClient
+from services.shodan_integration import ShodanIntegration
+
 
 class ShodanTab(QWidget):
     """
@@ -30,7 +31,8 @@ class ShodanTab(QWidget):
     def __init__(self):
         """Initialize the Shodan tab."""
         super().__init__()
-        self.shodan_client = ShodanClient()
+        self.shodan_client = ShodanIntegration()
+
         self.init_ui()
         self.connect_signals()
 

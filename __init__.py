@@ -1,2 +1,6 @@
 # Main package initialization
-from srcconfig_new import config
+from src.config.config import Config
+# Breakpoint after importing Config
+breakpoint()
+config = Config()
+breakpoint()

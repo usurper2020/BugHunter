@@ -8,7 +8,32 @@ class Notification:
     
     def __init__(self):
         self.data_dir = os.path.join('data', 'notifications')
-        os.makedirs(self.data_dir, exist_ok=True)
+        self.initialized = False
+        
+    def initialize(self) -> bool:
+        """Initialize the notification system"""
+        try:
+            # Create notifications directory
+            os.makedirs(self.data_dir, exist_ok=True)
+            
+            # Create a test notification to verify system
+            test_file = os.path.join(self.data_dir, 'test_notification.json')
+            test_notification = {
+                "user_id": "system",
+                "message": "Notification system initialized",
+                "timestamp": str(datetime.now())
+            }
+            with open(test_file, 'w') as f:
+                json.dump(test_notification, f, indent=2)
+            
+            # Clean up test file
+            os.remove(test_file)
+            
+            self.initialized = True
+            return True
+        except Exception as e:
+            print(f"Failed to initialize notification system: {str(e)}")
+            return False
         
     def send_notification(self, user_id: str, message: str) -> Dict:
         """Send a notification to a user"""

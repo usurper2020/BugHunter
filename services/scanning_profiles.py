@@ -8,9 +8,33 @@ class ScanningProfiles:
     
     def __init__(self):
         self.profiles_dir = os.path.join('data', 'scanning_profiles')
-        os.makedirs(self.profiles_dir, exist_ok=True)
-        self.load_default_profiles()
+        self.initialized = False
         
+    def initialize(self) -> bool:
+        """Initialize the scanning profiles manager."""
+        try:
+            os.makedirs(self.profiles_dir, exist_ok=True)
+            self.load_default_profiles()
+            self.initialized = True
+            return True
+        except Exception as e:
+            print(f"Failed to initialize scanning profiles manager: {str(e)}")
+            return False
+        
+    def load_profiles(self, profile_file: str):
+        """Load scanning profiles from a configuration file"""
+        try:
+            config_path = os.path.join('config', profile_file)
+            if os.path.exists(config_path):
+                with open(config_path, 'r') as f:
+                    profiles = json.load(f)
+                    for profile_id, profile in profiles.items():
+                        self.save_profile(profile_id, profile)
+            return True
+        except Exception as e:
+            print(f"Failed to load profiles: {str(e)}")
+            return False
+
     def load_default_profiles(self):
         """Load default scanning profiles if none exist"""
         if not os.listdir(self.profiles_dir):

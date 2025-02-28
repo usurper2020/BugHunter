@@ -1,0 +1,90 @@
+"""
+Tests for GUITabGenerator functionality using PyQt6.
+"""
+
+import unittest
+from unittest.mock import Mock
+from PyQt6.QtWidgets import QApplication, QGroupBox
+from PyQt6.QtTest import QTest
+from PyQt6.QtCore import Qt
+
+from src.services.gui_tab_generator import GUITabGenerator
+from src.config import config
+
+
+class TestGUITabGenerator(unittest.TestCase):
+    
+    @classmethod
+    def setUpClass(cls):
+        cls.app = QApplication([])
+        
+    @classmethod
+    def tearDownClass(cls):
+        cls.app.quit()
+        
+    def setUp(self):
+        self.config_manager = Mock()
+        self.generator = GUITabGenerator(self.config_manager)
+
+    def test_create_tab(self):
+        # Test tab creation
+        tool_metadata = {
+            'description': 'Test tool description',
+            'settings': {
+                'setting1': True,
+                'setting2': 50,
+                'setting3': 'value'
+            }
+        }
+        
+        def execute_callback(tool_name):
+            pass
+            
+        tab = self.generator.create_tab('test_tool', tool_metadata, execute_callback)
+        
+        # Breakpoint to verify tab creation
+        breakpoint()
+        self.assertIsNotNone(tab)
+        self.assertIn('test_tool', self.generator.tabs)
+        
+    def test_get_tab(self):
+        # Test getting existing tab
+        tool_metadata = {'description': 'Test tool'}
+        tab = self.generator.create_tab('test_tool', tool_metadata, lambda x: None)
+        
+        retrieved_tab = self.generator.get_tab('test_tool')
+        # Breakpoint to verify tab retrieval
+        breakpoint()
+        self.assertEqual(tab, retrieved_tab)
+        
+    def test_remove_tab(self):
+        # Test tab removal
+        tool_metadata = {'description': 'Test tool'}
+        self.generator.create_tab('test_tool', tool_metadata, lambda x: None)
+        
+        self.generator.remove_tab('test_tool')
+        # Breakpoint to verify tab removal
+        breakpoint()
+        self.assertNotIn('test_tool', self.generator.tabs)
+        
+    def test_add_settings_controls(self):
+        # Test settings controls
+        tool_metadata = {
+            'description': 'Test tool',
+            'settings': {
+                'bool_setting': True,
+                'num_setting': 75,
+                'text_setting': 'value'
+            }
+        }
+        
+        tab = self.generator.create_tab('test_tool', tool_metadata, lambda x: None)
+        
+        # Breakpoint to verify settings controls
+        breakpoint()
+        settings_group = tab.findChild(QGroupBox)
+        self.assertIsNotNone(settings_group)
+        self.assertEqual(len(settings_group.children()), 4)  # GroupBox + 3 settings
+
+if __name__ == '__main__':
+    unittest.main()

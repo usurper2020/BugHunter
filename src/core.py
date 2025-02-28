@@ -1,6 +1,6 @@
 # Core package initialization and global instances
-from config import Config
-from logger import LoggerConfig
+from src.config import Config
+from src.logger import LoggerConfig
 
 # Create global instances
 config = Config()

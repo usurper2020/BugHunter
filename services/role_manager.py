@@ -10,8 +10,18 @@ class RoleManager:
         self.data_dir = os.path.join('data', 'roles')
         self.roles_file = os.path.join(self.data_dir, 'roles.json')
         self.permissions_file = os.path.join(self.data_dir, 'permissions.json')
-        self.ensure_files()
-        self.load_data()
+        self.initialized = False
+        
+    def initialize(self) -> bool:
+        """Initialize the role manager"""
+        try:
+            self.ensure_files()
+            self.load_data()
+            self.initialized = True
+            return True
+        except Exception as e:
+            print(f"Failed to initialize role manager: {str(e)}")
+            return False
         
     def ensure_files(self):
         """Ensure required files exist"""

@@ -8,7 +8,7 @@ and progress tracking.
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, 
                            QTextEdit, QPushButton, QSplitter, QProgressBar,
                            QListWidget, QComboBox, QLineEdit)
-from PyQt6.QtCore import QTimer
+from PyQt6.QtCore import QTimer, Qt
 from services.collaboration_system import CollaborationSystem
 
 class CollaborationTab(QWidget):
@@ -36,7 +36,7 @@ class CollaborationTab(QWidget):
         
         # Create a splitter for better layout management
         splitter = QSplitter()
-        splitter.setOrientation(1)  # Vertical split
+        splitter.setOrientation(Qt.Orientation.Vertical)  # Corrected: Use Qt.Orientation enum
         
         # Top panel - Chat and collaboration
         top_panel = QWidget()

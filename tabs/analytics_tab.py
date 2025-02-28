@@ -7,8 +7,8 @@ status updates and interactive controls.
 
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, 
                            QTextEdit, QPushButton, QSplitter, QProgressBar,
-                           QComboBox, QTableWidget, QTableWidgetItem)
-from PyQt6.QtCore import QTimer
+                           QComboBox, QTableWidget, QTableWidgetItem, QLineEdit)
+from PyQt6.QtCore import QTimer, Qt
 from services.analytics_system import AnalyticsSystem
 
 class AnalyticsTab(QWidget):
@@ -36,7 +36,7 @@ class AnalyticsTab(QWidget):
         
         # Create a splitter for better layout management
         splitter = QSplitter()
-        splitter.setOrientation(1)  # Vertical split
+        splitter.setOrientation(Qt.Orientation.Vertical)  # Corrected: Use Qt.Orientation enum
         
         # Top panel - Data controls
         top_panel = QWidget()

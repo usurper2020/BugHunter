@@ -1,0 +1,44 @@
+# Nuclei Configuration
+
+# General settings
+threads: 10
+timeout: 5
+retries: 3
+bulk-size: 25
+concurrency: 25
+
+# Template configuration
+templates:
+  - cves/
+  - vulnerabilities/
+  - misconfiguration/
+  - exposures/
+
+# Rate limiting
+rate-limit: 150
+
+# Headers
+headers:
+  - "User-Agent: BugHunter Security Scanner"
+
+# Output configuration
+output:
+  debug: false
+  verbose: false
+  silent: false
+  json: true
+  timestamp: true
+  no-color: false
+  no-meta: false
+
+# Scanning configuration
+scan:
+  skip-host-discovery: false
+  fast: false
+  stop-at-first-match: false
+  system-resolvers: false
+# Proxy settings
+# proxy: http://127.0.0.1:8080
+
+# Authentication
+# header-auth: "Bearer YOUR_AUTH_TOKEN"

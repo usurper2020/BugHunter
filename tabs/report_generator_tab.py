@@ -8,7 +8,7 @@ status updates and progress tracking.
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, 
                            QTextEdit, QPushButton, QSplitter, QProgressBar,
                            QComboBox, QFileDialog)
-from PyQt6.QtCore import QTimer
+from PyQt6.QtCore import QTimer, Qt
 from services.report_generator import ReportGenerator
 
 class ReportGeneratorTab(QWidget):
@@ -37,7 +37,7 @@ class ReportGeneratorTab(QWidget):
         
         # Create a splitter for better layout management
         splitter = QSplitter()
-        splitter.setOrientation(1)  # Vertical split
+        splitter.setOrientation(Qt.Orientation.Vertical)  # Corrected: Use Qt.Orientation enum
         
         # Top panel - Controls and input
         top_panel = QWidget()

@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
 import json
 import secrets
 
@@ -82,8 +82,8 @@ class Config:
                 with open(self.config_file, 'r') as f:
                     file_config = json.load(f)
                     self.config.update(file_config)
-            except json.JSONDecodeError:
-                print(f"Warning: Invalid JSON in {self.config_file}, using default configuration")
+                    # Breakpoint after loading config file
+                    breakpoint()
             except Exception as e:
                 print(f"Warning: Error reading {self.config_file}: {str(e)}")
                 
@@ -122,13 +122,16 @@ class Config:
         try:
             with open(self.config_file, 'w') as f:
                 json.dump(self.config, f, indent=4)
+                # Breakpoint after saving config file
+                breakpoint()
         except Exception as e:
             print(f"Warning: Failed to save configuration: {str(e)}")
+            pass  # Placeholder for the end of the _save_config method
     
-    def get_database_url(self) -> str:
-        """Get the database URL for SQLAlchemy"""
-        return f"postgresql://{self.config['DB_USER']}:{self.config['DB_PASSWORD']}@" \
-               f"{self.config['DB_HOST']}:{self.config['DB_PORT']}/{self.config['DB_NAME']}"
+        def get_database_url(self) -> str:
+            """Get the database URL for SQLAlchemy"""
+            return f"postgresql://{self.config['DB_USER']}:{self.config['DB_PASSWORD']}@" \
+                   f"{self.config['DB_HOST']}:{self.config['DB_PORT']}/{self.config['DB_NAME']}"
     
     def get_redis_url(self) -> str:
         """Get the Redis URL"""

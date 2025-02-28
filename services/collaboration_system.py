@@ -40,6 +40,10 @@ class CollaborationSystem:
         self.connections: Dict[int, WebSocketServerProtocol] = {}
         self.server = None
         self.initialized = False
+        self.config = {
+            'host': 'localhost',
+            'port': 8765
+        }
     
     async def initialize(self) -> bool:
         """Initialize collaboration system"""

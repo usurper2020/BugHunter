@@ -7,14 +7,20 @@ import logging
 import yaml
 import subprocess
 import shutil
+import os
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 from datetime import datetime
+from PyQt6.QtCore import pyqtSignal, QObject
 
-class ToolManager:
+class ToolManager(QObject):
     """Manages security tools and their execution"""
     
+    # Signal to emit progress updates
+    progress_signal = pyqtSignal(str, int)
+    
     def __init__(self):
+        super().__init__()
         self.logger = logging.getLogger('BugHunter.ToolManager')
         self.tools_dir = Path('tools')
         self.tools_dir.mkdir(exist_ok=True)
@@ -29,6 +35,9 @@ class ToolManager:
             if config_file.exists():
                 with open(config_file, 'r') as f:
                     self.tools_config = yaml.safe_load(f)
+            else:
+                self.logger.warning("Tools configuration file not found")
+                return False
             
             # Verify tool installations
             self._verify_installations()
@@ -52,13 +61,18 @@ class ToolManager:
             if 'dependencies' in tool_info:
                 for dep in tool_info['dependencies']:
                     try:
-                        subprocess.run(
-                            ['which', dep],
-                            check=True,
-                            capture_output=True
+                        # Use 'where' on Windows, 'which' on Unix
+                        cmd = 'where' if os.name == 'nt' else 'which'
+                        result = subprocess.run(
+                            [cmd, dep],
+                            capture_output=True,
+                            text=True,
+                            shell=True if os.name == 'nt' else False
                         )
-                    except subprocess.CalledProcessError:
-                        self.logger.warning(f"Missing dependency for {tool_name}: {dep}")
+                        if result.returncode != 0:
+                            self.logger.warning(f"Missing dependency for {tool_name}: {dep}")
+                    except Exception as e:
+                        self.logger.warning(f"Failed to check dependency {dep} for {tool_name}: {str(e)}")
     
     def install_tool(self, tool_name: str) -> bool:
         """Install a security tool"""
@@ -76,7 +90,8 @@ class ToolManager:
             if 'repository' in tool_info:
                 subprocess.run(
                     ['git', 'clone', tool_info['repository'], str(tool_path)],
-                    check=True
+                    check=True,
+                    capture_output=True
                 )
             
             # Run installation commands
@@ -86,7 +101,8 @@ class ToolManager:
                         cmd,
                         shell=True,
                         cwd=str(tool_path),
-                        check=True
+                        check=True,
+                        capture_output=True
                     )
             
             self.logger.info(f"Tool installed successfully: {tool_name}")
@@ -108,7 +124,8 @@ class ToolManager:
                 subprocess.run(
                     ['git', 'pull'],
                     cwd=str(tool_path),
-                    check=True
+                    check=True,
+                    capture_output=True
                 )
             
             # Run update commands if specified
@@ -119,7 +136,8 @@ class ToolManager:
                         cmd,
                         shell=True,
                         cwd=str(tool_path),
-                        check=True
+                        check=True,
+                        capture_output=True
                     )
             
             self.logger.info(f"Tool updated successfully: {tool_name}")
@@ -147,7 +165,8 @@ class ToolManager:
                 cwd=str(tool_path),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                text=True
+                text=True,
+                shell=True if os.name == 'nt' else False
             )
             
             # Store process
@@ -179,7 +198,10 @@ class ToolManager:
             if tool_name in self.active_processes:
                 process = self.active_processes[tool_name]
                 process.terminate()
-                process.wait(timeout=5)
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    process.kill()
                 del self.active_processes[tool_name]
                 return True
             return False

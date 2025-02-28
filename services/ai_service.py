@@ -1,282 +1,186 @@
-import openai
-from typing import Dict, Any, List, Optional
+# services/ai_system.py
+import logging
 import json
 import aiohttp
-from datetime import datetime
+import os
+from pathlib import Path
+from typing import Optional, Dict, Any
+from abc import ABC, abstractmethod
+from functools import lru_cache
+import asyncio
+import signal
+import redis
+from cryptography.fernet import Fernet
+from prometheus_client import Counter, Histogram, start_http_server
 
-from config import config
-from logger_config import logger_config
-from database import DatabaseManager, CacheManager
-from src.models import Finding, ScanResult, SeverityLevel
+# Configuration Manager Interface
+class ConfigManager(ABC):
+    @abstractmethod
+    def get(self, key: str) -> Any:
+        pass
 
-logger = logger_config.get_logger(__name__)
+# Concrete Configuration Manager
+class FileConfigManager(ConfigManager):
+    def __init__(self, config_path: Path):
+        self.config_path = config_path
+        self.config = self._load_config()
 
-class AIService:
-    """Service for AI-powered vulnerability analysis and assistance"""
+    def _load_config(self) -> Dict[str, Any]:
+        with open(self.config_path) as config_file:
+            return json.load(config_file)
 
-    def __init__(self):
-        self.api_type = config.get('AI_API_TYPE', 'codegpt')  # Set default to 'codegpt'
-        self.api_key = config.get('AI_API_KEY')
-        self.model = config.get('AI_MODEL', 'gpt-4')
-        self.temperature = config.get('AI_TEMPERATURE', 0.7)
-        self.cache_ttl = config.get('AI_CACHE_TTL_MINUTES', 60)
+    def get(self, key: str) -> Any:
+        return self.config.get(key, os.getenv(key))
 
-        if self.api_type == 'openai':
-            openai.api_key = self.api_key  # Set the API key here
+# Secure Configuration Manager
+class SecureConfigManager(FileConfigManager):
+    def __init__(self, config_path: Path, encryption_key: str):
+        super().__init__(config_path)
+        self.cipher = Fernet(encryption_key)
 
-    async def analyze_vulnerability(self, finding: Finding) -> Dict[str, Any]:
-        """Analyze a vulnerability finding using AI"""
-        cache_key = f"ai_analysis:{finding.id}"
-        
-        # Check cache first
-        cached_analysis = CacheManager.get(cache_key)
-        if cached_analysis:
-            return json.loads(cached_analysis)
+    def get(self, key: str) -> Any:
+        encrypted_value = super().get(key)
+        if encrypted_value:
+            return self.cipher.decrypt(encrypted_value.encode()).decode()
+        return None
 
+# AI Client Interface
+class AIClient(ABC):
+    @abstractmethod
+    async def get_response(self, prompt: str) -> str:
+        pass
+
+# OpenAI Client
+class OpenAIClient(AIClient):
+    def __init__(self, api_key: str, model: str, temperature: float, max_tokens: int, session: aiohttp.ClientSession):
+        self.api_key = api_key
+        self.model = model
+        self.temperature = temperature
+        self.max_tokens = max_tokens
+        self.session = session
+
+    async def get_response(self, prompt: str) -> str:
+        # Implement OpenAI API call here
+        pass
+
+# CodeGPT Client
+class CodeGPTClient(AIClient):
+    def __init__(self, api_key: str, temperature: float, max_tokens: int, session: aiohttp.ClientSession):
+        self.api_key = api_key
+        self.temperature = temperature
+        self.max_tokens = max_tokens
+        self.session = session
+
+    async def get_response(self, prompt: str) -> str:
+        headers = {
+            'Authorization': f'Bearer {self.api_key}',
+            'Content-Type': 'application/json'
+        }
+        data = {
+            'messages': [{"role": "user", "content": prompt}],
+            'temperature': self.temperature,
+            'max_tokens': self.max_tokens
+        }
+        async with self.session.post('https://api.codegpt.co/v1/chat/completions', headers=headers, json=data) as response:
+            if response.status != 200:
+                error_data = await response.json()
+                raise Exception(f"CodeGPT API error: {error_data.get('error', {}).get('message', 'Unknown error')}")
+            result = await response.json()
+            return result['choices'][0]['message']['content']
+
+# AI System
+class AISystem:
+    def __init__(self, config_manager: ConfigManager, ai_client: AIClient, cache_client: redis.Redis):
+        self.logger = logging.getLogger('BugHunter.AISystem')
+        self.config_manager = config_manager
+        self.ai_client = ai_client
+        self.cache_client = cache_client
+        self.rate_limiter = asyncio.Semaphore(5)  # Example rate limiter
+
+        # Metrics
+        self.request_counter = Counter('ai_requests_total', 'Total number of AI requests')
+        self.error_counter = Counter('ai_errors_total', 'Total number of AI errors')
+        self.response_time_histogram = Histogram('ai_response_time_seconds', 'AI response time in seconds')
+
+        # Start Prometheus metrics server
+        start_http_server(8000)
+
+    async def get_response(self, prompt: str) -> Optional[str]:
+        async with self.rate_limiter:
+            self.request_counter.inc()
+            with self.response_time_histogram.time():
+                try:
+                    cached_response = self.cache_client.get(prompt)
+                    if cached_response:
+                        return cached_response.decode()
+                    response = await self.ai_client.get_response(prompt)
+                    self.cache_client.set(prompt, response, ex=3600)  # Cache for 1 hour
+                    return response
+                except Exception as e:
+                    self.error_counter.inc()
+                    self.logger.error(f"Exception in get_response: {str(e)}")
+                    return None
+
+    async def analyze_code(self, code: str) -> Optional[Dict[str, str]]:
         try:
-            # Prepare context for AI
-            context = {
-                'type': finding.type,
-                'severity': finding.severity.value,
-                'description': finding.description,
-                'details': finding.details
-            }
+            response = await self.get_response(f"Analyze this code: {code}")
+            return json.loads(response) if response else None
+        except Exception as e:
+            self.logger.error(f"Failed to analyze code: {str(e)}")
+            return None
 
-            # Generate prompt
-            prompt = self._generate_analysis_prompt(context)
+    async def explain_vulnerability(self, vulnerability: str) -> Optional[str]:
+        try:
+            return await self.get_response(f"Explain this vulnerability in simple terms: {vulnerability}")
+        except Exception as e:
+            self.logger.error(f"Failed to explain vulnerability: {str(e)}")
+            return None
 
-            # Get AI analysis
-            if self.api_type == 'openai':
-                analysis = await self._get_openai_analysis(prompt)
-            else:
-                analysis = await self._get_codegpt_analysis(prompt)
+    async def shutdown(self):
+        self.logger.info("Shutting down AISystem...")
+        await self.ai_client.session.close()
 
-            # Cache the result
-            CacheManager.set(
-                cache_key,
-                json.dumps(analysis),
-                expire=self.cache_ttl * 60
+# Factory for AI Clients
+class AIClientFactory:
+    @staticmethod
+    async def create_client(api_type: str, config: Dict[str, Any], session: aiohttp.ClientSession) -> AIClient:
+        if api_type == 'openai':
+            return OpenAIClient(
+                api_key=config['openai_api_key'],
+                model=config.get('ai_model', 'gpt-4'),
+                temperature=config.get('ai_temperature', 0.7),
+                max_tokens=config.get('max_tokens', 2000),
+                session=session
             )
-
-            return analysis
-
-        except Exception as e:
-            logger.error(f"AI analysis failed: {str(e)}", exc_info=True)
-            return {
-                'success': False,
-                'message': f'AI analysis failed: {str(e)}'
-            }
-
-    async def suggest_fixes(self, finding: Finding) -> Dict[str, Any]:
-        """Get AI-suggested fixes for a vulnerability"""
-        try:
-            context = {
-                'type': finding.type,
-                'severity': finding.severity.value,
-                'description': finding.description,
-                'details': finding.details
-            }
-
-            prompt = self._generate_fix_prompt(context)
-
-            if self.api_type == 'openai':
-                suggestions = await self._get_openai_analysis(prompt)
-            else:
-                suggestions = await self._get_codegpt_analysis(prompt)
-
-            return suggestions
-
-        except Exception as e:
-            logger.error(f"Failed to get fix suggestions: {str(e)}", exc_info=True)
-            return {
-                'success': False,
-                'message': f'Failed to get fix suggestions: {str(e)}'
-            }
-
-    async def analyze_scan_results(self, scan_id: str) -> Dict[str, Any]:
-        """Analyze complete scan results using AI"""
-        with DatabaseManager.get_session() as session:
-            scan = session.query(ScanResult).filter_by(scan_id=scan_id).first()
-            if not scan:
-                return {
-                    'success': False,
-                    'message': 'Scan not found'
-                }
-
-            findings = scan.findings
-
-            try:
-                # Prepare context for AI
-                context = {
-                    'target_url': scan.target_url,
-                    'findings': [
-                        {
-                            'type': f.type,
-                            'severity': f.severity.value,
-                            'description': f.description,
-                            'details': f.details
-                        }
-                        for f in findings
-                    ]
-                }
-
-                prompt = self._generate_scan_analysis_prompt(context)
-
-                if self.api_type == 'openai':
-                    analysis = await self._get_openai_analysis(prompt)
-                else:
-                    analysis = await self._get_codegpt_analysis(prompt)
-
-                return analysis
-
-            except Exception as e:
-                logger.error(f"Scan analysis failed: {str(e)}", exc_info=True)
-                return {
-                    'success': False,
-                    'message': f'Scan analysis failed: {str(e)}'
-                }
-
-    async def get_security_recommendations(self, target_url: str) -> Dict[str, Any]:
-        """Get AI-powered security recommendations"""
-        try:
-            prompt = self._generate_recommendations_prompt(target_url)
-
-            if self.api_type == 'openai':
-                recommendations = await self._get_openai_analysis(prompt)
-            else:
-                recommendations = await self._get_codegpt_analysis(prompt)
-
-            return recommendations
-
-        except Exception as e:
-            logger.error(f"Failed to get recommendations: {str(e)}", exc_info=True)
-            return {
-                'success': False,
-                'message': f'Failed to get recommendations: {str(e)}'
-            }
-
-    async def _get_openai_analysis(self, prompt: str) -> Dict[str, Any]:
-        """Get analysis from OpenAI API"""
-        try:
-            response = await openai.ChatCompletion.acreate(
-                model=self.model,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=self.temperature
+        elif api_type == 'codegpt':
+            return CodeGPTClient(
+                api_key=config['codegpt_api_key'],
+                temperature=config.get('ai_temperature', 0.7),
+                max_tokens=config.get('max_tokens', 2000),
+                session=session
             )
+        else:
+            raise ValueError(f"Unsupported API type: {api_type}")
 
-            return {
-                'success': True,
-                'analysis': response.choices[0].message.content
-            }
+# Usage 
+async def main():
+    encryption_key = os.getenv('ENCRYPTION_KEY')
+    config_manager = SecureConfigManager(Path('src/config/ai_config.json'), encryption_key)
+    config = config_manager.get('ai_config')
+    cache_client = redis.Redis(host='localhost', port=6379, db=0)
+    async with aiohttp.ClientSession() as session:
+        ai_client = await AIClientFactory.create_client(config['ai_api_type'], config, session)
+        ai_system = AISystem(config_manager, ai_client, cache_client)
 
-        except Exception as e:
-            logger.error(f"OpenAI API error: {str(e)}", exc_info=True)
-            raise
+        app = QApplication(sys.argv)
+        loop = qasync.QEventLoop(app)
+        asyncio.set_event_loop(loop)
 
-    async def _get_codegpt_analysis(self, prompt: str) -> Dict[str, Any]:
-        """Get analysis from CodeGPT API"""
-        try:
-            async with aiohttp.ClientSession() as session:
-                headers = {
-                    'Authorization': f'Bearer {self.api_key}',
-                    'Content-Type': 'application/json'
-                }
-                
-                data = {
-                    'messages': [
-                        {
-                            'role': 'user',
-                            'content': prompt
-                        }
-                    ],
-                    'temperature': self.temperature,
-                    'max_tokens': config.get('AI_MAX_TOKENS', 2000)
-                }
+        main_window = MainWindow(ai_system)
+        main_window.show()
 
-                async with session.post(
-                    'https://api.codegpt.co/v1/chat/completions',
-                    headers=headers,
-                    json=data
-                ) as response:
-                    result = await response.json()
+        with loop:
+            loop.run_forever()
 
-                    if response.status != 200:
-                        logger.error(f"CodeGPT API error: {result}")
-                        return {
-                            'success': False,
-                            'message': result.get('error', {}).get('message', 'Unknown error')
-                        }
-
-                    return {
-                        'success': True,
-                        'analysis': result['choices'][0]['message']['content']
-                    }
-
-        except Exception as e:
-            logger.error(f"CodeGPT API error: {str(e)}", exc_info=True)
-            raise
-
-    def _generate_analysis_prompt(self, context: Dict[str, Any]) -> str:
-        """Generate prompt for vulnerability analysis"""
-        return f"""
-        Analyze the following vulnerability:
-        Type: {context['type']}
-        Severity: {context['severity']}
-        Description: {context['description']}
-        Details: {context['details']}
-
-        Please provide:
-        1. A detailed analysis of the vulnerability
-        2. Potential impact on the system
-        3. Common attack vectors
-        4. Detection methods
-        5. Risk assessment
-        """
-
-    def _generate_fix_prompt(self, context: Dict[str, Any]) -> str:
-        """Generate prompt for fix suggestions"""
-        return f"""
-        Suggest fixes for the following vulnerability:
-        Type: {context['type']}
-        Severity: {context['severity']}
-        Description: {context['description']}
-        Details: {context['details']}
-
-        Please provide:
-        1. Immediate mitigation steps
-        2. Long-term fixes
-        3. Best practices to prevent similar vulnerabilities
-        4. Code examples or configuration changes if applicable
-        5. Testing procedures to verify the fix
-        """
-
-    def _generate_scan_analysis_prompt(self, context: Dict[str, Any]) -> str:
-        """Generate prompt for scan results analysis"""
-        findings_text = "\n".join([f"- {f['type']} ({f['severity']}): {f['description']}" for f in context['findings']])
-
-        return f"""
-        Analyze the security scan results for {context['target_url']}:
-
-        Findings:
-        {findings_text}
-
-        Please provide:
-        1. Overall security assessment
-        2. Critical issues requiring immediate attention
-        3. Common patterns or systemic issues
-        4. Prioritized remediation plan
-        5. Strategic recommendations for improving security posture
-        """
-
-    def _generate_recommendations_prompt(self, target_url: str) -> str:
-        """Generate prompt for security recommendations"""
-        return f"""
-        Provide security recommendations for {target_url}:
-
-        Please include:
-        1. Security best practices specific to this type of target
-        2. Common vulnerabilities to check
-        3. Recommended security controls
-        4. Testing strategies
-        5. Monitoring and maintenance recommendations
-        """
+if __name__ == "__main__":
+    asyncio.run(main())

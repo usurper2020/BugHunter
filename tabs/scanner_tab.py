@@ -1,4 +1,3 @@
-
 """
 Scanner Tab Module
 
@@ -35,8 +34,8 @@ class ScannerTab(QWidget):
     
     def __init__(self):
         super().__init__()
+        self.scanner = VulnerabilityScanner()  # Initialize scanner first
         self.init_ui()
-        self.scanner = VulnerabilityScanner()
 
     def init_ui(self):
         """Initialize the UI components."""
