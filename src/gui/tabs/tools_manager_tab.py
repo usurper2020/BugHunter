@@ -79,12 +79,6 @@ class ToolManagerTab(QWidget):
         header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
         layout.addWidget(self.results_table)
 
-        # Progress bar
-        self.progress_bar = QProgressBar()
-        self.progress_bar.setVisible(False)
-        layout.addWidget(self.progress_bar)
-
-        # Status bar
         self.status_bar = QLabel()
         self.status_bar.setStyleSheet("color: #2196f3; font-weight: bold;")
         layout.addWidget(self.status_bar)
