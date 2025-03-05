@@ -10,7 +10,9 @@ setup(
         'sqlalchemy',
         'psycopg2',
         'bcrypt',
-        'python-dateutil'
+        'python-dateutil',
+        'graphviz'
+
     ],
     entry_points={
         'console_scripts': [

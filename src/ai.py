@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""
+AI module documentation
+"""
+
 import re
 from typing import Dict, List, Optional
 

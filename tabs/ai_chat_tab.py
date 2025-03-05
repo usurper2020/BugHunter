@@ -8,6 +8,20 @@ an interface for interacting with the AI system.
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QTextEdit, QPushButton
 from services.ai_system import AISystem
 
+
+class AIChatTab(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.init_ui()
+        self.ai_system = AISystem()
+
+    def init_ui(self):
+        layout = QVBoxLayout()
+        self.chat_history = QTextEdit()
+        self.chat_history.setReadOnly
+
+
+
 class AIChatTab(QWidget):
     """
     Tab widget providing AI chatbot functionality.

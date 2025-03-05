@@ -7,10 +7,16 @@ import logging
 from typing import List, Dict, Optional
 import json
 
+
 class ScanningProfiles:
     """Manages scanning profiles and configurations"""
-    
+
+    def initialize(self):
+        """Initialize the scanning profiles system."""
+        self.logger.info("ScanningProfiles initialized.")
+
     def __init__(self, config_manager):
+
         self.logger = logging.getLogger('BugHunter.ScanningProfiles')
         self.config_manager = config_manager
         self.profiles = {
@@ -31,36 +37,36 @@ class ScanningProfiles:
                 'techniques': []
             }
         }
-        
+
     def create_profile(self, profile_name: str, config: Dict[str, any]) -> bool:
         """
         Create a new scanning profile
-        
+
         Args:
             profile_name: Name of the profile to create
             config: Configuration dictionary for the profile
-            
+
         Returns:
             True if successful, False otherwise
         """
         try:
             if profile_name in self.profiles:
                 raise ValueError(f"Profile '{profile_name}' already exists")
-                
+
             self.profiles[profile_name] = config
             self.logger.info(f"Created profile '{profile_name}'")
             return True
         except Exception as e:
             self.logger.error(f"Failed to create profile: {str(e)}")
             return False
-            
+
     def get_profile(self, profile_name: str) -> Optional[Dict[str, any]]:
         """
         Get a scanning profile
-        
+
         Args:
             profile_name: Name of the profile to retrieve
-            
+
         Returns:
             Profile configuration if found, None otherwise
         """
@@ -69,68 +75,69 @@ class ScanningProfiles:
         except Exception as e:
             self.logger.error(f"Failed to get profile: {str(e)}")
             return None
-            
+
     def update_profile(self, profile_name: str, config: Dict[str, any]) -> bool:
         """
         Update a scanning profile
-        
+
         Args:
             profile_name: Name of the profile to update
             config: New configuration dictionary for the profile
-            
+
         Returns:
             True if successful, False otherwise
         """
         try:
             if profile_name not in self.profiles:
                 raise ValueError(f"Profile '{profile_name}' does not exist")
-                
+
             self.profiles[profile_name] = config
             self.logger.info(f"Updated profile '{profile_name}'")
             return True
         except Exception as e:
             self.logger.error(f"Failed to update profile: {str(e)}")
             return False
-            
+
     def delete_profile(self, profile_name: str) -> bool:
         """
         Delete a scanning profile
-        
+
         Args:
             profile_name: Name of the profile to delete
-            
+
         Returns:
             True if successful, False otherwise
         """
         try:
             if profile_name not in self.profiles:
                 raise ValueError(f"Profile '{profile_name}' does not exist")
-                
+
             del self.profiles[profile_name]
             self.logger.info(f"Deleted profile '{profile_name}'")
             return True
         except Exception as e:
             self.logger.error(f"Failed to delete profile: {str(e)}")
             return False
-            
+
     def export_profile(self, profile_name: str, output_path: str) -> bool:
         """
         Export a scanning profile to a file
-        
+
         Args:
             profile_name: Name of the profile to export
             output_path: Path to save the exported profile
-            
+
         Returns:
             True if successful, False otherwise
         """
         try:
             if profile_name not in self.profiles:
                 raise ValueError(f"Profile '{profile_name}' does not exist")
-                
+
             with open(output_path, 'w') as f:
                 json.dump(self.profiles[profile_name], f)
-            self.logger.info(f"Exported profile '{profile_name}' to {output_path}")
+            self.logger.info(
+                f"Exported profile '{profile_name}' to {output_path}")
             return True
         except Exception as e:
             self.logger.error(f"Failed to export profile: {str(e)}")

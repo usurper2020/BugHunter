@@ -8,12 +8,17 @@ from typing import Optional, Dict
 from src.models.security_event import SecurityEvent
 from src.services.auth_service import AuthService
 
+
 class Notification:
     """Handles notifications and alerts"""
-    
+
     def __init__(self, auth_service: AuthService):
         self.logger = logging.getLogger('BugHunter.Notification')
         self.auth_service = auth_service
+
+    def initialize(self):
+        """Initialize the notification system."""
+        self.logger.info("Notification system initialized.")
 
     def send_notification(self, user_id: int, message: str, level: str = "info") -> bool:
         """Send notification to specific user"""
@@ -23,9 +28,10 @@ class Notification:
             if not user:
                 self.logger.error(f"User {user_id} not found for notification")
                 return False
-                
+
             # Send notification (implementation depends on notification channel)
-            self.logger.info(f"Sent {level} notification to {user.username}: {message}")
+            self.logger.info(
+                f"Sent {level} notification to {user.username}: {message}")
             return True
         except Exception as e:
             self.logger.error(f"Failed to send notification: {str(e)}")
@@ -41,7 +47,7 @@ class Notification:
                 'successful_login': "Successful login from new device",
                 'user_registered': "New user registration completed"
             }
-            
+
             message = messages.get(event.event_type, "Security event occurred")
             return self.send_notification(event.user_id, message, "security")
         except Exception as e:

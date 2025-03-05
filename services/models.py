@@ -4,7 +4,7 @@ from sqlalchemy.sql import func
 import enum
 from datetime import datetime
 
-from database import Base
+from alembic.database import Base
 
 class UserRole(enum.Enum):
     """

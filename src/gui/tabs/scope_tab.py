@@ -1,164 +1,95 @@
-"""Scope tab implementation for the BugHunter application."""
+"""
+Scope Management Tab for BugHunter.
+"""
 
-from PyQt6.QtWidgets import (
-    QTextEdit, QPushButton, QHBoxLayout, QVBoxLayout,
-    QWidget, QLabel, QLineEdit, QGroupBox, QListWidget
-)
-from PyQt6.QtCore import Qt, pyqtSlot
-from services.scope_manager import ScopeManager
-from .base_tab import BaseTab
-import logging
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QListWidget, QMessageBox
+from PyQt6.QtCore import pyqtSignal
 
-class ScopeTab(BaseTab):
-    """Scope management interface tab"""
-    
-    def __init__(self, scope_manager: ScopeManager, parent=None):
-        self.scope_manager = scope_manager
-        self.logger = logging.getLogger('BugHunter.ScopeTab')
-        self.logger.debug("Initializing ScopeTab")
-        super().__init__(parent)
+class ScopeTab(QWidget):
+    scope_updated = pyqtSignal(list)
+    status_message = pyqtSignal(str)
 
+    def __init__(self):
+        """Initialize the scope management tab."""
+        super().__init__()
+        self.init_ui()
+        self.connect_signals()
 
- 
-    def _setup_ui(self):
-        """Setup the UI components"""
-        # Create scope list section
-        scope_group = QGroupBox("Current Scope")
-        scope_layout = QVBoxLayout()
-        scope_group.setLayout(scope_layout)
-        
+    def init_ui(self):
+        """Initialize the user interface components."""
+        layout = QVBoxLayout()
+
+        # Scope list
         self.scope_list = QListWidget()
-        self._refresh_scope_list()
-        scope_layout.addWidget(self.scope_list)
-        
-        # Create scope management section
-        management_group = QGroupBox("Scope Management")
-        management_layout = QVBoxLayout()
-        management_group.setLayout(management_layout)
-        
+        layout.addWidget(QLabel("Current Scope:"))
+        layout.addWidget(self.scope_list)
+
+        # Scope input section
         input_layout = QHBoxLayout()
         self.scope_input = QLineEdit()
-        self.scope_input.setPlaceholderText("Enter new scope item...")
-        
-        self.add_button = QPushButton("Add")
-        self.add_button.clicked.connect(self._add_scope_item)
-        
-        self.remove_button = QPushButton("Remove Selected")
-        self.remove_button.clicked.connect(self._remove_scope_item)
-        
+        self.scope_input.setPlaceholderText("Enter new scope item (e.g., example.com)")
         input_layout.addWidget(self.scope_input)
+
+        self.add_button = QPushButton("Add")
         input_layout.addWidget(self.add_button)
-        management_layout.addLayout(input_layout)
-        management_layout.addWidget(self.remove_button)
-        
-        # Add status section
-        status_group = QGroupBox("Status")
-        status_layout = QVBoxLayout()
-        status_group.setLayout(status_layout)
-        
-        self.status_label = QLabel("Ready")
-        status_layout.addWidget(self.status_label)
-        
-        # Add all components to main layout
-        self.layout.addWidget(scope_group)
-        self.layout.addWidget(management_group)
-        self.layout.addWidget(status_group)
-        
-        self._update_status("Scope manager ready.")
-    
-    def _refresh_scope_list(self):
-        """Refresh the list of scope items"""
-        self.logger.debug("Refreshing scope list")
-        self.scope_list.clear()
-        try:
-            targets = self.scope_manager.get_targets('default_scope')
-            self.logger.debug(f"Retrieved {len(targets)} targets from scope manager")
-            if not targets:
-                self._update_status("No targets found in default scope")
-                self.logger.debug("No targets found in default scope")
-            for target in targets:
-                self.scope_list.addItem(target)
-                self.logger.debug(f"Added target to list: {target}")
-        except Exception as e:
-            error_msg = f"Error loading scope: {str(e)}"
-            self._update_status(error_msg)
-            self.logger.error(error_msg, exc_info=True)
 
+        self.remove_button = QPushButton("Remove Selected")
+        input_layout.addWidget(self.remove_button)
 
+        layout.addLayout(input_layout)
+        self.setLayout(layout)
 
+    def connect_signals(self):
+        """Connect UI signals to appropriate slots."""
+        self.add_button.clicked.connect(self.add_scope_item)
+        self.remove_button.clicked.connect(self.remove_scope_item)
 
-    
-    def _update_status(self, message: str):
-        """Update status message"""
-        self.status_label.setText(message)
-        self.logger.info(message)
-    
-    @pyqtSlot()
-    def _add_scope_item(self):
-        """Handle adding a new scope item"""
+    def add_scope_item(self):
+        """Add a new item to the scope list."""
         new_item = self.scope_input.text().strip()
-        self.logger.debug(f"Attempting to add scope item: {new_item}")
-        if not new_item:
-            msg = "Please enter a scope item"
-            self._update_status(msg)
-            self.logger.debug(msg)
-            return
-        
-        try:
-            # Validate the target format
-            if not self._validate_target(new_item):
-                msg = "Invalid target format"
-                self._update_status(msg)
-                self.logger.debug(msg)
-                return
-                
-            # Add target and refresh
-            if self.scope_manager.add_target(new_item):
-                self.logger.debug(f"Successfully added target: {new_item}")
-                self._refresh_scope_list()
-                self.scope_input.clear()
-                msg = f"Added '{new_item}' to scope"
-                self._update_status(msg)
-                self.logger.info(msg)
-            else:
-                msg = f"Failed to add '{new_item}'"
-                self._update_status(msg)
-                self.logger.warning(msg)
-        except Exception as e:
-            error_msg = f"Error adding scope item: {str(e)}"
-            self._update_status(error_msg)
-            self.logger.error(error_msg, exc_info=True)
+        if new_item:
+            self.scope_list.addItem(new_item)
+            self.scope_input.clear()
+            self.update_scope()
+            self.status_message.emit(f"Added scope item: {new_item}")
+        else:
+            QMessageBox.warning(self, "Invalid Input", "Please enter a valid scope item")
 
-
-    
-    @pyqtSlot()
-    def _remove_scope_item(self):
-        """Handle removing selected scope item"""
+    def remove_scope_item(self):
+        """Remove selected items from the scope list."""
         selected_items = self.scope_list.selectedItems()
-        if not selected_items:
-            self._update_status("Please select an item to remove")
-            return
-        
-        try:
+        if selected_items:
             for item in selected_items:
-                self.scope_manager.remove_target(item.text())
+                self.scope_list.takeItem(self.scope_list.row(item))
+                self.status_message.emit(f"Removed scope item: {item.text()}")
+            self.update_scope()
+        else:
+            QMessageBox.warning(self, "No Selection", "Please select items to remove")
 
-            self._refresh_scope_list()
-            self._update_status("Removed selected items from scope")
-        except Exception as e:
-            self._update_status(f"Error removing scope item: {str(e)}")
-            self.logger.error(f"Error removing scope item: {str(e)}")
-    
-    def _validate_target(self, target: str) -> bool:
-        """Validate target format"""
-        # Basic validation - could be expanded with regex
-        return bool(target and len(target) > 3 and '.' in target)
+    def get_scope(self):
+        """Get the current scope as a list of strings.
+        
+        Returns:
+            list: List of scope items.
+        """
+        return [self.scope_list.item(i).text() for i in range(self.scope_list.count())]
 
-    def refresh(self):
-        """Refresh tab content"""
-        try:
-            self._refresh_scope_list()
-            self._update_status("Scope manager refreshed.")
-        except Exception as e:
-            self._update_status(f"Error refreshing scope: {str(e)}")
-            self.logger.error(f"Error refreshing scope: {str(e)}")
+    def update_scope(self):
+        """Emit the updated scope list."""
+        current_scope = self.get_scope()
+        self.scope_updated.emit(current_scope)
+
+    def cleanup(self):
+        """Clean up resources before closing."""
+        self.scope_list.clear()
+
+    def load_scope(self, scope_items):
+        """Load scope items into the list.
+        
+        Args:
+            scope_items (list): List of scope items to load.
+        """
+        self.scope_list.clear()
+        for item in scope_items:
+            self.scope_list.addItem(item)
+        self.update_scope()

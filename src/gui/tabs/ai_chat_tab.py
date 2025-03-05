@@ -11,6 +11,20 @@ from services.vulnerability_scanner import VulnerabilityScanner
 from services.ai_system import AISystem
 from .base_tab import BaseTab
 
+
+class AIChatTab(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.init_ui()
+        self.ai_system = AISystem()
+
+    def init_ui(self):
+        layout = QVBoxLayout()
+        self.chat_history = QTextEdit()
+        self.chat_history.setReadOnly
+
+
+
 class AIChatTab(BaseTab):
     """AI Chat interface tab"""
     

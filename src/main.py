@@ -1,116 +1,279 @@
 """
-Entry point for the BugHunter application.
-Handles initialization of core services and GUI components.
+Main entry point for the BugHunter application.
+Enhanced version with integrated security tools and utilities.
 """
 
 import sys
+import os
 import logging
-from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox
+from pathlib import Path
+from PyQt6.QtWidgets import QApplication, QMessageBox
+from PyQt6.QtCore import Qt, QCoreApplication
+
+# Add project root to Python path
+project_root = Path(__file__).resolve().parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 
 from src.gui.main_window import MainWindow
-from src.gui.login_dialog import LoginDialog
-from src.gui.theme import apply_dark_theme
-
-from src.services.simple_auth import SimpleAuth
 from src.services.config_manager import ConfigManager
-from src.services.notification import Notification
+from src.services.database import DatabaseManager
+from src.services.user_auth import UserAuth
 from src.services.tool_manager import ToolManager
 from src.services.vulnerability_scanner import VulnerabilityScanner
 from src.services.ai_system import AISystem
 from src.services.collaboration_system import CollaborationSystem
 from src.services.analytics_system import AnalyticsSystem
+from src.services.wayback_machine_integration import WaybackMachineIntegration
+from src.services.shodan_integration import ShodanIntegration
+from src.services.notification import NotificationSystem
+from src.services.chat_system import ChatSystem
 from src.services.scope_manager import ScopeManager
 from src.services.role_manager import RoleManager
 from src.services.scanning_profiles import ScanningProfiles
 from src.services.vulnerability_database import VulnerabilityDatabase
-from src.services.wayback_machine_integration import WaybackMachineIntegration
-from src.services.shodan_integration import ShodanIntegration
+from src.logger_config import logger_config
+from src.bughunterAI import NucleiKnowledgeBase, WebsiteScanner  # Import the new classes
 
-def setup_logging():
-    """Configure logging for the application"""
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        handlers=[
-            logging.FileHandler('logs/bughunter.log'),
-            logging.StreamHandler()
+class BugHunterApp:
+    """
+    Main application class for BugHunter.
+    Initializes and manages all components and services.
+    """
+    def __init__(self):
+        """
+        Initialize the BugHunter application.
+        Sets up the QApplication, logging, and core managers.
+        """
+        self.app = QApplication(sys.argv)
+        self.logger = logging.getLogger('BugHunter.App')
+        
+        # Enable High DPI support
+        QCoreApplication.setAttribute(Qt.ApplicationAttribute.AA_EnableHighDpiScaling)
+        QCoreApplication.setAttribute(Qt.ApplicationAttribute.AA_UseHighDpiPixmaps)
+        
+        # Initialize core managers
+        self.config_manager = ConfigManager()
+        self.db_manager = DatabaseManager()
+        self.auth_manager = UserAuth()
+        
+        # Initialize security tools
+        self.tool_manager = ToolManager()
+        self.vulnerability_scanner = VulnerabilityScanner()
+        self.ai_system = AISystem()
+        self.collaboration_system = CollaborationSystem()
+        self.analytics_system = AnalyticsSystem()
+        
+        # Initialize additional services
+        self.notification_system = NotificationSystem()
+        self.chat_system = ChatSystem()
+        self.scope_manager = ScopeManager()
+        self.role_manager = RoleManager()
+        self.scanning_profiles = ScanningProfiles()
+        self.vulnerability_database = VulnerabilityDatabase()
+        self.wayback_integration = WaybackMachineIntegration()
+        self.shodan_integration = ShodanIntegration()
+        
+        # Initialize the Nuclei knowledge base and website scanner
+        self.kb = NucleiKnowledgeBase()
+        self.kb.load_templates(self.config_manager.get_config('nuclei_templates_path'))
+        self.kb.create_vector_db()
+        self.website_scanner = WebsiteScanner(self.kb)
+
+    def initialize(self):
+        """
+        Initialize the application and all its components.
+        Creates required directories, sets up the application style,
+        initializes the database, services, and loads configurations.
+        """
+        try:
+            # Create required directories
+            self._create_directories()
+            
+            # Setup application style
+            self._setup_application_style()
+            
+            # Initialize database
+            self.db_manager.initialize()
+            
+            # Initialize all services
+            self._initialize_services()
+            
+            # Load configurations
+            self._load_configurations()
+            
+            # Create main window with all services
+            self.window = MainWindow(
+                config_manager=self.config_manager,
+                db_manager=self.db_manager,
+                auth_manager=self.auth_manager,
+                tool_manager=self.tool_manager,
+                vulnerability_scanner=self.vulnerability_scanner,
+                ai_system=self.ai_system,
+                collaboration_system=self.collaboration_system,
+                analytics_system=self.analytics_system,
+                notification_system=self.notification_system,
+                chat_system=self.chat_system,
+                scope_manager=self.scope_manager,
+                role_manager=self.role_manager,
+                scanning_profiles=self.scanning_profiles,
+                vulnerability_database=self.vulnerability_database,
+                wayback_integration=self.wayback_integration,
+                shodan_integration=self.shodan_integration,
+                website_scanner=self.website_scanner  # Pass the website scanner
+            )
+            
+            self.logger.info("Application initialized successfully")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to initialize application: {str(e)}", exc_info=True)
+            QMessageBox.critical(
+                None,
+                "Initialization Error",
+                f"Failed to initialize application: {str(e)}"
+            )
+            return False
+    
+    def _create_directories(self):
+        """
+        Create necessary application directories.
+        """
+        directories = [
+            'logs',
+            'data',
+            'reports',
+            'tools',
+            'cache',
+            'config',
+            'temp',
+            'downloads',
+            'uploads',
+            'backups',
+            'profiles',
+            'templates',
+            'assets/icons',
+            'assets/styles',
+            'assets/templates'
         ]
-    )
-    return logging.getLogger('BugHunter')
-
-def initialize_services():
-    """Initialize all required services"""
-    services = {}
+        
+        for directory in directories:
+            os.makedirs(directory, exist_ok=True)
+        self.logger.info("Application directories created")
     
-    # Initialize core services
-    services['config_manager'] = ConfigManager()
-    services['auth_manager'] = SimpleAuth()
-    services['notification_system'] = Notification(services['auth_manager'])
-
-    services['tool_manager'] = ToolManager(services['config_manager'])
-    services['vulnerability_scanner'] = VulnerabilityScanner(services['config_manager'])
-    services['ai_system'] = AISystem(services['config_manager'])
-    services['collaboration_system'] = CollaborationSystem(services['config_manager'])
-    services['analytics_system'] = AnalyticsSystem(services['config_manager'])
-    services['scope_manager'] = ScopeManager(services['config_manager'])
-    services['role_manager'] = RoleManager(services['config_manager'])
-    services['scanning_profiles'] = ScanningProfiles(services['config_manager'])
-    services['vulnerability_database'] = VulnerabilityDatabase(services['config_manager'])
-    services['wayback_integration'] = WaybackMachineIntegration(services['config_manager'])
-    services['shodan_integration'] = ShodanIntegration(services['config_manager'])
+    def _initialize_services(self):
+        """
+        Initialize all application services.
+        """
+        try:
+            # Initialize core services
+            self.ai_system.initialize()
+            self.collaboration_system.initialize()
+            self.analytics_system.initialize()
+            
+            # Initialize security tools
+            self.tool_manager.initialize()
+            self.vulnerability_scanner.initialize()
+            self.vulnerability_database.initialize()
+            
+            # Initialize additional services
+            self.notification_system.initialize()
+            self.chat_system.initialize()
+            self.scope_manager.initialize()
+            self.role_manager.initialize()
+            self.scanning_profiles.initialize()
+            self.wayback_integration.initialize()
+            self.shodan_integration.initialize()
+            
+            self.logger.info("All services initialized successfully")
+            
+        except Exception as e:
+            self.logger.error(f"Service initialization failed: {str(e)}")
+            raise
     
-    return services
+    def _load_configurations(self):
+        """
+        Load all configuration files.
+        """
+        try:
+            # Load main configurations
+            self.config_manager.load_config('config.json')
+            self.config_manager.load_config('config/system_config.json')
+            
+            # Load tool configurations
+            self.config_manager.load_config('tools.yml')
+            self.config_manager.load_config('nuclei.yaml')
+            self.config_manager.load_config('amass.ini')
+            
+            # Load scanning profiles
+            self.scanning_profiles.load_profiles('scanning_profiles.json')
+            
+            self.logger.info("All configurations loaded successfully")
+            
+        except Exception as e:
+            self.logger.error(f"Configuration loading failed: {str(e)}")
+            raise
+    
+    def _setup_application_style(self):
+        """
+        Setup application-wide style and theme.
+        """
+        self.app.setStyle('Fusion')
+        self.app.setApplicationName("BugHunter")
+        self.app.setApplicationVersion("2.0.0")
+        
+        # Load and apply application stylesheet
+        try:
+            with open('assets/styles/dark_theme.qss', 'r') as style_file:
+                self.app.setStyleSheet(style_file.read())
+        except Exception as e:
+            self.logger.warning(f"Could not load stylesheet: {str(e)}")
+    
+    def run(self):
+        """
+        Run the application.
+        """
+        try:
+            if not self.initialize():
+                return 1
+                
+            self.window.show()
+            return self.app.exec()
+            
+        except Exception as e:
+            self.logger.error(f"Application error: {str(e)}", exc_info=True)
+            QMessageBox.critical(
+                None,
+                "Fatal Error",
+                f"Application error: {str(e)}"
+            )
+            return 1
 
 def main():
-    """Main entry point of the application"""
-    # Initialize logging
-    logger = setup_logging()
-    logger.info("Starting BugHunter application")
-    
-    # Create Qt application
-    app = QApplication(sys.argv)
-    app.setApplicationName("BugHunter")
-    apply_dark_theme(app)
-
-    # Initialize services
-    services = initialize_services()
-    logger.info("Services initialized successfully")
-    
-    # Show login dialog
-    login_dialog = LoginDialog(services['auth_manager'])
-    if login_dialog.exec() == QDialog.DialogCode.Accepted:
-        try:
-            # Create and show main window
-            main_window = MainWindow(
-
-            config_manager=services['config_manager'],
-            auth_manager=services['auth_manager'],
-            tool_manager=services['tool_manager'],
-            vulnerability_scanner=services['vulnerability_scanner'],
-            ai_system=services['ai_system'],
-            collaboration_system=services['collaboration_system'],
-            analytics_system=services['analytics_system'],
-            notification_system=services['notification_system'],
-            scope_manager=services['scope_manager'],
-            role_manager=services['role_manager'],
-            scanning_profiles=services['scanning_profiles'],
-            vulnerability_database=services['vulnerability_database'],
-            wayback_integration=services['wayback_integration'],
-            shodan_integration=services['shodan_integration']
-            )
-            main_window.show()
-            logger.info("Main window displayed")
-            
-            # Start the application event loop
-            sys.exit(app.exec())
-        except Exception as e:
-            logger.error(f"Failed to initialize main window: {str(e)}")
-            QMessageBox.critical(None, "Fatal Error", 
-                f"Failed to initialize application: {str(e)}")
-            sys.exit(1)
-
-    else:
-        logger.info("Login failed, closing application")
+    """
+    Main entry point of the application.
+    Sets up logging and runs the BugHunter application.
+    """
+    try:
+        # Setup logging
+        logger_config.setup_logging()
+        logger = logging.getLogger('BugHunter')
+        logger.info("Starting BugHunter application")
+        
+        # Create and run application
+        app = BugHunterApp()
+        exit_code = app.run()
+        
+        logger.info(f"Application exiting with code: {exit_code}")
+        sys.exit(exit_code)
+        
+    except Exception as e:
+        logging.error(f"Fatal error: {str(e)}", exc_info=True)
+        QMessageBox.critical(
+            None,
+            "Fatal Error",
+            f"Fatal application error: {str(e)}"
+        )
         sys.exit(1)
 
 if __name__ == "__main__":

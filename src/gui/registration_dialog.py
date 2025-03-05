@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
-from ..services.simple_auth import SimpleAuth
+from src.services.simple_auth import SimpleAuth  # Changed from relative import
 
 
 class RegistrationDialog(QDialog):

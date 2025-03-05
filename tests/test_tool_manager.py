@@ -89,6 +89,24 @@ def test_list_tools(tool_manager):
     }
     result = tool_manager.list_tools()
     assert 'test_tool' in result
+import unittest
+from src.services.tool_manager import ToolManager
+
+class TestToolManager(unittest.TestCase):
+    def setUp(self):
+        self.tool_manager = ToolManager()
+    
+    def test_execute_tool_success(self):
+        result = self.tool_manager.execute_tool('echo', ['hello'])
+        self.assertEqual(result['status'], 'success')
+        self.assertIn('hello', result['stdout'])
+    
+    def test_execute_tool_failure(self):
+        result = self.tool_manager.execute_tool('nonexistent_tool', [])
+        self.assertEqual(result['status'], 'error')
+
+if __name__ == '__main__':
+    unittest.main()
 
 
 # tests/test_tool_manager.py

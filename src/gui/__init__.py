@@ -19,7 +19,7 @@ def get_application():
     return app
 
 # Import GUI components after QApplication is initialized
-from .login_dialog import LoginDialog
-from .main_window import MainWindow
+from src.gui.login_dialog import LoginDialog  # Changed from relative import
+from src.gui.main_window import MainWindow  # Changed from relative import
 
 __all__ = ['MainWindow', 'LoginDialog', 'get_application']

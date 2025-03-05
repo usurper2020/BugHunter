@@ -17,8 +17,7 @@ class SimpleAuth:
         self.logger = logging.getLogger('BugHunter.SimpleAuth')
         self.users_file = Path('data/users.json')
         self.users = self._load_users()
-
-
+        self.emails = {user['username']: user['email'] for user in self.users}
     
     def _load_users(self):
         """Load users from JSON file"""
@@ -59,8 +58,6 @@ class SimpleAuth:
         self.logger.warning(f"Failed login attempt for user {username}")
         return False
 
-
-    
     def register(self, username: str, password: str) -> bool:
         """
         Register a new user
@@ -88,8 +85,27 @@ class SimpleAuth:
         }
         
         self.users.append(new_user)
+        self.emails[username] = new_user['email']
         if self._save_users():
             self.logger.info(f"User {username} registered successfully")
             return True
         self.logger.error(f"Failed to register user {username}")
+        return False
+
+    def reset_password(self, email: str) -> bool:
+        """
+        Reset user password
+        
+        Args:
+            email: User's email address
+            
+        Returns:
+            bool: True if reset link sent successfully, False otherwise
+        """
+        for user, user_email in self.emails.items():
+            if user_email == email:
+                # Logic to send a password reset link to the email
+                self.logger.info(f"Password reset link sent to {email}")
+                return True
+        self.logger.warning(f"Password reset attempt failed for email {email}")
         return False

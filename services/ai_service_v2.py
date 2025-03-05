@@ -7,7 +7,7 @@ from datetime import datetime
 
 from config import config
 from logger_config import logger_config
-from database import DatabaseManager, CacheManager
+from alembic.database import DatabaseManager, CacheManager
 from src.models import Finding, ScanResult, SeverityLevel
 
 logger = logger_config.get_logger(__name__)

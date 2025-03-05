@@ -51,6 +51,7 @@ class CodeBreaker:
         }
         # Breakpoint after retrieving status
         breakpoint()
+        
     def _get_logger(self):
         """
         Get a logger instance.
@@ -68,29 +69,5 @@ class CodeBreaker:
         return logger
 
     async def explain_vulnerability(self, vulnerability: str) -> Optional[str]:
-
-    async def explain_vulnerability(self, vulnerability: str) -> Optional[str]:
-        try:
-            # Breakpoint before creating session
-            breakpoint()
-            async with aiohttp.ClientSession() as session:
-                # Breakpoint before sending request
-                breakpoint()
-                async with session.post(self.api_url, json={"vulnerability": vulnerability}) as response:
-                    # Breakpoint after receiving response
-                    breakpoint()
-                    data = await response.json()
-                    if response.status == 200:
-                        # Breakpoint before returning successful response
-                        breakpoint()
-                        return data.get('response')
-                    else:
-                        self.logger.error(f"API request failed with status {response.status}")
-                        # Breakpoint before returning None on failure
-                        breakpoint()
-                        return None
-        except Exception as e:
-            self.logger.error(f"Failed to get response from AI API: {str(e)}")
-            # Breakpoint before returning None on exception
-            breakpoint()
-            return None
+        # Placeholder for the implementation
+        return f"Explaining vulnerability: {vulnerability}"

@@ -11,26 +11,20 @@ import secrets
 
 
 class Config:
-    def __init__(self):
-        # Breakpoint to verify configuration loading
-        breakpoint()
-
-
-class Config:
     """Configuration management class"""
-    
+
     def __init__(self):
         self.config_path = Path(__file__).parent / "config.json"
         self.load_config()
-        
+
     def load_config(self):
         """Load configuration from file"""
         if not self.config_path.exists():
             self.create_default_config()
-            
+
         with open(self.config_path) as f:
             self.config = json.load(f)
-            
+
     def create_default_config(self):
         """Create default configuration file"""
         default_config = {
@@ -56,10 +50,10 @@ class Config:
                 "LOG_ROTATION_DAYS": 7
             }
         }
-        
+
         with open(self.config_path, 'w') as f:
             json.dump(default_config, f, indent=4)
-            
+
     def get(self, key: str, default=None) -> Any:
         """Get configuration value"""
         keys = key.split('.')
@@ -70,6 +64,7 @@ class Config:
             return value
         except KeyError:
             return default
+
 
 # Create global config instance
 config = Config()

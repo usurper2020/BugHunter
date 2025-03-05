@@ -8,12 +8,17 @@ from typing import List, Dict, Optional
 from datetime import datetime
 import json
 
+
 class AnalyticsSystem:
     """Provides data analysis and reporting features"""
-    
+
     def __init__(self, config_manager):
         self.logger = logging.getLogger('BugHunter.AnalyticsSystem')
         self.config_manager = config_manager
+
+    def initialize(self):
+        """Initialize the analytics system"""
+        self.analytics_data = []
 
     def get_metrics(self):
         """Get basic analytics metrics"""
@@ -31,15 +36,14 @@ class AnalyticsSystem:
 
         self.analytics_data = []
 
-        
     def track_event(self, event_type: str, metadata: Dict[str, any]) -> bool:
         """
         Track an analytics event
-        
+
         Args:
             event_type: Type of event to track
             metadata: Additional event metadata
-            
+
         Returns:
             True if successful, False otherwise
         """
@@ -55,14 +59,14 @@ class AnalyticsSystem:
         except Exception as e:
             self.logger.error(f"Failed to track event: {str(e)}")
             return False
-            
+
     def get_events(self, event_type: Optional[str] = None) -> List[Dict[str, any]]:
         """
         Get tracked events
-        
+
         Args:
             event_type: Optional filter for specific event type
-            
+
         Returns:
             List of event dictionaries
         """
@@ -73,14 +77,14 @@ class AnalyticsSystem:
         except Exception as e:
             self.logger.error(f"Failed to get events: {str(e)}")
             return []
-            
+
     def generate_report(self, report_type: str) -> Dict[str, any]:
         """
         Generate an analytics report
-        
+
         Args:
             report_type: Type of report to generate
-            
+
         Returns:
             Dictionary containing report data
         """
@@ -97,14 +101,14 @@ class AnalyticsSystem:
             return {
                 'error': str(e)
             }
-            
+
     def export_data(self, format: str = 'json') -> Optional[str]:
         """
         Export analytics data
-        
+
         Args:
             format: Export format (currently only 'json' supported)
-            
+
         Returns:
             Exported data as string, or None if failed
         """

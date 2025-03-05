@@ -9,6 +9,67 @@ from services.shodan_integration import ShodanIntegration
 from .base_tab import BaseTab
 import logging
 
+
+class ShodanTab(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.shodan_client = ShodanClient()
+        self.init_ui()
+        self.connect_signals()
+
+    def init_ui(self):
+        layout = QVBoxLayout()
+        search_layout = QHBoxLayout()
+        search_layout.addWidget(QLabel("Search Query:"))
+        self.search_input = QLineEdit()
+        self.search_input.setPlaceholderText("Enter search query")
+        search_layout.addWidget(self.search_input)
+        self.filter_combo = QComboBox()
+        self.filter_combo.addItems(["All", "Host", "Port", "Vulnerability"])
+        search_layout.addWidget(self.filter_combo)
+        self.search_button = QPushButton("Search")
+        search_layout.addWidget(self.search_button)
+        layout.addLayout(search_layout)
+        self.results_text = QTextEdit()
+        self.results_text.setReadOnly(True)
+        layout.addWidget(self.results_text)
+        self.setLayout(layout)
+
+    def connect_signals(self):
+        self.search_button.clicked.connect(self.perform_search)
+
+    def perform_search(self):
+        query = self.search_input.text().strip()
+        if not query:
+            QMessageBox.warning(self, "Invalid Input", "Please enter a search query")
+            return
+        try:
+            filter_type = self.filter_combo.currentText().lower()
+            results = self.shodan_client.search(query, filter_type)
+            self.display_results(results)
+        except Exception as e:
+            QMessageBox.critical(self, "Search Error", f"Failed to perform search: {str(e)}")
+
+    def display_results(self, results):
+        self.results_text.clear()
+        if not results:
+            self.results_text.setText("No results found")
+            return
+        result_text = "\n\n".join(
+            f"IP: {result.get('ip_str', 'N/A')}\n"
+            f"Port: {result.get('port', 'N/A')}\n"
+            f"Hostnames: {', '.join(result.get('hostnames', []))}\n"
+            f"Vulnerabilities: {', '.join(result.get('vulns', []))}\n"
+            f"Data: {result.get('data', 'N/A')[:200]}..."
+            for result in results
+        )
+        self.results_text.setText(result_text)
+
+    def cleanup(self):
+        self.results_text.clear()
+
+
+
 class ShodanTab(BaseTab):
     """Shodan interface tab"""
     

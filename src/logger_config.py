@@ -1,4 +1,6 @@
 import logging
+from src.config.base_config import BaseConfig
+
 
 def setup_logging():
     """Set up logging configuration."""

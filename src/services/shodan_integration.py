@@ -1,107 +1,242 @@
 """
-Shodan integration for the BugHunter application.
-Provides functionality for querying Shodan's database.
+Shodan Integration for BugHunter.
+Handles interactions with the Shodan API.
 """
 
-import logging
 import shodan
-from typing import List, Dict, Optional
+import logging
 
-class ShodanIntegration:
-    """Manages integration with the Shodan API"""
-    
-    def __init__(self, api_key: str):
-        self.logger = logging.getLogger('BugHunter.ShodanIntegration')
-        self.api = shodan.Shodan(api_key)
-        
-    def search(self, query: str) -> List[Dict[str, any]]:
+
+class ShodanClient:
+    """
+    Shodan Client class for interacting with the Shodan API.
+    """
+    def __init__(self, api_key):
         """
-        Search Shodan's database
+        Initialize the ShodanClient.
         
         Args:
-            query: Search query string
-            
+            api_key (str): Shodan API key.
+        """
+        self.logger = logging.getLogger('BugHunter.ShodanClient')
+        self.api_key = api_key
+        self.client = shodan.Shodan(api_key)
+
+    def search(self, query, filter_type='all'):
+        """
+        Perform a search on Shodan.
+        
+        Args:
+            query (str): The search query.
+            filter_type (str): The type of filter to apply (e.g., 'all', 'host', 'port', 'vulnerability').
+        
         Returns:
-            List of search results
+            list: The search results.
         """
         try:
-            results = self.api.search(query)
-            self.logger.info(f"Found {results['total']} results for query: {query}")
+            if filter_type == 'host':
+                results = self.client.host(query)
+            elif filter_type == 'port':
+                results = self.client.search(f'port:{query}')
+            elif filter_type == 'vulnerability':
+                results = self.client.search(f'vuln:{query}')
+            else:
+                results = self.client.search(query)
             return results['matches']
         except shodan.APIError as e:
             self.logger.error(f"Shodan API error: {str(e)}")
-            return []
-        except Exception as e:
-            self.logger.error(f"Failed to search Shodan: {str(e)}")
-            return []
-            
-    def get_host(self, ip: str) -> Optional[Dict[str, any]]:
+            raise
+
+
+class ShodanIntegration:
+    """Manages integration with the Shodan API"""
+
+    BASE_URL = "https://api.shodan.io"
+
+    def __init__(self, api_key: str):
+        self.logger = logging.getLogger('BugHunter.ShodanIntegration')
+        self.api_key = api_key
+
+    def search(self, query: str, filter_option: str = "All") -> Optional[Dict[str, any]]:
+        """
+        Perform a search query on Shodan
+
+        Args:
+            query: Search query
+            filter_option: Filter option for the search
+
+        Returns:
+            Dictionary containing search results if found, None otherwise
+        """
+        try:
+            url = f"{self.BASE_URL}/shodan/host/search"
+            params = {'key': self.api_key, 'query': query}
+
+            if filter_option != "All":
+                params['query'] += f" {filter_option.lower()}"
+
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+
+            return response.json()
+        except requests.RequestException as e:
+            self.logger.error(f"Failed to perform search: {str(e)}")
+            return None
+
+    def initialize(self):
+        """Initialize the Shodan integration."""
+        self.logger.info("ShodanIntegration initialized.")
+
+    def get_host_info(self, ip: str) -> Optional[Dict[str, any]]:
         """
         Get information about a specific host
-        
+
         Args:
             ip: IP address of the host
-            
+
         Returns:
             Dictionary containing host information if found, None otherwise
         """
         try:
-            host = self.api.host(ip)
-            return host
-        except shodan.APIError as e:
-            self.logger.error(f"Shodan API error: {str(e)}")
-            return None
-        except Exception as e:
+            url = f"{self.BASE_URL}/shodan/host/{ip}"
+            params = {'key': self.api_key}
+
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+
+            return response.json()
+        except requests.RequestException as e:
             self.logger.error(f"Failed to get host info: {str(e)}")
             return None
-            
-    def get_ports(self) -> List[int]:
+
+    def get_latest_vulnerabilities(self) -> Optional[Dict[str, any]]:
         """
-        Get list of ports that Shodan is listening on
-        
+        Get the latest vulnerabilities from Shodan
+
         Returns:
-            List of port numbers
+            Dictionary containing latest vulnerabilities if found, None otherwise
         """
         try:
-            ports = self.api.ports()
-            return ports
-        except shodan.APIError as e:
-            self.logger.error(f"Shodan API error: {str(e)}")
-            return []
-        except Exception as e:
-            self.logger.error(f"Failed to get ports: {str(e)}")
-            return []
-            
-    def get_protocols(self) -> List[str]:
+            url = f"{self.BASE_URL}/shodan/vulns"
+            params = {'key': self.api_key}
+
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+
+            return response.json()
+        except requests.RequestException as e:
+            self.logger.error(
+                f"Failed to get latest vulnerabilities: {str(e)}")
+            return None
+
+    def get_historical_data(self, ip: str) -> Optional[Dict[str, any]]:
         """
-        Get list of protocols that Shodan understands
-        
+        Get historical data for a specific IP
+
+        Args:
+            ip: IP address to get historical data for
+
         Returns:
-            List of protocol names
+            Dictionary containing historical data if found, None otherwise
         """
         try:
-            protocols = self.api.protocols()
-            return protocols
-        except shodan.APIError as e:
-            self.logger.error(f"Shodan API error: {str(e)}")
-            return []
-        except Exception as e:
-            self.logger.error(f"Failed to get protocols: {str(e)}")
-            return []
-            
-    def get_scan_status(self) -> Dict[str, any]:
+            url = f"{self.BASE_URL}/shodan/host/{ip}/history"
+            params = {'key': self.api_key}
+
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+
+            return response.json()
+        except requests.RequestException as e:
+            self.logger.error(f"Failed to get historical data: {str(e)}")
+            return None
+
+    def get_geolocation(self, ip: str) -> Optional[Dict[str, any]]:
         """
-        Get information about the Shodan scan status
-        
+        Get geolocation data for a specific IP
+
+        Args:
+            ip: IP address to get geolocation data for
+
         Returns:
-            Dictionary containing scan status information
+            Dictionary containing geolocation data if found, None otherwise
         """
         try:
-            status = self.api.scan_status()
-            return status
-        except shodan.APIError as e:
-            self.logger.error(f"Shodan API error: {str(e)}")
-            return {}
-        except Exception as e:
-            self.logger.error(f"Failed to get scan status: {str(e)}")
-            return {}
+            url = f"{self.BASE_URL}/shodan/host/{ip}/location"
+            params = {'key': self.api_key}
+
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+
+            return response.json()
+        except requests.RequestException as e:
+            self.logger.error(f"Failed to get geolocation data: {str(e)}")
+            return None
+
+    def get_service_info(self, ip: str, port: int) -> Optional[Dict[str, any]]:
+        """
+        Get information about a specific service running on a host
+
+        Args:
+            ip: IP address of the host
+            port: Port number of the service
+
+        Returns:
+            Dictionary containing service information if found, None otherwise
+        """
+        try:
+            url = f"{self.BASE_URL}/shodan/host/{ip}/port/{port}"
+            params = {'key': self.api_key}
+
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+
+            return response.json()
+        except requests.RequestException as e:
+            self.logger.error(f"Failed to get service info: {str(e)}")
+            return None
+
+    def get_network_topology(self, ip: str) -> Optional[Dict[str, any]]:
+        """
+        Get network topology for a specific IP
+
+        Args:
+            ip: IP address to get network topology for
+
+        Returns:
+            Dictionary containing network topology if found, None otherwise
+        """
+        try:
+            url = f"{self.BASE_URL}/shodan/host/{ip}/topology"
+            params = {'key': self.api_key}
+
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+
+            return response.json()
+        except requests.RequestException as e:
+            self.logger.error(f"Failed to get network topology: {str(e)}")
+            return None
+
+    def set_alert(self, ip: str, alert: bool) -> bool:
+        """
+        Set an alert for a specific IP
+
+        Args:
+            ip: IP address to set alert for
+            alert: Boolean to enable or disable alert
+
+        Returns:
+            True if alert was set successfully, False otherwise
+        """
+        try:
+            url = f"{self.BASE_URL}/shodan/alert/{'enable' if alert else 'disable'}"
+            params = {'key': self.api_key, 'ip': ip}
+
+            response = requests.post(url, params=params)
+            response.raise_for_status()
+
+            return response.json().get('success', False)
+        except requests.RequestException as e:
+            self.logger.error(f"Failed to set alert: {str(e)}")
+            return False

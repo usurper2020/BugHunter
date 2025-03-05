@@ -29,3 +29,21 @@ class TestAISystem(TestCase):
         self.ai_system.get_response = AsyncMock(return_value='explanation')
         response = asyncio.run(self.ai_system.explain_vulnerability('vulnerability', 'user123'))
         self.assertEqual(response, 'explanation')
+import unittest
+from src.services.ai_system import AISystem
+
+class TestAISystem(unittest.TestCase):
+    def setUp(self):
+        self.ai_system = AISystem()
+    
+    def test_initialize(self):
+        self.assertTrue(self.ai_system.initialize())
+    
+    def test_analyze_results(self):
+        results = [{"vulnerability": "SQL Injection", "severity": "high"}]
+        analysis = self.ai_system.analyze_results(results)
+        self.assertIsNotNone(analysis)
+        self.assertIn("recommendations", analysis)
+
+if __name__ == '__main__':
+    unittest.main()

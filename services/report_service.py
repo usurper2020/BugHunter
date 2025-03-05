@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 
 from config import config
 from logger_config import logger
-from database import DatabaseManager
+from alembic.database import DatabaseManager
 from src.models import Report, ScanResult, Finding, User
 from middleware import error_handler
 

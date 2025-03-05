@@ -11,13 +11,16 @@ import os
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-SQLALCHEMY_DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL")
-if not SQLALCHEMY_DATABASE_URL:
-    logger.error("SQLALCHEMY_DATABASE_URL environment variable not set")
-    raise RuntimeError("SQLALCHEMY_DATABASE_URL environment variable not set")
+SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"  # Set a default value or comment out the check
+# SQLALCHEMY_DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL")
+# if not SQLALCHEMY_DATABASE_URL:
+#     logger.error("SQLALCHEMY_DATABASE_URL environment variable not set")
+#     raise RuntimeError("SQLALCHEMY_DATABASE_URL environment variable not set")
 
-# Breakpoint to verify database URL
-breakpoint()
+
+# Remove the breakpoint to avoid pausing execution
+# breakpoint()
+
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=os.getenv("SQLALCHEMY_ECHO", "False").lower() in ("true", "1"))
 

@@ -1,7 +1,14 @@
-import pytest
-from codebreaker import CodeBreaker
+from unittest import TestCase
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ..src.codebreaker import CodeBreaker
+
+def test_codebreaker():
+    from ..src.codebreaker import CodeBreaker
 
 def test_initialize():
+    from codebreaker import CodeBreaker  # Avoid circular import issues
     # Create an instance of CodeBreaker
     cb = CodeBreaker()
     
@@ -15,6 +22,7 @@ def test_initialize():
     assert cb.initialized
 
 def test_get_status_before_initialization():
+    from codebreaker import CodeBreaker  # Avoid circular import issues
     # Create an instance of CodeBreaker
     cb = CodeBreaker()
     
@@ -26,6 +34,7 @@ def test_get_status_before_initialization():
     assert status['status'] == 'not initialized'
 
 def test_get_status_after_initialization():
+    from codebreaker import CodeBreaker  # Avoid circular import issues
     # Create an instance of CodeBreaker
     cb = CodeBreaker()
     
@@ -38,8 +47,3 @@ def test_get_status_after_initialization():
     # Verify the status dictionary
     assert status['initialized'] is True
     assert status['status'] == 'running'
-
-
-
-
-

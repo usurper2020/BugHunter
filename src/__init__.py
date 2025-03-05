@@ -7,4 +7,7 @@ import logging
 # Initialize logging
 logging.basicConfig(level=logging.INFO)
 
-# This file is intentionally left blank to mark the directory as a Python package.
+logger = logging.getLogger(__name__)
+
+# Initialize Config
+config = Config()

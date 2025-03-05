@@ -2,7 +2,7 @@
 Shodan Integration Tab Module.
 
 This module provides the Shodan integration interface for BugHunter,
-allowing users to perform Shodan searches directly from the GUI.
+allowing users to perform security reconnaissance directly from the GUI.
 
 Classes:
     ShodanTab: Shodan integration tab class.
@@ -10,10 +10,8 @@ Classes:
 
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, 
-    QPushButton, QLineEdit, QTextEdit, QComboBox,
-    QMessageBox
+    QPushButton, QLineEdit, QTextEdit, QMessageBox, QComboBox, QCheckBox
 )
-from PyQt6.QtCore import pyqtSignal
 from services.shodan_integration import ShodanIntegration
 
 
@@ -22,10 +20,11 @@ class ShodanTab(QWidget):
     Shodan integration tab for BugHunter.
 
     Attributes:
-        search_input (QLineEdit): Input field for search queries.
+        target_input (QLineEdit): Input field for target to search.
         search_button (QPushButton): Button to initiate search.
         results_text (QTextEdit): Text area to display search results.
         filter_combo (QComboBox): Dropdown for search filters.
+        real_time_checkbox (QCheckBox): Checkbox to enable real-time monitoring.
     """
 
     def __init__(self):
@@ -42,20 +41,24 @@ class ShodanTab(QWidget):
 
         # Search controls
         search_layout = QHBoxLayout()
-        search_layout.addWidget(QLabel("Search Query:"))
+        search_layout.addWidget(QLabel("Target:"))
         
-        self.search_input = QLineEdit()
-        self.search_input.setPlaceholderText("Enter search query")
-        search_layout.addWidget(self.search_input)
+        self.target_input = QLineEdit()
+        self.target_input.setPlaceholderText("Enter target to search (IP, domain, etc.)")
+        search_layout.addWidget(self.target_input)
         
         self.filter_combo = QComboBox()
-        self.filter_combo.addItems(["All", "Host", "Port", "Vulnerability"])
+        self.filter_combo.addItems(["All", "Open Ports", "Services", "Organizations"])
         search_layout.addWidget(self.filter_combo)
         
         self.search_button = QPushButton("Search")
         search_layout.addWidget(self.search_button)
         
         layout.addLayout(search_layout)
+
+        # Real-time monitoring checkbox
+        self.real_time_checkbox = QCheckBox("Enable Real-time Monitoring")
+        layout.addWidget(self.real_time_checkbox)
 
         # Results display
         self.results_text = QTextEdit()
@@ -70,14 +73,14 @@ class ShodanTab(QWidget):
 
     def perform_search(self):
         """Perform Shodan search and display results."""
-        query = self.search_input.text().strip()
-        if not query:
-            QMessageBox.warning(self, "Invalid Input", "Please enter a search query")
+        target = self.target_input.text().strip()
+        if not target:
+            QMessageBox.warning(self, "Invalid Input", "Please enter a target")
             return
 
         try:
-            filter_type = self.filter_combo.currentText().lower()
-            results = self.shodan_client.search(query, filter_type)
+            filter_option = self.filter_combo.currentText()
+            results = self.shodan_client.search(target, filter_option)
             self.display_results(results)
         except Exception as e:
             QMessageBox.critical(self, "Search Error", f"Failed to perform search: {str(e)}")
@@ -86,22 +89,26 @@ class ShodanTab(QWidget):
         """Display search results in the text area.
         
         Args:
-            results (list): List of search results to display.
+            results (dict): Dictionary of search results to display.
         """
         self.results_text.clear()
-        if not results:
+        if not results.get('results'):
             self.results_text.setText("No results found")
             return
 
         result_text = "\n\n".join(
             f"IP: {result.get('ip_str', 'N/A')}\n"
             f"Port: {result.get('port', 'N/A')}\n"
-            f"Hostnames: {', '.join(result.get('hostnames', []))}\n"
-            f"Vulnerabilities: {', '.join(result.get('vulns', []))}\n"
-            f"Data: {result.get('data', 'N/A')[:200]}..."
-            for result in results
+            f"Data: {result.get('data', 'N/A')}\n"
+            f"Geolocation: {result.get('location', {}).get('city', 'N/A')}, {result.get('location', {}).get('country_name', 'N/A')}\n"
+            f"Vulnerabilities: {', '.join(result.get('vulns', []))}"
+            for result in results['results']
         )
         self.results_text.setText(result_text)
+
+        if self.real_time_checkbox.isChecked():
+            # Display real-time monitoring status (this is a placeholder, actual implementation may vary)
+            self.results_text.append("\n[Real-time Monitoring Enabled]")
 
     def cleanup(self):
         """Clean up resources before closing."""

@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 
 from config import config
 from logger_config import logger_config
-from database import DatabaseManager
+from alembic.database import DatabaseManager
 from src.models import ScanResult, Finding, ScanStatus, SeverityLevel, User
 from middleware import error_handler
 

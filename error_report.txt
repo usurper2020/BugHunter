@@ -1,0 +1,644 @@
+Error Report
+==================================================
+
+GOOD FILES
+==================================================
+Directory: C:\Users\clabb\Desktop\BugHunter
+  - C:\Users\clabb\Desktop\BugHunter\ai_module.py
+  - C:\Users\clabb\Desktop\BugHunter\analyzer.py
+  - C:\Users\clabb\Desktop\BugHunter\blackboxai_agent.py
+  - C:\Users\clabb\Desktop\BugHunter\codebreaker.py
+  - C:\Users\clabb\Desktop\BugHunter\init_db.py
+  - C:\Users\clabb\Desktop\BugHunter\main.py
+  - C:\Users\clabb\Desktop\BugHunter\maingui.py
+  - C:\Users\clabb\Desktop\BugHunter\report_generator.py
+  - C:\Users\clabb\Desktop\BugHunter\run.py
+  - C:\Users\clabb\Desktop\BugHunter\run_tests.py
+  - C:\Users\clabb\Desktop\BugHunter\scanning_profiles.py
+  - C:\Users\clabb\Desktop\BugHunter\setup.py
+  - C:\Users\clabb\Desktop\BugHunter\temp_database.py
+  - C:\Users\clabb\Desktop\BugHunter\update_graph.py
+  - C:\Users\clabb\Desktop\BugHunter\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\alembic
+  - C:\Users\clabb\Desktop\BugHunter\alembic\database.py
+  - C:\Users\clabb\Desktop\BugHunter\alembic\env.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\alembic\versions
+  - C:\Users\clabb\Desktop\BugHunter\alembic\versions\add_authentication_models.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\data
+  - C:\Users\clabb\Desktop\BugHunter\data\training_ui.py
+  - C:\Users\clabb\Desktop\BugHunter\data\write_check.py
+  - C:\Users\clabb\Desktop\BugHunter\data\write_test.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\ai_module.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\analyzer.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\codebreaker.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\database.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\fix_errors_script.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\init_db.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\main.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\maingui.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\report_generator.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\run.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\run_tests.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\scanning_profiles.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\setup.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\temp_database.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\test_codebreaker.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\alembic
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\alembic\env.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\alembic\versions
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\alembic\versions\18547fd7115b_add_authentication_models.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\Scripts
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\verify_env.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\services
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\admin_service.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2_updated.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_system.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_training.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\analytics_system.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\auth_service.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\chat_system.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\codegpt_client.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\collaboration.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\collaboration_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\collaboration_system.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\config_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\contribution_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\contribution_system.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\database.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\integration_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\login_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\middleware.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\models.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\notification.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\notification_system.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\report_generator.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\report_service.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\role_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\scanning_profiles.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\scan_service.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\scope_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\security_service.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\security_system.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\shodan_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\tool_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\update_checker.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\user_auth.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\user_management_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\vulnerability_database.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\vulnerability_scanner.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\wayback_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\wayback_machine_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\services\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\src
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\ai_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\config.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\core.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\integrated_app.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\logger.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\logger_config.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\main_gui.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\scanner_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\tabs.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\tab_controller.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\test_pyqt.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\src\config
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\config\config.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\config\db_config.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\config\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\src\db
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\db\init_db.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\collaboration_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\contribution_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\login_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\registration_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\theme.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\user_management_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\ai_chat_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\amass_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\analytics_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\base_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\collaboration_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\nuclei_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\scanner_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\scope_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\settings_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\shodan_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\targets_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\tools_manager_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\tools_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\wayback_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\base.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\fingerprint.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\login_attempt.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\scan_target.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\security_event.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\session.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\user.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\vulnerability_db.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\ai_system.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\analytics_system.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\auth_service.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\bug_bounty_analyzer.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\code_converter.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\collaboration_system.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\config_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\github_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\gui_tab_generator.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\notification.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\nuclei_analyzer.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\optimization_framework.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\role_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\scanning_profiles.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\scope_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\shodan_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\simple_auth.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\tool_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\user_auth.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\vulnerability_database.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\vulnerability_scanner.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\wayback_machine_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\ai_chatbot_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\ai_chat_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\amass_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\analytics_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\bug_bounty_target_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\code_analysis_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\collaboration_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\nuclei_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\report_generator.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\report_generator_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\scanner_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\scope_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\settings_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\shodan_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\tool_manager_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\tool_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\vulnerability_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\wayback_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\taps
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\taps\analytics_tab.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\tests
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_ai_clients.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_ai_system.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_ai_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_bug_bounty_analyzer.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_code_converter.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_config_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_gui_tab_generator.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_hello_world.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_pytest_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\utils
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\check_config.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\env_checker.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\install.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\install_app.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\logger_config.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\notification.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\role_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\scope_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\setup.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\setup_db.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\setup_env.py
+  - C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\update_tools.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\Scripts
+  - C:\Users\clabb\Desktop\BugHunter\Scripts\correct_imports.py
+  - C:\Users\clabb\Desktop\BugHunter\Scripts\correct_statement.py
+  - C:\Users\clabb\Desktop\BugHunter\Scripts\enhanced_advanced_test_corrector.py
+  - C:\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py
+  - C:\Users\clabb\Desktop\BugHunter\Scripts\verify_env.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\services
+  - C:\Users\clabb\Desktop\BugHunter\services\admin_service.py
+  - C:\Users\clabb\Desktop\BugHunter\services\ai_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\services\ai_service.py
+  - C:\Users\clabb\Desktop\BugHunter\services\ai_service_v2.py
+  - C:\Users\clabb\Desktop\BugHunter\services\ai_service_v2_updated.py
+  - C:\Users\clabb\Desktop\BugHunter\services\ai_system.py
+  - C:\Users\clabb\Desktop\BugHunter\services\ai_training.py
+  - C:\Users\clabb\Desktop\BugHunter\services\analytics_system.py
+  - C:\Users\clabb\Desktop\BugHunter\services\auth_service.py
+  - C:\Users\clabb\Desktop\BugHunter\services\chat_system.py
+  - C:\Users\clabb\Desktop\BugHunter\services\codegpt_client.py
+  - C:\Users\clabb\Desktop\BugHunter\services\collaboration.py
+  - C:\Users\clabb\Desktop\BugHunter\services\collaboration_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\services\config_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\services\contribution_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\services\contribution_system.py
+  - C:\Users\clabb\Desktop\BugHunter\services\database.py
+  - C:\Users\clabb\Desktop\BugHunter\services\integration_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\services\login_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\services\middleware.py
+  - C:\Users\clabb\Desktop\BugHunter\services\models.py
+  - C:\Users\clabb\Desktop\BugHunter\services\notification.py
+  - C:\Users\clabb\Desktop\BugHunter\services\notification_system.py
+  - C:\Users\clabb\Desktop\BugHunter\services\report_generator.py
+  - C:\Users\clabb\Desktop\BugHunter\services\report_service.py
+  - C:\Users\clabb\Desktop\BugHunter\services\role_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\services\scanning_profiles.py
+  - C:\Users\clabb\Desktop\BugHunter\services\scan_service.py
+  - C:\Users\clabb\Desktop\BugHunter\services\scope_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\services\security_service.py
+  - C:\Users\clabb\Desktop\BugHunter\services\security_system.py
+  - C:\Users\clabb\Desktop\BugHunter\services\shodan_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\services\tool_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\services\update_checker.py
+  - C:\Users\clabb\Desktop\BugHunter\services\user_auth.py
+  - C:\Users\clabb\Desktop\BugHunter\services\user_management_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\services\vulnerability_database.py
+  - C:\Users\clabb\Desktop\BugHunter\services\vulnerability_scanner.py
+  - C:\Users\clabb\Desktop\BugHunter\services\wayback_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\services\wayback_machine_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\services\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\src
+  - C:\Users\clabb\Desktop\BugHunter\src\ai_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\config.py
+  - C:\Users\clabb\Desktop\BugHunter\src\core.py
+  - C:\Users\clabb\Desktop\BugHunter\src\integrated_app.py
+  - C:\Users\clabb\Desktop\BugHunter\src\logger.py
+  - C:\Users\clabb\Desktop\BugHunter\src\logger_config.py
+  - C:\Users\clabb\Desktop\BugHunter\src\main.py
+  - C:\Users\clabb\Desktop\BugHunter\src\module.py
+  - C:\Users\clabb\Desktop\BugHunter\src\scanner_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\tabs.py
+  - C:\Users\clabb\Desktop\BugHunter\src\tab_controller.py
+  - C:\Users\clabb\Desktop\BugHunter\src\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\src\config
+  - C:\Users\clabb\Desktop\BugHunter\src\config\base_config.py
+  - C:\Users\clabb\Desktop\BugHunter\src\config\config.py
+  - C:\Users\clabb\Desktop\BugHunter\src\config\config_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\src\config\db_config.py
+  - C:\Users\clabb\Desktop\BugHunter\src\config\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\src\db
+  - C:\Users\clabb\Desktop\BugHunter\src\db\init_db.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\src\gui
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\collaboration_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\contribution_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\login_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\main_window.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\registration_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\test_login_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\theme.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\user_management_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\src\gui\tabs
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\ai_chat_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\amass_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\analytics_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\base_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\collaboration_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\nuclei_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\scanner_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\scope_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\settings_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\shodan_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\targets_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\tools_manager_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\tools_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\wayback_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\src\models
+  - C:\Users\clabb\Desktop\BugHunter\src\models\base.py
+  - C:\Users\clabb\Desktop\BugHunter\src\models\fingerprint.py
+  - C:\Users\clabb\Desktop\BugHunter\src\models\login_attempt.py
+  - C:\Users\clabb\Desktop\BugHunter\src\models\scan_target.py
+  - C:\Users\clabb\Desktop\BugHunter\src\models\security_event.py
+  - C:\Users\clabb\Desktop\BugHunter\src\models\session.py
+  - C:\Users\clabb\Desktop\BugHunter\src\models\user.py
+  - C:\Users\clabb\Desktop\BugHunter\src\models\vulnerability_db.py
+  - C:\Users\clabb\Desktop\BugHunter\src\models\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\src\services
+  - C:\Users\clabb\Desktop\BugHunter\src\services\ai_system.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\analytics_system.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\auth_service.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\bug_bounty_analyzer.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\code_converter.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\collaboration_system.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\config_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\database.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\github_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\gui_tab_generator.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\notification.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\nuclei_analyzer.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\optimization_framework.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\reset_password_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\role_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\scanning_profiles.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\scan_target.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\scope_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\shodan_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\simple_auth.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\test___init__.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\tool_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\user_auth.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\vulnerability_database.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\vulnerability_scanner.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\wayback_machine_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\src\services\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\tabs
+  - C:\Users\clabb\Desktop\BugHunter\tabs\ai_chatbot_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\ai_chat_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\amass_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\analytics_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\bug_bounty_target_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\code_analysis_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\collaboration_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\nuclei_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\report_generator.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\report_generator_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\scanner_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\scope_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\settings_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\shodan_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\tool_manager_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\tool_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\vulnerability_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\wayback_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tabs\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\taps
+  - C:\Users\clabb\Desktop\BugHunter\taps\analytics_tab.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\tests
+  - C:\Users\clabb\Desktop\BugHunter\tests\acceptance_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\accessibility_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\API_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\backup_recovery_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\code_quality_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\compatibility.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\confguration_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\database_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\data_validation_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\dynamic_analysis_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\error_handling_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\import unittest.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\integration_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\localization_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\logging_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\performance.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\regression_tests.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\security_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\static_analysis_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_ai_clients.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_ai_system.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_ai_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_bug_bounty_analyzer.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_codebreaker.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_code_converter.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_config_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_gui_tab_generator.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_hello_world.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_load.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_login_dialog.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_pyqt.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_pytest_integration.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_sanity.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_smoke.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_stress.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_tool_manager_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_tool_tab.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\test_vulnerability_scanner.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\unit_tests.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\usability_test.py
+  - C:\Users\clabb\Desktop\BugHunter\tests\__init__.py
+
+Directory: C:\Users\clabb\Desktop\BugHunter\utils
+  - C:\Users\clabb\Desktop\BugHunter\utils\check_config.py
+  - C:\Users\clabb\Desktop\BugHunter\utils\env_checker.py
+  - C:\Users\clabb\Desktop\BugHunter\utils\install.py
+  - C:\Users\clabb\Desktop\BugHunter\utils\install_app.py
+  - C:\Users\clabb\Desktop\BugHunter\utils\logger_config.py
+  - C:\Users\clabb\Desktop\BugHunter\utils\notification.py
+  - C:\Users\clabb\Desktop\BugHunter\utils\role_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\utils\scope_manager.py
+  - C:\Users\clabb\Desktop\BugHunter\utils\setup.py
+  - C:\Users\clabb\Desktop\BugHunter\utils\setup_db.py
+  - C:\Users\clabb\Desktop\BugHunter\utils\setup_env.py
+  - C:\Users\clabb\Desktop\BugHunter\utils\update_tools.py
+
+BAD FILES
+==================================================
+Directory: C:\Users\clabb\Desktop\BugHunter\alembic
+  File: C:\Users\clabb\Desktop\BugHunter\alembic\env.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'alembic'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+  File: C:\Users\clabb\Desktop\BugHunter\alembic\env.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'alembic'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+
+Directory: C:\Users\clabb\Desktop\BugHunter\alembic\versions
+  File: C:\Users\clabb\Desktop\BugHunter\alembic\versions\add_authentication_models.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'alembic'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there
+  File: C:\Users\clabb\Desktop\BugHunter\nearly-there\test_codebreaker.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'codebreaker'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\alembic
+  File: C:\Users\clabb\Desktop\BugHunter\nearly-there\alembic\env.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'alembic'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\alembic\versions
+  File: C:\Users\clabb\Desktop\BugHunter\nearly-there\alembic\versions\18547fd7115b_add_authentication_models.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'alembic'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\src
+  File: C:\Users\clabb\Desktop\BugHunter\nearly-there\src\ai.py
+  Error Type: Unknown Python Error
+  Error Details: 'charmap' codec can't decode byte 0x8d in position 581: character maps to <undefined>
+  Suggested Fix: Manually review the file for potential issues.
+--------------------------------------------------
+  File: C:\Users\clabb\Desktop\BugHunter\nearly-there\src\ai.py
+  Error Type: Error during circular import check
+  Error Details: 'charmap' codec can't decode byte 0x8d in position 581: character maps to <undefined>
+--------------------------------------------------
+  File: C:\Users\clabb\Desktop\BugHunter\nearly-there\src\__init__.py
+  Error Type: Syntax Error
+  Error Details: invalid syntax (<unknown>, line 4)
+  Line: 4
+  Suggested Fix: Check for missing colons, parentheses, or invalid syntax.
+--------------------------------------------------
+  File: C:\Users\clabb\Desktop\BugHunter\nearly-there\src\__init__.py
+  Error Type: Error during circular import check
+  Error Details: invalid syntax (<unknown>, line 4)
+  Line: 4
+--------------------------------------------------
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\src\config
+  File: C:\Users\clabb\Desktop\BugHunter\nearly-there\src\config\__init__.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'config'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\tests
+  File: C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_ai_tab.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'ai_tab'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+
+Directory: C:\Users\clabb\Desktop\BugHunter\nearly-there\utils
+  File: C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\logger_config.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'config'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+  File: C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\logger_config.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'config'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+
+Directory: C:\Users\clabb\Desktop\BugHunter\services
+  File: C:\Users\clabb\Desktop\BugHunter\services\collaboration_system.py
+  Error Type: Syntax Error
+  Error Details: expected 'except' or 'finally' block (<unknown>, line 93)
+  Line: 93
+  Suggested Fix: Check for missing colons, parentheses, or invalid syntax.
+--------------------------------------------------
+  File: C:\Users\clabb\Desktop\BugHunter\services\collaboration_system.py
+  Error Type: Error during circular import check
+  Error Details: expected 'except' or 'finally' block (<unknown>, line 93)
+  Line: 93
+--------------------------------------------------
+
+Directory: C:\Users\clabb\Desktop\BugHunter\src
+  File: C:\Users\clabb\Desktop\BugHunter\src\ai.py
+  Error Type: Unknown Python Error
+  Error Details: 'charmap' codec can't decode byte 0x8d in position 640: character maps to <undefined>
+  Suggested Fix: Manually review the file for potential issues.
+--------------------------------------------------
+  File: C:\Users\clabb\Desktop\BugHunter\src\ai.py
+  Error Type: Error during circular import check
+  Error Details: 'charmap' codec can't decode byte 0x8d in position 640: character maps to <undefined>
+--------------------------------------------------
+  File: C:\Users\clabb\Desktop\BugHunter\src\main_gui.py
+  Error Type: Syntax Error
+  Error Details: unterminated triple-quoted string literal (detected at line 232) (<unknown>, line 232)
+  Line: 232
+  Suggested Fix: Check for missing colons, parentheses, or invalid syntax.
+--------------------------------------------------
+  File: C:\Users\clabb\Desktop\BugHunter\src\main_gui.py
+  Error Type: Error during circular import check
+  Error Details: unterminated triple-quoted string literal (detected at line 232) (<unknown>, line 232)
+  Line: 232
+--------------------------------------------------
+
+Directory: C:\Users\clabb\Desktop\BugHunter\src\config
+  File: C:\Users\clabb\Desktop\BugHunter\src\config\__init__.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'config'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+
+Directory: C:\Users\clabb\Desktop\BugHunter\tests
+  File: C:\Users\clabb\Desktop\BugHunter\tests\test_ai_tab.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'ai_tab'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+  File: C:\Users\clabb\Desktop\BugHunter\tests\test_codebreaker.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'codebreaker'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+  File: C:\Users\clabb\Desktop\BugHunter\tests\test_codebreaker.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'codebreaker'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+  File: C:\Users\clabb\Desktop\BugHunter\tests\test_codebreaker.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'codebreaker'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+
+Directory: C:\Users\clabb\Desktop\BugHunter\utils
+  File: C:\Users\clabb\Desktop\BugHunter\utils\logger_config.py
+  Error Type: Circular Import Error
+  Error Details: Circular import detected with module 'config'
+  Suggested Fix: Refactor the code to remove circular dependencies.
+--------------------------------------------------
+  File: C:\Users\clabb\Desktop\BugHunter\utils\project_structure.py
+  Error Type: Unknown Python Error
+  Error Details: 'charmap' codec can't decode byte 0x81 in position 2663: character maps to <undefined>
+  Suggested Fix: Manually review the file for potential issues.
+--------------------------------------------------
+  File: C:\Users\clabb\Desktop\BugHunter\utils\project_structure.py
+  Error Type: Error during circular import check
+  Error Details: 'charmap' codec can't decode byte 0x81 in position 2663: character maps to <undefined>
+--------------------------------------------------
+

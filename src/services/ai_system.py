@@ -1,217 +1,82 @@
-# src/services/ai_system.py
+"""
+AI System for BugHunter.
+Manages AI-driven operations for analyzing vulnerability scan results and generating detailed reports.
+"""
+
 import logging
 import json
-import aiohttp
 import os
-from pathlib import Path
-from typing import Optional, Dict, Any
-from abc import ABC, abstractmethod
-from functools import lru_cache
-import asyncio
-import signal
 import redis
-from cryptography.fernet import Fernet
-from prometheus_client import Counter, Histogram, start_http_server
-from dependency_injector import containers, providers
+from transformers import BertTokenizer, BertModel
+import torch
+from pathlib import Path
 
-# Configuration Manager Interface
-class ConfigManager(ABC):
-    @abstractmethod
-    def get(self, key: str) -> Any:
-        pass
-
-# Concrete Configuration Manager
-class FileConfigManager(ConfigManager):
-    def __init__(self, config_path: Path):
-        self.config_path = config_path
-        self.config = self._load_config()
-
-    def _load_config(self) -> Dict[str, Any]:
-        with open(self.config_path) as config_file:
-            return json.load(config_file)
-
-    def get(self, key: str) -> Any:
-        return self.config.get(key, os.getenv(key))
-
-# Secure Configuration Manager
-class SecureConfigManager(FileConfigManager):
-    def __init__(self, config_path: Path, encryption_key: str):
-        super().__init__(config_path)
-        self.cipher = Fernet(encryption_key)
-
-    def get(self, key: str) -> Any:
-        encrypted_value = super().get(key)
-        if encrypted_value:
-            return self.cipher.decrypt(encrypted_value.encode()).decode()
-        return None
-
-# AI Client Interface
-class AIClient(ABC):
-    @abstractmethod
-    async def get_response(self, prompt: str) -> str:
-        pass
-
-# OpenAI Client
-class OpenAIClient(AIClient):
-    def __init__(self, api_key: str, model: str, temperature: float, max_tokens: int, session: aiohttp.ClientSession):
-        self.api_key = api_key
-        self.model = model
-        self.temperature = temperature
-        self.max_tokens = max_tokens
-        self.session = session
-
-    async def get_response(self, prompt: str) -> str:
-        # Implement OpenAI API call here
-        pass
-
-# CodeGPT Client
-class CodeGPTClient(AIClient):
-    def __init__(self, api_key: str, temperature: float, max_tokens: int, session: aiohttp.ClientSession):
-        self.api_key = api_key
-        self.temperature = temperature
-        self.max_tokens = max_tokens
-        self.session = session
-
-    async def get_response(self, prompt: str) -> str:
-        headers = {
-            'Authorization': f'Bearer {self.api_key}',
-            'Content-Type': 'application/json'
-        }
-        data = {
-            'messages': [{"role": "user", "content": prompt}],
-            'temperature': self.temperature,
-            'max_tokens': self.max_tokens
-        }
-        async with self.session.post('https://api.codegpt.co/v1/chat/completions', headers=headers, json=data) as response:
-            if response.status != 200:
-                error_data = await response.json()
-                raise Exception(f"CodeGPT API error: {error_data.get('error', {}).get('message', 'Unknown error')}")
-            result = await response.json()
-            return result['choices'][0]['message']['content']
-
-# AI System
 class AISystem:
-    def __init__(self, config_manager: ConfigManager, ai_client: AIClient, cache_client: redis.Redis):
+    """
+    AI System class for managing AI-driven operations.
+    """
+    def __init__(self, config_manager):
+        """
+        Initialize the AISystem.
+        
+        Args:
+            config_manager (ConfigManager): Configuration manager instance.
+        """
         self.logger = logging.getLogger('BugHunter.AISystem')
         self.config_manager = config_manager
-        self.ai_client = ai_client
-        self.cache_client = cache_client
-        self.rate_limiter = asyncio.Semaphore(5)  # Example rate limiter
+        self.cache_dir = Path('cache/ai')
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
+        self.redis_client = redis.Redis(
+            host=self.config_manager.get_config('redis_host'),
+            port=self.config_manager.get_config('redis_port'),
+            db=self.config_manager.get_config('redis_db')
+        )
+        self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        self.model = BertModel.from_pretrained('bert-base-uncased')
 
-        # Metrics
-        self.request_counter = Counter('ai_requests_total', 'Total number of AI requests')
-        self.error_counter = Counter('ai_errors_total', 'Total number of AI errors')
-        self.response_time_histogram = Histogram('ai_response_time_seconds', 'AI response time in seconds')
+    def initialize(self):
+        """
+        Initialize the AI system.
+        Loads configuration settings and initializes the appropriate client based on the API type.
+        """
+        self.logger.info("Initializing AI system")
+        # Load additional configurations if needed
 
-        # Start Prometheus metrics server
-        start_http_server(8000)
+    def analyze_vulnerability(self, scan_results):
+        """
+        Analyze vulnerability scan results using AI.
+        
+        Args:
+            scan_results (dict): Scan results to analyze.
+        
+        Returns:
+            dict: Analysis results.
+        """
+        self.logger.info("Analyzing vulnerability scan results")
+        # Process scan results and query AI API for insights
+        analysis_results = {}
+        return analysis_results
 
-    async def get_response(self, prompt: str, user_id: str) -> Optional[str]:
-        async with self.rate_limiter:
-            self.request_counter.labels(endpoint='get_response', user_id=user_id).inc()
-            with self.response_time_histogram.labels(endpoint='get_response', user_id=user_id).time():
-                try:
-                    cached_response = self.cache_client.get(f"{user_id}:{prompt}")
-                    if cached_response:
-                        return cached_response.decode()
-                    response = await self._retry_request(prompt)
-                    self.cache_client.set(f"{user_id}:{prompt}", response, ex=3600)  # Cache for 1 hour
-                    return response
-                except Exception as e:
-                    self.error_counter.labels(endpoint='get_response', user_id=user_id).inc()
-                    self.logger.error(f"Exception in get_response: {str(e)}")
-                    return None
+    def generate_report(self, scan_results):
+        """
+        Generate a detailed report based on scan results and analysis.
+        
+        Args:
+            scan_results (dict): Scan results to include in the report.
+        
+        Returns:
+            str: Path to the generated report.
+        """
+        self.logger.info("Generating report")
+        analysis_results = self.analyze_vulnerability(scan_results)
+        report_path = self.cache_dir / 'report.json'
+        with open(report_path, 'w') as report_file:
+            json.dump(analysis_results, report_file)
+        return str(report_path)
 
-    async def _retry_request(self, prompt: str, retries: int = 3) -> str:
-        for attempt in range(retries):
-            try:
-                return await self.ai_client.get_response(prompt)
-            except Exception as e:
-                self.logger.warning(f"Retry {attempt + 1}/{retries} failed: {str(e)}")
-                if attempt == retries - 1:
-                    raise
-
-    async def analyze_code(self, code: str, user_id: str) -> Optional[Dict[str, str]]:
-        try:
-            response = await self.get_response(f"Analyze this code: {code}", user_id)
-            return json.loads(response) if response else None
-        except Exception as e:
-            self.logger.error(f"Failed to analyze code: {str(e)}")
-            return None
-
-    async def explain_vulnerability(self, vulnerability: str, user_id: str) -> Optional[str]:
-        try:
-            return await self.get_response(f"Explain this vulnerability in simple terms: {vulnerability}", user_id)
-        except Exception as e:
-            self.logger.error(f"Failed to explain vulnerability: {str(e)}")
-            return None
-
-    async def shutdown(self):
-        self.logger.info("Shutting down AISystem...")
-        await self.ai_client.session.close()
-
-    async def health_check(self) -> bool:
-        try:
-            response = await self.get_response("Health check", "system")
-            return response is not None
-        except Exception as e:
-            self.logger.error(f"Health check failed: {str(e)}")
-            return False
-
-# Factory for AI Clients
-class AIClientFactory:
-    @staticmethod
-    async def create_client(api_type: str, config: Dict[str, Any], session: aiohttp.ClientSession) -> AIClient:
-        if api_type == 'openai':
-            return OpenAIClient(
-                api_key=config['openai_api_key'],
-                model=config.get('ai_model', 'gpt-4'),
-                temperature=config.get('ai_temperature', 0.7),
-                max_tokens=config.get('max_tokens', 2000),
-                session=session
-            )
-        elif api_type == 'codegpt':
-            return CodeGPTClient(
-                api_key=config['codegpt_api_key'],
-                temperature=config.get('ai_temperature', 0.7),
-                max_tokens=config.get('max_tokens', 2000),
-                session=session
-            )
-        else:
-            raise ValueError(f"Unsupported API type: {api_type}")
-
-# Dependency Injection Container
-class Container(containers.DeclarativeContainer):
-    config = providers.Configuration()
-    session = providers.Singleton(aiohttp.ClientSession)
-    cache_client = providers.Singleton(redis.Redis, host='localhost', port=6379, db=0)
-    config_manager = providers.Factory(SecureConfigManager, config_path=Path('src/config/ai_config.json'), encryption_key=os.getenv('ENCRYPTION_KEY'))
-    ai_client = providers.Factory(AIClientFactory.create_client, api_type=config.ai_api_type, config=config, session=session)
-    ai_system = providers.Factory(AISystem, config_manager=config_manager, ai_client=ai_client, cache_client=cache_client)
-
-# Usage 
-async def main():
-    container = Container()
-    container.config.from_dict({
-        'ai_api_type': 'codegpt',
-        'ai_config': {
-            'codegpt_api_key': os.getenv('CODEGPT_API_KEY'),
-            'ai_temperature': 0.7,
-            'max_tokens': 2000
-        }
-    })
-
-    ai_system = container.ai_system()
-
-    app = QApplication(sys.argv)
-    loop = qasync.QEventLoop(app)
-    asyncio.set_event_loop(loop)
-
-    main_window = MainWindow(ai_system)
-    main_window.show()
-
-    with loop:
-        loop.run_forever()
-
-if __name__ == "__main__":
-    asyncio.run(main())
+    def cleanup(self):
+        """
+        Cleanup resources associated with the AI system.
+        """
+        self.logger.info("Cleaning up AI system resources")
+        # Release resources if needed

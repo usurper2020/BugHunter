@@ -7,14 +7,30 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import Qt
 from src.services.tool_manager import ToolManager
 
-class ToolTab(QWidget):
-    def __init__(self, tool_manager=None):
+from PyQt6.QtWidgets import QWidget
+
+
+class ToolsTab(QWidget):
+    def __init__(self, tool_manager=None, parent=None):
+
+        super().__init__(parent)
+        # Initialize your ToolsTab UI components here
+        self.tool_manager = tool_manager
+
         super().__init__()
         self.tool_manager = tool_manager
         self.github_tools = []
         self.setup_ui()
 
     def setup_ui(self):
+        layout = QVBoxLayout()
+
+        # Search section
+        search_layout = QHBoxLayout()
+        
+        self.search_input = QLineEdit()
+        self.search_input.setPlaceholderText("Search GitHub tools...")
+        
         layout = QVBoxLayout()
 
         # Search section

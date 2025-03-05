@@ -10,7 +10,6 @@ from .tools_tab import ToolsTab
 from .targets_tab import TargetsTab
 from .collaboration_tab import CollaborationTab
 from .analytics_tab import AnalyticsTab
-
 from .settings_tab import SettingsTab
 from .wayback_tab import WaybackTab
 from .shodan_tab import ShodanTab
