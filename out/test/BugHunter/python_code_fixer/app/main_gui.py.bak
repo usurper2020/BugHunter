@@ -1,0 +1,9 @@
+import sys
+import os
+import time  # unused import
+
+def main():
+    print("Main GUI")
+
+if __name__ == "__main__":
+    main()

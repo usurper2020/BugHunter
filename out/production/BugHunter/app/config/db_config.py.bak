@@ -1,0 +1,59 @@
+"""
+Database configuration for BugHunter application.
+Provides database connection settings and utilities.
+"""
+
+from urllib.parse import quote_plus
+
+from bcrypt import gensalt, hashpw
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, sessionmaker
+
+from app.config.config import Config
+from app.models.base import Base
+from app.models.user import User
+
+config = Config()
+
+# Database URL from configuration with proper escaping
+db_user = config.get("database.DB_USER")
+db_password = quote_plus(config.get("database.DB_PASSWORD"))
+db_host = config.get("database.DB_HOST")
+db_port = config.get("database.DB_PORT")
+db_name = config.get("database.DB_NAME")
+
+# Construct connection string with proper escaping
+DATABASE_URL = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+
+# Create database engine
+engine = create_engine(DATABASE_URL)
+
+# Create configured Session class
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+def create_admin_user(db: Session):
+    """Create an admin user with a hashed password."""
+    admin_username = "admin"
+    admin_password = "StrongPassword123!"  # This should be a strong password
+    hashed_password = hashpw(admin_password.encode("utf-8"), gensalt())
+
+    # Check if the admin user already exists
+    existing_user = db.query(User).filter(User.username == admin_username).first()
+    if not existing_user:
+        new_user = User(username=admin_username, password_hash=hashed_password)
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        print("Admin user created.")
+    else:
+        print("Admin user already exists.")
+
+
+def get_db():
+    """Database session dependency"""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

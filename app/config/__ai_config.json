@@ -1,0 +1,12 @@
+{
+    "ai_api_type": "openai", // Can be "openai", "codegpt", or "bughunter"
+    "openai_api_key": "",
+    "codegpt_api_key": "",
+    "temperature": 0.3,
+    "max_tokens": 2000,
+    "cache_ttl_minutes": 60,
+    "vulnerability_analysis": {
+        "confidence_threshold": 0.8,
+        "max_vulnerabilities": 10
+    }
+}

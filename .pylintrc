@@ -1,0 +1,70 @@
+[MASTER]
+ignore=venv, migrations, tests, .git, .github, .idea, .pytest_cache, .vscode, __pycache__, faiss, nuclei, nuclei-template, alembic
+ignore-patterns=nearly-there/.*
+
+[MESSAGES CONTROL]
+# Disable specific checks for docstrings and line length
+disable=
+    C0114,  # Missing module docstring
+    C0115,  # Missing class docstring
+    C0116,  # Missing function or method docstring
+    C0301,  # Line too long
+
+[REPORTS]
+reports=yes
+
+
+# The evaluation formula calculates the final score by deducting points based on errors, warnings, refactors, and conventions.
+# Each error is weighted more heavily (multiplied by 5) compared to warnings, refactors, and conventions.
+# The total deductions are divided by the number of statements to normalize the score.
+evaluation=10.0 - ((float(5 * error + warning + refactor + convention)) / statement)
+[FORMAT]
+# Maximum number of characters on a single line
+# String quote style (single or double quotes)
+string-quote=single
+
+[DESIGN]
+# Maximum number of arguments for a function/method
+max-args=5
+
+# Maximum number of attributes for a class
+max-attributes=10
+
+# Maximum number of methods in a class
+max-methods=20
+
+# Maximum number of local variables in a function
+max-locals=15
+
+# Maximum number of return statements in a function
+max-returns=6
+
+# Maximum number of branches in a function
+max-branches=12
+
+# Maximum number of statements in a function
+max-statements=50
+
+[IMPORTS]
+# Allow wildcard imports (useful for certain libraries)
+allow-wildcard-with-all=no
+
+# Allow imports at the module level only
+import-graph=
+
+[TYPECHECK]
+# Ignore missing type hints for third-party libraries
+ignored-modules=numpy, pandas, tensorflow, PyQt6.QtCore, PyQt6.QtWidgets
+
+[LOGGING]
+# Require a specific logging format
+logging-format-style=percent
+min-similarity-lines=4
+
+[VARIABLES]
+# Allow variables to be named `_` (useful for unused variables)
+dummy-variables-rgx=^_.*|dummy
+
+[EXCEPTIONS]
+# Allow catching general exceptions
+overgeneral-exceptions=Exception

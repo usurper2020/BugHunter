@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -7,6 +8,13 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+=======
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+>>>>>>> 27f9efd (Initial commit with graph setup code)
 .Python
 build/
 develop-eggs/
@@ -20,6 +28,7 @@ parts/
 sdist/
 var/
 wheels/
+<<<<<<< HEAD
 share/python-wheels/
 *.egg-info/
 .installed.cfg
@@ -169,3 +178,58 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+=======
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.project
+.pydevproject
+.settings/
+
+# Application specific
+data/
+reports/
+tools/
+*.log
+preferences.json
+users.json
+messages.json
+tasks.json
+notes.json
+contributions.json
+
+# Security
+*.key
+*.pem
+*.cert
+.env
+.secret
+
+# Operating System
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Documentation
+site/
+docs/_build/
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+coverage.xml
+*.cover
+>>>>>>> 27f9efd (Initial commit with graph setup code)

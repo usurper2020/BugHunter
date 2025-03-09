@@ -1,0 +1,6 @@
+from PyQt5.QtWidgets import QApplication, QTabWidget, QLabel, QLineEdit, QMessageBox
+import logging
+from app.services import initialize_services
+from app.services.wayback_machine_integration import WaybackMachineIntegration
+from app.services.vulnerability_scanner import VulnerabilityScanner
+from app.services.user_auth import UserAuth

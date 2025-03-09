@@ -1,0 +1,293 @@
+import logging
+import os
+from pathlib import Path
+from typing import List, Optional, Set
+import argparse
+import ast
+import re
+from datetime import datetime
+
+class ImportFixer:
+    def __init__(self, file_path: str):
+        self.file_path = file_path
+        self.imports = []
+        self.unused_imports = []
+        self.content = []
+
+    def analyze(self) -> None:
+        """Analyze imports in the file"""
+        try:
+            with open(self.file_path, 'r', encoding='utf-8') as file:
+                content = file.read()
+                self.content = content.splitlines()
+                self.find_imports()
+                self.find_unused_imports()
+        except Exception as e:
+            logging.error(f"Failed to analyze {self.file_path}: {str(e)}")
+
+    def find_imports(self) -> None:
+        """Find all import statements"""
+        self.imports = []
+        for i, line in enumerate(self.content):
+            if line.strip().startswith(('import ', 'from ')):
+                self.imports.append((i, line.strip()))
+
+    def find_unused_imports(self) -> None:
+        """Find unused imports using AST"""
+        self.unused_imports = []
+        try:
+            with open(self.file_path, 'r', encoding='utf-8') as file:
+                tree = ast.parse(file.read())
+
+            # Get all import names
+            imports = set()
+            for node in ast.walk(tree):
+                if isinstance(node, (ast.Import, ast.ImportFrom)):
+                    for name in node.names:
+                        imports.add(name.name)
+
+            # Get all used names
+            used_names = set()
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Name):
+                    used_names.add(node.id)
+                elif isinstance(node, ast.Attribute):
+                    used_names.add(node.attr)
+
+            # Find unused imports
+            for i, (line_num, import_stmt) in enumerate(self.imports):
+                if any(name in import_stmt and name not in used_names for name in imports):
+                    self.unused_imports.append((line_num, import_stmt))
+
+        except Exception as e:
+            logging.error(f"Error analyzing imports in {self.file_path}: {str(e)}")
+
+    def create_backup(self) -> str:
+        """Create a backup of the file"""
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        backup_dir = os.path.join(os.path.dirname(self.file_path), 'backups')
+        os.makedirs(backup_dir, exist_ok=True)
+
+        backup_path = os.path.join(
+            backup_dir,
+            f"{os.path.basename(self.file_path)}.{timestamp}.bak"
+        )
+
+        with open(self.file_path, 'r', encoding='utf-8') as src:
+            with open(backup_path, 'w', encoding='utf-8') as dst:
+                dst.write(src.read())
+
+        return backup_path
+
+    def fix(self) -> None:
+        """Fix import issues"""
+        try:
+            if not self.unused_imports:
+                self.analyze()
+
+            if self.unused_imports:
+                # Create backup
+                backup_path = self.create_backup()
+                logging.info(f"Created backup at {backup_path}")
+
+                # Remove unused imports
+                new_content = []
+                for i, line in enumerate(self.content):
+                    if not any(unused[0] == i for unused in self.unused_imports):
+                        new_content.append(line)
+
+                # Write fixed content
+                with open(self.file_path, 'w', encoding='utf-8') as f:
+                    f.write('\n'.join(new_content))
+
+                logging.info(f"Fixed imports in {self.file_path}")
+                logging.info(f"Removed {len(self.unused_imports)} unused imports")
+        except Exception as e:
+            logging.error(f"Failed to fix imports in {self.file_path}: {str(e)}")
+
+class StyleFixer:
+    def __init__(self, file_path: str):
+        self.file_path = file_path
+
+    def fix(self) -> None:
+        """Fix style issues"""
+        try:
+            with open(self.file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+
+            # Fix whitespace
+            fixed_content = self._fix_whitespace(content)
+
+            # Fix line endings
+            fixed_content = self._fix_line_endings(fixed_content)
+
+            with open(self.file_path, 'w', encoding='utf-8') as f:
+                f.write(fixed_content)
+
+            logging.info(f"Fixed style issues in {self.file_path}")
+        except Exception as e:
+            logging.error(f"Failed to fix style in {self.file_path}: {str(e)}")
+
+    def _fix_whitespace(self, content: str) -> str:
+        """Fix common whitespace issues"""
+        lines = content.splitlines()
+        fixed_lines = []
+
+        for line in lines:
+            # Remove trailing whitespace
+            fixed_line = line.rstrip()
+            # Ensure proper indentation (using spaces)
+            fixed_line = re.sub(r'\t', '    ', fixed_line)
+            fixed_lines.append(fixed_line)
+
+        return '\n'.join(fixed_lines)
+
+    def _fix_line_endings(self, content: str) -> str:
+        """Normalize line endings to \n"""
+        return content.replace('\r\n', '\n').replace('\r', '\n')
+
+class CodeFixer:
+    def __init__(self, root_dir: str = '.', exclude_folders: Optional[List[str]] = None):
+        self.root_dir = Path(root_dir)
+        self.python_files = []
+        # Default folders to exclude
+        self.exclude_folders = set([
+            'venv',
+            '.git',
+            '__pycache__',
+            'node_modules',
+            'build',
+            'dist',
+            'migrations',
+            '.pytest_cache',
+            '.mypy_cache',
+            '.vscode',
+            'env',
+            'backups'
+        ])
+        # Add user-specified folders to exclude
+        if exclude_folders:
+            self.exclude_folders.update(exclude_folders)
+        self._find_python_files()
+
+    def _should_skip_directory(self, dirpath: str) -> bool:
+        """Check if directory should be skipped based on exclude list"""
+        dir_parts = Path(dirpath).parts
+        return any(excluded in dir_parts for excluded in self.exclude_folders)
+
+    def _find_python_files(self) -> None:
+        """Find all Python files in the project, excluding specified directories"""
+        try:
+            for root, dirs, files in os.walk(self.root_dir):
+                # Skip excluded directories
+                if self._should_skip_directory(root):
+                    dirs[:] = []  # Don't traverse into excluded directories
+                    continue
+
+                # Remove excluded directories from dirs list
+                dirs[:] = [d for d in dirs if d not in self.exclude_folders]
+
+                for file in files:
+                    if file.endswith('.py'):
+                        file_path = os.path.join(root, file)
+                        self.python_files.append(file_path)
+                        logging.debug(f"Found Python file: {file_path}")
+
+            logging.info(f"Found {len(self.python_files)} Python files to process")
+        except Exception as e:
+            logging.error(f"Error finding Python files: {str(e)}")
+
+    def add_exclude_folder(self, folder: str) -> None:
+        """Add a folder to the exclude list"""
+        self.exclude_folders.add(folder)
+        self.python_files = []
+        self._find_python_files()
+
+    def remove_exclude_folder(self, folder: str) -> None:
+        """Remove a folder from the exclude list"""
+        if folder in self.exclude_folders:
+            self.exclude_folders.remove(folder)
+            self.python_files = []
+            self._find_python_files()
+
+    def get_exclude_folders(self) -> Set[str]:
+        """Get the current list of excluded folders"""
+        return self.exclude_folders
+
+    def fix_all_issues(self) -> None:
+        """Fix all issues in all Python files"""
+        logging.info(f"Starting fixes. Excluding folders: {', '.join(self.exclude_folders)}")
+
+        total_files = len(self.python_files)
+        for i, file_path in enumerate(self.python_files, 1):
+            try:
+                logging.info(f"Processing file {i}/{total_files}: {file_path}")
+
+                # Fix imports
+                import_fixer = ImportFixer(file_path)
+                import_fixer.fix()
+
+                # Fix style
+                style_fixer = StyleFixer(file_path)
+                style_fixer.fix()
+
+            except Exception as e:
+                logging.error(f"Failed to fix {file_path}: {str(e)}")
+
+def setup_logging(verbose: bool) -> None:
+    """Setup logging configuration"""
+    log_level = logging.DEBUG if verbose else logging.INFO
+
+    # Create logs directory if it doesn't exist
+    log_dir = 'logs'
+    os.makedirs(log_dir, exist_ok=True)
+
+    # Setup logging to both file and console
+    log_file = os.path.join(log_dir, f'code_fixer_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
+
+    logging.basicConfig(
+        level=log_level,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler(log_file),
+            logging.StreamHandler()
+        ]
+    )
+
+def main():
+    parser = argparse.ArgumentParser(description='Fix Python code issues')
+    parser.add_argument('--root', default='.', help='Root directory to start from')
+    parser.add_argument('--exclude', nargs='+', help='Additional folders to exclude')
+    parser.add_argument('--verbose', action='store_true', help='Enable verbose logging')
+    parser.add_argument('--no-backup', action='store_true', help='Disable automatic backups')
+
+    args = parser.parse_args()
+
+    # Setup logging
+    setup_logging(args.verbose)
+
+    # Log start of execution
+    logging.info("Starting Python Code Fixer")
+    logging.info(f"Root directory: {args.root}")
+
+    try:
+        # Initialize fixer
+        fixer = CodeFixer(
+            root_dir=args.root,
+            exclude_folders=args.exclude
+        )
+
+        # Log excluded folders
+        logging.info(f"Excluded folders: {', '.join(fixer.get_exclude_folders())}")
+
+        # Run the fixer
+        fixer.fix_all_issues()
+
+        logging.info("Code fixing completed successfully")
+
+    except Exception as e:
+        logging.error(f"An error occurred during execution: {str(e)}")
+        raise
+
+if __name__ == '__main__':
+    main()

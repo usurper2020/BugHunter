@@ -1,0 +1,3 @@
+logging
+PyQt6
+gui

@@ -1,0 +1,10 @@
+Collecting pytest-asyncio
+  Using cached pytest_asyncio-0.25.3-py3-none-any.whl.metadata (3.9 kB)
+Requirement already satisfied: pytest<9,>=8.2 in c:\users\clabb\appdata\local\programs\python\python311\lib\site-packages (from pytest-asyncio) (8.3.5)
+Requirement already satisfied: colorama in c:\users\clabb\appdata\local\programs\python\python311\lib\site-packages (from pytest<9,>=8.2->pytest-asyncio) (0.4.6)
+Requirement already satisfied: iniconfig in c:\users\clabb\appdata\local\programs\python\python311\lib\site-packages (from pytest<9,>=8.2->pytest-asyncio) (2.0.0)
+Requirement already satisfied: packaging in c:\users\clabb\appdata\local\programs\python\python311\lib\site-packages (from pytest<9,>=8.2->pytest-asyncio) (24.2)
+Requirement already satisfied: pluggy<2,>=1.5 in c:\users\clabb\appdata\local\programs\python\python311\lib\site-packages (from pytest<9,>=8.2->pytest-asyncio) (1.5.0)
+Using cached pytest_asyncio-0.25.3-py3-none-any.whl (19 kB)
+Installing collected packages: pytest-asyncio
+Successfully installed pytest-asyncio-0.25.3

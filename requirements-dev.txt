@@ -1,0 +1,12 @@
+# pytest dependencies
+pytest
+pytest-cov
+pytest-env
+pytest-mock
+pytest-timeout
+pytest-xdist
+pytest-flake8
+pytest-asyncio
+pytest-html
+PyQt6
+aiohttp

@@ -1,0 +1,172 @@
+import logging
+from pathlib import Path
+from typing import List, Dict, Any
+import importlib
+
+class IssueFixer:
+    def __init__(self):
+        self.logger = logging.getLogger("BugHunter.IssueFixer")
+        self.base_dir = Path("app")
+
+    def fix_all_issues(self):
+        """Orchestrates the fixing of all issues by type"""
+        fixers = [
+            SyntaxErrorFixer(),
+            ImportFixer(),
+            NamingConventionFixer(),
+            UnusedCodeFixer(),
+            EncodingFixer(),
+            LoggingFixer(),
+            AttributeFixer(),
+            StyleFixer()
+        ]
+
+        for fixer in fixers:
+            fixer.fix()
+
+class SyntaxErrorFixer:
+    """Fixes syntax errors like indentation and missing blocks"""
+    
+    def fix(self):
+        syntax_issues = {
+            'app/main_gui.py': 'missing_indent_after_if',
+            'app/backups/__init__.py': 'incorrect_indentation',
+            'app/services/database.py': 'missing_class_body',
+            'app/services/__init__.py': 'incorrect_indentation'
+        }
+
+        for file_path, issue_type in syntax_issues.items():
+            self._fix_syntax_issue(Path(file_path), issue_type)
+
+    def _fix_syntax_issue(self, file_path: Path, issue_type: str):
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.readlines()
+
+            fixed_content = []
+            in_block = False
+            
+            for line in content:
+                if issue_type == 'missing_indent_after_if':
+                    if 'if' in line and ':' in line and not any(line.strip().startswith(x) for x in ['elif', 'else']):
+                        fixed_content.append(line)
+                        fixed_content.append('    pass  # TODO: Implement this block\n')
+                        continue
+                elif issue_type == 'incorrect_indentation':
+                    # Fix indentation levels
+                    stripped = line.lstrip()
+                    indent_level = len(line) - len(stripped)
+                    if in_block:
+                        fixed_content.append('    ' * (indent_level // 4) + stripped)
+                    else:
+                        fixed_content.append(line)
+                elif issue_type == 'missing_class_body':
+                    if line.strip().startswith('class') and line.strip().endswith(':'):
+                        fixed_content.append(line)
+                        fixed_content.append('    pass  # TODO: Implement class methods\n')
+                        continue
+
+                fixed_content.append(line)
+
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.writelines(fixed_content)
+
+        except Exception as e:
+            logging.error(f"Failed to fix syntax in {file_path}: {str(e)}")
+
+class ImportFixer:
+    """Fixes import related issues"""
+    
+    def fix(self):
+        self._fix_import_errors()
+        self._fix_import_order()
+        self._remove_unused_imports()
+
+    def _fix_import_errors(self):
+        # Add missing PyQt6 imports
+        pyqt_fixes = {
+            'QLabel': 'from PyQt6.QtWidgets import QLabel',
+            'QLineEdit': 'from PyQt6.QtWidgets import QLineEdit',
+            'QMessageBox': 'from PyQt6.QtWidgets import QMessageBox',
+            # Add other PyQt6 widgets...
+        }
+
+        for file_path in self._get_python_files():
+            self._fix_file_imports(file_path, pyqt_fixes)
+
+    def _fix_import_order(self):
+        for file_path in self._get_python_files():
+            self._reorder_imports(file_path)
+
+    def _get_python_files(self) -> List[Path]:
+        return list(Path('app').rglob('*.py'))
+
+class NamingConventionFixer:
+    """Fixes naming convention issues"""
+    
+    def fix(self):
+        self._fix_module_names()
+        self._fix_method_names()
+
+    def _fix_module_names(self):
+        problematic_files = {
+            'bughunterAI.py': 'bughunter_ai.py',
+            'BugHunter/app': 'bughunter/app'
+        }
+        
+        for old_name, new_name in problematic_files.items():
+            self._rename_module(old_name, new_name)
+
+class UnusedCodeFixer:
+    """Fixes unused variables, arguments, and imports"""
+    
+    def fix(self):
+        self._remove_unused_variables()
+        self._fix_unused_arguments()
+        self._remove_unused_imports()
+
+class EncodingFixer:
+    """Fixes file encoding issues"""
+    
+    def fix(self):
+        self._add_explicit_encoding()
+
+    def _add_explicit_encoding(self):
+        encoding_pattern = r'open\((.*?)\)'
+        encoding_replacement = r'open(\1, encoding="utf-8")'
+        
+        for file_path in Path('app').rglob('*.py'):
+            self._fix_file_encoding(file_path, encoding_pattern, encoding_replacement)
+
+class LoggingFixer:
+    """Fixes logging related issues"""
+    
+    def fix(self):
+        self._fix_fstring_logging()
+
+    def _fix_fstring_logging(self):
+        for file_path in Path('app').rglub('*.py'):
+            self._convert_fstring_to_percent(file_path)
+
+class AttributeFixer:
+    """Fixes attribute related issues"""
+    
+    def fix(self):
+        self._move_attributes_to_init()
+        self._fix_undefined_attributes()
+
+class StyleFixer:
+    """Fixes style related issues"""
+    
+    def fix(self):
+        self._fix_trailing_whitespace()
+        self._add_final_newline()
+        self._fix_line_length()
+
+def main():
+    logging.basicConfig(level=logging.INFO)
+    fixer = IssueFixer()
+    fixer.fix_all_issues()
+
+if __name__ == "__main__":
+    main()

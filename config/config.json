@@ -1,0 +1,4 @@
+{
+    "database_url": "sqlite:///test.db",
+    "shodan_api_key": "YOUR_SHODAN_API_KEY"
+}

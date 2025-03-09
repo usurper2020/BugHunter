@@ -1,0 +1,42 @@
+# FFUF Configuration
+
+# General settings
+threads: 40
+timeout: 10
+delay: 0.1
+rate_limit: 0
+
+# Matcher settings
+matchers:
+  - type: status
+    value: [200, 204, 301, 302, 307, 401, 403]
+  - type: size
+    value: [">0"]
+
+# Filter settings
+filters:
+  - type: status
+    value: [404, 429, 503]
+  - type: size
+    value: ["=0"]
+
+# Request settings
+headers:
+  - "User-Agent: BugHunter Security Scanner"
+  - "Accept: */*"
+
+# Output settings
+output_format: "json"
+output_file: "ffuf_output.json"
+colors: true
+verbose: false
+
+# Recursion settings
+recursion: false
+recursion_depth: 0
+# Authentication
+# auth_header: "Bearer YOUR_AUTH_TOKEN"
+# cookie: "session=123456"
+
+# Proxy settings
+# proxy: "http://127.0.0.1:8080"
