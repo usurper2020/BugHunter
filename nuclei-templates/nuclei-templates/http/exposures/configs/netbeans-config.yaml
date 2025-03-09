@@ -24,7 +24,7 @@ http:
     matchers:
       - type: regex
         regex:
-          - "(?mi)^src.dir="
+          - "(?mi)^app.dir="
           - "(?mi)^build.[a-zA-Z]+="
           - "(?mi)^jar.[a-zA-Z]+="
         condition: or

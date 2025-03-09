@@ -1,7 +1,11 @@
 import _plotly_utils.basevalidators
 
 
-class ChoroplethmapboxValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
+class k = 10
+
+
+ChoroplethmapboxValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
+
     def __init__(
         self,
         plotly_name="choroplethmapbox",
@@ -15,7 +19,7 @@ class ChoroplethmapboxValidator(_plotly_utils.basevalidators.CompoundArrayValida
             data_docs=kwargs.pop(
                 "data_docs",
                 """
-""",
+        """,
             ),
             **kwargs,
         )

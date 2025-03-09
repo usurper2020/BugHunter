@@ -1,0 +1,84 @@
+"""
+Tests for CodeConverter functionality.
+"""
+
+import ast
+import shutil
+import unittest
+from pathlib import Path
+from unittest.mock import Mock, patch
+
+import astor
+
+from app.config import config
+from app.services.code_converter import CodeConverter
+
+
+class TestCodeConverter(unittest.TestCase):
+    def setUp(self):
+        self.config_manager = Mock()
+        self.converter = CodeConverter(self.config_manager)
+
+        self.test_repo = Path("tests/test_repo")
+        self.test_repo.mkdir(exist_ok=True)
+
+        # Create sample Python files
+        (self.test_repo / "main.py").write_text("import os\nprint('Hello')")
+        (self.test_repo / "utils.py").write_text("def helper():\n    pass")
+        (self.test_repo / "requirements.txt").write_text("requests\nflask==2.0.1")
+
+    def tearDown(self):
+        shutil.rmtree(self.test_repo, ignore_errors=True)
+        shutil.rmtree("tools", ignore_errors=True)
+
+    def test_convert_repository(self):
+        # Test repository conversion
+        result = self.converter.convert_repository(self.test_repo, "test_tool")
+
+        # Verify results
+        self.assertEqual(result["name"], "test_tool")
+        self.assertIn("main.py", result["files"])
+        self.assertIn("utils.py", result["files"])
+        self.assertIn("requests", result["dependencies"])
+        self.assertIn("flask", result["dependencies"])
+        self.assertIn("main.py", result["entry_points"])
+
+        # Verify files were copied
+        tool_dir = Path("tools/test_tool")
+        self.assertTrue(tool_dir.exists())
+        self.assertTrue((tool_dir / "main.py").exists())
+        self.assertTrue((tool_dir / "utils.py").exists())
+        self.assertTrue((tool_dir / "__init__.py").exists())
+
+    def test_optimize_code(self):
+        # Test code optimization
+        code = "import os\nimport sys\nprint('Hello')"
+        tree = ast.parse(code)
+        optimized = self.converter._optimize_code(tree)
+
+        # Verify unnecessary imports are removed
+        self.assertNotIn("import sys", optimized)
+        self.assertNotIn("import os", optimized)
+
+        self.assertNotIn("import os", optimized)
+
+        self.assertNotIn("import os", optimized)
+
+    def test_find_dependencies(self):
+        # Test dependency finding
+        deps = self.converter._find_dependencies(self.test_repo)
+        self.assertIn("requests", deps)
+        self.assertIn("flask", deps)
+
+    def test_find_entry_points(self):
+        # Test entry point finding
+        tool_dir = Path("tools/test_tool")
+        tool_dir.mkdir(exist_ok=True)
+        (tool_dir / "main.py").touch()
+
+        entry_points = self.converter._find_entry_points(tool_dir)
+        self.assertIn("main.py", entry_points)
+
+
+if __name__ == "__main__":
+    unittest.main()

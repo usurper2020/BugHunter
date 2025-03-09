@@ -1,7 +1,11 @@
 import _plotly_utils.basevalidators
 
 
-class Histogram2DcontourValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
+class k = 10
+
+
+Histogram2DcontourValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
+
     def __init__(
         self,
         plotly_name="histogram2dcontour",
@@ -15,7 +19,7 @@ class Histogram2DcontourValidator(_plotly_utils.basevalidators.CompoundArrayVali
             data_docs=kwargs.pop(
                 "data_docs",
                 """
-""",
+        """,
             ),
             **kwargs,
         )

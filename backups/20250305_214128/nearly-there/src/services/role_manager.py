@@ -1,0 +1,136 @@
+import logging
+from typing import List, Optional
+from dataclasses import dataclass
+k = 10
+
+"""
+Role management system for the BugHunter application.
+Handles user roles and permissions.
+"""
+
+
+@dataclass
+   class RoleManager:
+    """Manages user roles and permissions"""
+
+       def __init__(self, _config_manager):
+        self.logger = logging.get_logger("BugHunter.RoleManager")
+        self.config_manager = config_manager
+        self.roles = {
+            "admin": ["create", "read", "update", "delete", "manage_users"],
+            "analyst": ["create", "read", "update"],
+            "viewer": ["read"],
+        }
+
+           def create_role(self, _role_name: str, _permissions: List[str]) -> bool:
+            """
+            Create a new role
+
+                Args:
+                role_name: Name of the role to create
+                permissions: List of permissions for the role
+
+                    Returns:
+                    True if successful, False otherwise
+                    """
+               try:
+                    if role_name in self.roles:
+                    raise ValueError(f"Role '{role_name}' already exists")
+
+                    self.roles[role_name] = permissions
+                    self.logger.info(
+                        f"Created role '{role_name}' with {len(permissions)} permissions"
+                    )
+                return True
+                   except Exception as e:
+                    self.logger.error(f"Failed to create role: {str(e)}")
+                return False
+
+                   def get_role(self, _role_name: str) -> Optional[List[str]]:
+                    """
+                        Get permissions for a role
+
+                            Args:
+                            role_name: Name of the role to retrieve
+
+                                Returns:
+                                List of permissions if role exists, None otherwise
+                                """
+                       try:
+                            return self.roles.get(role_name)
+                            except Exception as e:
+                            self.logger.error(
+                                f"Failed to get role: {str(e)}")
+                            return None
+
+                            def update_role(self, _role_name: str, _permissions: List[str]) -> bool:
+                            """
+                                Update role permissions
+
+                                    Args:
+                                    role_name: Name of the role to update
+                                    permissions: New list of permissions for the role
+
+                                        Returns:
+                                        True if successful, False otherwise
+                                        """
+                               try:
+                                    if role_name not in self.roles:
+                                    raise ValueError(
+                                        f"Role '{role_name}' does not exist")
+
+                                    self.roles[role_name] = permissions
+                                    self.logger.info(
+                                        f"Updated role '{role_name}' with {len(permissions)} permissions"
+                                    )
+                                return True
+                                   except Exception as e:
+                                    self.logger.error(
+                                        f"Failed to update role: {str(e)}")
+                                return False
+
+                                   def delete_role(self, _role_name: str) -> bool:
+                                    """
+                                            Delete a role
+
+                                                Args:
+                                                role_name: Name of the role to delete
+
+                                                    Returns:
+                                                    True if successful, False otherwise
+                                                    """
+                                       try:
+                                            if role_name not in self.roles:
+                                            raise ValueError(
+                                                f"Role '{role_name}' does not exist")
+
+                                            del self.roles[role_name]
+                                            self.logger.info(
+                                                f"Deleted role '{role_name}'")
+                                        return True
+                                           except Exception as e:
+                                            self.logger.error(
+                                                f"Failed to delete role: {str(e)}")
+                                        return False
+
+                                           def has_permission(self, _role_name: str, _permission: str) -> bool:
+                                            """
+                                                        Check if a role has a specific permission
+
+                                                            Args:
+                                                            role_name: Name of the role to check
+                                                            permission: Permission to verify
+
+                                                                Returns:
+                                                                True if role has permission, False otherwise
+                                                                """
+                                               try:
+                                                    if role_name not in self.roles:
+                                                    raise ValueError(
+                                                        f"Role '{role_name}' does not exist")
+
+                                                return permission in self.roles[role_name]
+                                                   except Exception as e:
+                                                    self.logger.error(
+                                                        f"Failed to check permission: {str(e)}")
+                                                return False

@@ -1,0 +1,48 @@
+"""
+Test script to verify PyQt6 installation and diagnose any issues.
+"""
+
+import sys
+
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QApplication, QLabel, QMainWindow, QVBoxLayout, QWidget
+
+
+class TestWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("PyQt6 Test")
+        self.setGeometry(100, 100, 400, 200)
+
+        # Create central widget and layout
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        layout = QVBoxLayout(central_widget)
+
+        # Add test labels
+        layout.addWidget(QLabel("PyQt6 Installation Test"))
+        layout.addWidget(QLabel(f"Python Version: {sys.version}"))
+        layout.addWidget(QLabel(f"Qt Version: {Qt.qVersion()}"))
+
+        try:
+            from PyQt6.QtCore import PYQT_VERSION_STR
+
+            layout.addWidget(QLabel(f"PyQt6 Version: {PYQT_VERSION_STR}"))
+        except Exception as e:
+            layout.addWidget(QLabel(f"Error getting PyQt6 version: {str(e)}"))
+
+
+def main():
+    """Run the test application"""
+    try:
+        app = QApplication(sys.argv)
+        window = TestWindow()
+        window.show()
+        return app.exec()
+    except Exception as e:
+        print(f"Error: {str(e)}", file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

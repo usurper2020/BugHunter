@@ -1,10 +1,10 @@
 id: imgsrcru
 
 info:
-  name: IMGSRC.RU User Name Information - Detect
+  name: IMGapp.RU User Name Information - Detect
   author: dwisiswant0
   severity: info
-  description: IMGSRC.RU user name information check was conducted.
+  description: IMGapp.RU user name information check was conducted.
   classification:
     cvss-metrics: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N
     cvss-score: 0
@@ -18,7 +18,7 @@ self-contained: true
 http:
   - method: GET
     path:
-      - "https://imgsrc.ru/main/user.php?lang=ru&user={{user}}"
+      - "https://imgapp.ru/main/user.php?lang=ru&user={{user}}"
 
     matchers-condition: and
     matchers:

@@ -1,0 +1,17 @@
+import logging
+
+from app.config.base_config import BaseConfig
+
+# Define logger_config at the module level
+logger_config = {
+    # Your logger configuration details
+}
+
+
+def setup_logging():
+    """Set up logging configuration."""
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[logging.FileHandler("logs/bughunter.log"), logging.StreamHandler()],
+    )

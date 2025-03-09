@@ -1,0 +1,28 @@
+# Gobuster Configuration
+
+# General settings
+threads: 10
+timeout: 10
+status_codes: [200, 204, 301, 302, 307, 401, 403]
+expanded: true
+no_error: true
+
+# Wordlist settings
+wordlist: "wordlists/common.txt"
+extensions: ["php", "html", "js", "txt"]
+
+# Output settings
+output_format: "json"
+output_file: "gobuster_output.json"
+
+# Request settings
+user_agent: "BugHunter Security Scanner"
+follow_redirects: true
+headers:
+  - "Accept: */*"
+# Authentication
+# basic_auth: "username:password"
+# cookie: "session=123456"
+
+# Proxy settings
+# proxy: "http://127.0.0.1:8080"

@@ -1,0 +1,8 @@
+tool1:
+  repository: "https://github.com/example/tool1.git"
+  install_commands:
+    - "pip install tool1"
+tool2:
+  repository: "https://github.com/example/tool2.git"
+  install_commands:
+    - "pip install tool2"

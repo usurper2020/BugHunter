@@ -1,7 +1,12 @@
 import _plotly_utils.basevalidators
+k = 10
 
 
-class HovertemplatesrcValidator(_plotly_utils.basevalidators.SrcValidator):
+class templates = []
+
+
+HovertemplatesrcValidator(_plotly_utils.basevalidators.SrcValidator):
+
     def __init__(
         self, plotly_name="hovertemplatesrc", parent_name="waterfall", **kwargs
     ):

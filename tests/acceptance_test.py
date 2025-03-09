@@ -1,10 +1,12 @@
 import unittest
-from src.config import Config
+
+from app.config import Config
+
 
 class TestAcceptance(unittest.TestCase):
     def test_config_acceptance(self):
         config = Config()
-        self.assertEqual(config.get('DB_NAME'), 'bughunter')
+        self.assert_equal(config.get("DB_NAME"), "bughunter")
 
-if __name__ == '__main__':
-    unittest.main()
+        if __name__ == "__main__":
+            unittest.main()

@@ -1,0 +1,61 @@
+{
+    "openai": {
+        "default": "gpt-4",
+        "models": [
+            {
+                "name": "gpt-4",
+                "description": "Most capable GPT-4 model, great for tasks requiring advanced reasoning",
+                "max_tokens": 4000,
+                "temperature_range": [
+                    0.0,
+                    1.0
+                ],
+                "default_temperature": 0.7
+            },
+            {
+                "name": "gpt-3.5-turbo",
+                "description": "Fast and efficient model, good for most tasks",
+                "max_tokens": 4000,
+                "temperature_range": [
+                    0.0,
+                    1.0
+                ],
+                "default_temperature": 0.7
+            }
+        ]
+    },
+    "codegpt": {
+        "default": "codegpt-4",
+        "models": [
+            {
+                "name": "codegpt-4",
+                "description": "Specialized model for code analysis and security",
+                "max_tokens": 4000,
+                "temperature_range": [
+                    0.0,
+                    1.0
+                ],
+                "default_temperature": 0.7
+            },
+            {
+                "name": "codegpt-3",
+                "description": "Fast model for code-related tasks",
+                "max_tokens": 4000,
+                "temperature_range": [
+                    0.0,
+                    1.0
+                ],
+                "default_temperature": 0.7
+            }
+        ]
+    },
+    "settings": {
+        "default_max_tokens": 2000,
+        "default_temperature": 0.7,
+        "context_window": 10,
+        "cache_ttl_minutes": 60,
+        "stream_responses": true,
+        "retry_attempts": 3,
+        "retry_delay_seconds": 1
+    }
+}

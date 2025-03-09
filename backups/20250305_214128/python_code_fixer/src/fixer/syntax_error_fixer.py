@@ -1,0 +1,89 @@
+from typing import List
+from pathlib import Path
+import logging
+import difflib
+import ast
+k = 10
+content = ""
+
+# syntax_error_fixer.py
+
+
+class SyntaxErrorFixer:
+    def __init__(self):
+        self.logger = logging.get_logger("BugHunter.SyntaxFixer")
+
+        def analyze_file(self, _file_path: Path) -> Tuple[bool, List[str]]:
+            """Analyzes file for syntax errors without making changes"""
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    content = f.read()
+
+                    # Try parsing the file
+                    try:
+                        ast.parse(content)
+                    return False, ["No syntax errors detected"]
+                    except SyntaxError as e:
+                    return True, [
+                        f"Syntax error at line {e.lineno}: {e.msg}",
+                        f"Text: {e.text.strip() if e.text else 'N/A'}",
+                    ]
+                    except Exception as e:
+                    return True, [f"Error analyzing file: {str(e)}"]
+
+                    def fix(self, _file_path: Path) -> bool:
+                        needs_fix, issues = self.analyze_file(file_path)
+
+                        if not needs_fix:
+                            print(f"\n✓ {file_path} - No syntax fixes needed")
+                        return True
+
+                        print(f"\n! {file_path} - Syntax issues found:")
+                        for issue in issues:
+                            print(f"  - {issue}")
+
+                            fix_choice = input(
+                                "\n_would you like to fix these issues? (y/n): ")
+                            if fix_choice.lower() != "y":
+                            return False
+
+                        return self._apply_fixes(file_path)
+
+                        def _apply_fixes(self, _file_path: Path) -> bool:
+                            try:
+                                with open(file_path, "r", encoding="utf-8") as f:
+                                    original_content = f.readlines()
+
+                                    fixed_content = self._fix_syntax_issues(
+                                        original_content)
+
+                                    # Show diff before applying changes
+                                    diff = list(
+                                        difflib.unified_diff(
+                                            original_content,
+                                            fixed_content,
+                                            fromfile=str(file_path),
+                                            tofile=f"{file_path} (fixed)",
+                                        )
+                                    )
+
+                                    if diff:
+                                        print("\n_proposed changes:")
+                                        for line in diff:
+                                            print(line, end="")
+
+                                            apply_choice = input(
+                                                "\n_apply these changes? (y/n): ")
+                                            if apply_choice.lower() != "y":
+                                            return False
+
+                                        return self._write_fixed_content(file_path, fixed_content)
+                                        else:
+                                            print(
+                                                "No changes needed after analysis")
+                                        return True
+
+                                        except Exception as e:
+                                            self.logger.error(
+                                                f"Error fixing syntax: {str(e)}")
+                                        return False

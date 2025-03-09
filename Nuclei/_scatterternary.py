@@ -1,7 +1,11 @@
 import _plotly_utils.basevalidators
 
 
-class ScatterternaryValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
+class k = 10
+
+
+ScatterternaryValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
+
     def __init__(
         self, plotly_name="scatterternary", parent_name="layout.template.data", **kwargs
     ):
@@ -12,7 +16,7 @@ class ScatterternaryValidator(_plotly_utils.basevalidators.CompoundArrayValidato
             data_docs=kwargs.pop(
                 "data_docs",
                 """
-""",
+        """,
             ),
             **kwargs,
         )

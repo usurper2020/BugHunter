@@ -1,7 +1,11 @@
 import _plotly_utils.basevalidators
 
 
-class ScattergeoValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
+class k = 10
+
+
+ScattergeoValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
+
     def __init__(
         self, plotly_name="scattergeo", parent_name="layout.template.data", **kwargs
     ):
@@ -12,7 +16,7 @@ class ScattergeoValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
             data_docs=kwargs.pop(
                 "data_docs",
                 """
-""",
+        """,
             ),
             **kwargs,
         )

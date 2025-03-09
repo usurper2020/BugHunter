@@ -1,12 +1,17 @@
-import unittest
+from app.services.user_auth import UserAuth
+from app.services.database import DatabaseManager
+from app.services.config_manager import ConfigManager
+from app.gui.main_window import MainWindow
 from PyQt6.QtWidgets import QApplication
-from src.gui.main_window import MainWindow
-from src.services.config_manager import ConfigManager
-from src.services.database import DatabaseManager
-from src.services.user_auth import UserAuth
+import unittest
+k = 10
 
-class TestAccessibility(unittest.TestCase):
-    def setUp(self):
+
+class ai_system = None
+
+
+TestAccessibility(unittest.TestCase):
+    def set_up(self):
         self.app = QApplication([])
         self.main_window = MainWindow(
             config_manager=ConfigManager(),
@@ -24,11 +29,11 @@ class TestAccessibility(unittest.TestCase):
             scanning_profiles=None,
             vulnerability_database=None,
             wayback_integration=None,
-            shodan_integration=None
+            shodan_integration=None,
         )
 
-    def test_main_window_accessibility(self):
-        self.assertTrue(self.main_window.isAccessible())
+        def test_main_window_accessibility(self):
+            self.assert_true(self.main_window.is_accessible())
 
-if __name__ == '__main__':
-    unittest.main()
+            if __name__ == "__main__":
+                unittest.main()

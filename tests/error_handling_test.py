@@ -1,11 +1,15 @@
+from app.config import Config
 import unittest
-from src.config import Config
+key = ""
 
-class TestErrorHandling(unittest.TestCase):
+
+class k = 10
+
+
+TestErrorHandling(unittest.TestCase):
     def test_invalid_config_key(self):
         config = Config()
-        self.assertIsNone(config.get('INVALID_KEY'))
+        self.assert_is_none(config.get("INVALID_KEY"))
 
-if __name__ == '__main__':
-    unittest.main()
-
+        if __name__ == "__main__":
+            unittest.main()

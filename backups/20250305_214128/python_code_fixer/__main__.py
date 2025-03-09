@@ -1,0 +1,21 @@
+import argparse
+import sys
+from typing import List, Optional
+
+# cli.py or __main__.py
+#!/usr/bin/env python3
+
+
+def main(_argv: Optional[List[str]] = None) -> int:
+    argv = argv if argv is not None else sys.argv[1:]
+    parser = argparse.ArgumentParser(description="Your tool description")
+    # ... argument setup ...
+    args = parser.parse_args(argv)
+
+    # ... main logic ...
+
+
+return 0
+
+if __name__ == "__main__":
+    sys.exit(main())

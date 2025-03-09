@@ -25,7 +25,7 @@ digraph {
 	"C:\Users\clabb\Desktop\BugHunter\init_db.py" [label="init_db.py"]
 	"C:\Users\clabb\Desktop\BugHunter\integration_test.py" [label="integration_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\integration_test.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\integration_test.py" -> "src.main"
+	C:"\Users\clabb\Desktop\BugHunter\integration_test.py" -> "app.main"
 	"C:\Users\clabb\Desktop\BugHunter\main.py" [label="main.py"]
 	"C:\Users\clabb\Desktop\BugHunter\maingui.py" [label="maingui.py"]
 	C:"\Users\clabb\Desktop\BugHunter\maingui.py" -> "PyQt6.QtWidgets"
@@ -43,7 +43,7 @@ digraph {
 	"C:\Users\clabb\Desktop\BugHunter\run.py" [label="run.py"]
 	C:"\Users\clabb\Desktop\BugHunter\run.py" -> sys
 	C:"\Users\clabb\Desktop\BugHunter\run.py" -> pytest
-	C:"\Users\clabb\Desktop\BugHunter\run.py" -> "src.main"
+	C:"\Users\clabb\Desktop\BugHunter\run.py" -> "app.main"
 	"C:\Users\clabb\Desktop\BugHunter\run_tests.py" [label="run_tests.py"]
 	C:"\Users\clabb\Desktop\BugHunter\run_tests.py" -> subprocess
 	C:"\Users\clabb\Desktop\BugHunter\run_tests.py" -> sys
@@ -64,7 +64,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\update_graph.py" -> json
 	C:"\Users\clabb\Desktop\BugHunter\update_graph.py" -> pydot
 	"C:\Users\clabb\Desktop\BugHunter\__init__.py" [label="__init__.py"]
-	C:"\Users\clabb\Desktop\BugHunter\__init__.py" -> "src.config.config"
+	C:"\Users\clabb\Desktop\BugHunter\__init__.py" -> "app.config.config"
 	"C:\Users\clabb\Desktop\BugHunter\alembic\env.py" [label="env.py"]
 	C:"\Users\clabb\Desktop\BugHunter\alembic\env.py" -> "logging.config"
 	C:"\Users\clabb\Desktop\BugHunter\alembic\env.py" -> sqlalchemy
@@ -116,7 +116,7 @@ digraph {
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\run.py" [label="run.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\run.py" -> sys
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\run.py" -> pytest
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\run.py" -> "src.main"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\run.py" -> "app.main"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\run_tests.py" [label="run_tests.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\run_tests.py" -> subprocess
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\run_tests.py" -> sys
@@ -133,7 +133,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\test_codebreaker.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\test_codebreaker.py" -> codebreaker
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\__init__.py" [label="__init__.py"]
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\__init__.py" -> "src.config.config"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\__init__.py" -> "app.config.config"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\alembic\env.py" [label="env.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\alembic\env.py" -> "logging.config"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\alembic\env.py" -> sqlalchemy
@@ -154,14 +154,14 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> pathlib
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> datetime
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "src.config.db_config"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "src.models.user"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "src.models.security_event"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "src.models.login_attempt"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "src.models.session"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "src.models.fingerprint"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "src.services.database"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "src.services.auth_service"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "app.config.db_config"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "app.models.user"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "app.models.security_event"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "app.models.login_attempt"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "app.models.session"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "app.models.fingerprint"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "app.services.database"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\initialize_db.py" -> "app.services.auth_service"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\verify_env.py" [label="verify_env.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\verify_env.py" -> os
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\Scripts\verify_env.py" -> dotenv
@@ -203,7 +203,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2.py" -> config
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2.py" -> logger_config
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2.py" -> database
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2.py" -> "src.models"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2.py" -> "app.models"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2_updated.py" [label="ai_service_v2_updated.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2_updated.py" -> openai
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2_updated.py" -> typing
@@ -214,7 +214,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2_updated.py" -> config
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2_updated.py" -> logger_config
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2_updated.py" -> database
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2_updated.py" -> "src.models"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_service_v2_updated.py" -> "app.models"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_system.py" [label="ai_system.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_system.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\ai_system.py" -> json
@@ -364,7 +364,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\report_service.py" -> config
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\report_service.py" -> logger_config
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\report_service.py" -> database
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\report_service.py" -> "src.models"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\report_service.py" -> "app.models"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\report_service.py" -> middleware
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\services\role_manager.py" [label="role_manager.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\role_manager.py" -> os
@@ -386,7 +386,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\scan_service.py" -> config
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\scan_service.py" -> logger_config
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\scan_service.py" -> database
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\scan_service.py" -> "src.models"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\scan_service.py" -> "app.models"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\scan_service.py" -> middleware
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\services\scope_manager.py" [label="scope_manager.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\scope_manager.py" -> os
@@ -433,9 +433,9 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\user_auth.py" -> pathlib
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\user_auth.py" -> bcrypt
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\user_auth.py" -> "sqlalchemy.orm"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\user_auth.py" -> "src.models"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\user_auth.py" -> "app.models"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\user_auth.py" -> "services.database"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\user_auth.py" -> "src.models"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\user_auth.py" -> "app.models"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\user_auth.py" -> "services.database"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\services\user_auth.py" -> os
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\services\user_management_dialog.py" [label="user_management_dialog.py"]
@@ -479,8 +479,8 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\config.py" -> json
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\config.py" -> secrets
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\core.py" [label="core.py"]
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\core.py" -> "src.config"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\core.py" -> "src.logger"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\core.py" -> "app.config"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\core.py" -> "app.logger"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\integrated_app.py" [label="integrated_app.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\integrated_app.py" -> sys
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\integrated_app.py" -> json
@@ -524,23 +524,23 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> sys
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "PyQt6.QtWidgets"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.gui.main_window"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.gui.login_dialog"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.gui.theme"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.services.simple_auth"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.services.config_manager"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.services.notification"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.services.tool_manager"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.services.vulnerability_scanner"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.services.ai_system"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.services.collaboration_system"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.services.analytics_system"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.services.scope_manager"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.services.role_manager"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.services.scanning_profiles"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.services.vulnerability_database"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.services.wayback_machine_integration"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "src.services.shodan_integration"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.gui.main_window"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.gui.login_dialog"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.gui.theme"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.services.simple_auth"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.services.config_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.services.notification"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.services.vulnerability_scanner"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.services.ai_system"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.services.collaboration_system"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.services.analytics_system"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.services.scope_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.services.role_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.services.scanning_profiles"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.services.vulnerability_database"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.services.wayback_machine_integration"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\main.py" -> "app.services.shodan_integration"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\main_gui.py" [label="main_gui.py"]
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\scanner_tab.py" [label="scanner_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\scanner_tab.py" -> "PyQt6.QtWidgets"
@@ -548,12 +548,12 @@ digraph {
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\tabs.py" [label="tabs.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\tabs.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\tabs.py" -> "tabs.ai_chat_tab"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\tabs.py" -> "src.core"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\tabs.py" -> "app.core"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\tab_controller.py" [label="tab_controller.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\tab_controller.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\tab_controller.py" -> "tabs.ai_chat_tab"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\tab_controller.py" -> "src.scanner_tab"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\tab_controller.py" -> "src.core"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\tab_controller.py" -> "app.scanner_tab"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\tab_controller.py" -> "app.core"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\test_pyqt.py" [label="test_pyqt.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\test_pyqt.py" -> sys
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\test_pyqt.py" -> "PyQt6.QtWidgets"
@@ -571,9 +571,9 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\config\db_config.py" -> "sqlalchemy.orm"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\config\db_config.py" -> "urllib.parse"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\config\db_config.py" -> bcrypt
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\config\db_config.py" -> "src.models.base"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\config\db_config.py" -> "src.models.user"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\config\db_config.py" -> "src.config.config"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\config\db_config.py" -> "app.models.base"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\config\db_config.py" -> "app.models.user"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\config\db_config.py" -> "app.config.config"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\config\__init__.py" [label="__init__.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\config\__init__.py" -> config
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\db\init_db.py" [label="init_db.py"]
@@ -582,7 +582,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\db\init_db.py" -> psycopg2
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\db\init_db.py" -> "psycopg2.extensions"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\db\init_db.py" -> pathlib
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\db\init_db.py" -> "src.core"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\db\init_db.py" -> "app.core"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\collaboration_dialog.py" [label="collaboration_dialog.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\collaboration_dialog.py" -> "PyQt6.QtWidgets"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\contribution_dialog.py" [label="contribution_dialog.py"]
@@ -595,21 +595,21 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "PyQt6.QtCore"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.gui.tabs"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.services.config_manager"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.services.auth_service"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.services.tool_manager"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.services.vulnerability_scanner"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.services.ai_system"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.services.collaboration_system"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.services.analytics_system"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.services.notification"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.services.scope_manager"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.services.role_manager"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.services.scanning_profiles"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.services.vulnerability_database"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.services.wayback_machine_integration"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "src.services.shodan_integration"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.gui.tabs"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.services.config_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.services.auth_service"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.services.vulnerability_scanner"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.services.ai_system"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.services.collaboration_system"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.services.analytics_system"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.services.notification"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.services.scope_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.services.role_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.services.scanning_profiles"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.services.vulnerability_database"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.services.wayback_machine_integration"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\main_window.py" -> "app.services.shodan_integration"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\registration_dialog.py" [label="registration_dialog.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\registration_dialog.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\registration_dialog.py" -> "services.simple_auth"
@@ -677,16 +677,16 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\shodan_tab.py" -> logging
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\targets_tab.py" [label="targets_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\targets_tab.py" -> "PyQt6.QtWidgets"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\targets_tab.py" -> "src.services.scope_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\targets_tab.py" -> "app.services.scope_manager"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\tools_manager_tab.py" [label="tools_manager_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\tools_manager_tab.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\tools_manager_tab.py" -> "PyQt6.QtCore"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\tools_manager_tab.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\tools_manager_tab.py" -> "app.services.tool_manager"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\tools_manager_tab.py" -> os
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\tools_tab.py" [label="tools_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\tools_tab.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\tools_tab.py" -> "PyQt6.QtCore"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\tools_tab.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\tools_tab.py" -> "app.services.tool_manager"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\wayback_tab.py" [label="wayback_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\wayback_tab.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\gui\tabs\wayback_tab.py" -> "PyQt6.QtCore"
@@ -712,42 +712,42 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\fingerprint.py" -> datetime
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\fingerprint.py" -> sqlalchemy
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\fingerprint.py" -> "sqlalchemy.orm"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\fingerprint.py" -> "src.models.base"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\fingerprint.py" -> "app.models.base"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\login_attempt.py" [label="login_attempt.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\login_attempt.py" -> datetime
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\login_attempt.py" -> sqlalchemy
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\login_attempt.py" -> "sqlalchemy.orm"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\login_attempt.py" -> "src.models.base"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\login_attempt.py" -> "app.models.base"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\scan_target.py" [label="scan_target.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\scan_target.py" -> sqlalchemy
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\scan_target.py" -> "sqlalchemy.dialects.postgresql"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\scan_target.py" -> "sqlalchemy.orm"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\scan_target.py" -> "src.models.base"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\scan_target.py" -> "app.models.base"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\scan_target.py" -> datetime
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\security_event.py" [label="security_event.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\security_event.py" -> datetime
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\security_event.py" -> sqlalchemy
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\security_event.py" -> "sqlalchemy.orm"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\security_event.py" -> "src.models.base"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\security_event.py" -> "app.models.base"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\session.py" [label="session.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\session.py" -> datetime
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\session.py" -> sqlalchemy
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\session.py" -> "sqlalchemy.orm"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\session.py" -> "src.models.base"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\session.py" -> "app.models.base"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\user.py" [label="user.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\user.py" -> datetime
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\user.py" -> sqlalchemy
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\user.py" -> "sqlalchemy.orm"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\user.py" -> "src.models.base"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\user.py" -> "app.models.base"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\user.py" -> bcrypt
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\user.py" -> bcrypt
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\vulnerability_db.py" [label="vulnerability_db.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\vulnerability_db.py" -> requests
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\models\__init__.py" [label="__init__.py"]
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\__init__.py" -> "src.models.user"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\__init__.py" -> "src.models.session"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\__init__.py" -> "src.models.login_attempt"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\__init__.py" -> "src.models.scan_target"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\__init__.py" -> "app.models.user"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\__init__.py" -> "app.models.session"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\__init__.py" -> "app.models.login_attempt"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\models\__init__.py" -> "app.models.scan_target"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\ai_system.py" [label="ai_system.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\ai_system.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\ai_system.py" -> json
@@ -772,9 +772,9 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\auth_service.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\auth_service.py" -> datetime
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\auth_service.py" -> typing
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\auth_service.py" -> "src.services.database"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\auth_service.py" -> "src.models.security_event"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\auth_service.py" -> "src.models.user"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\auth_service.py" -> "app.services.database"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\auth_service.py" -> "app.models.security_event"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\auth_service.py" -> "app.models.user"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\bug_bounty_analyzer.py" [label="bug_bounty_analyzer.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\bug_bounty_analyzer.py" -> json
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\bug_bounty_analyzer.py" -> typing
@@ -804,12 +804,12 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> "sqlalchemy.orm"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> "sqlalchemy.exc"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> typing
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> "src.config.db_config"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> "src.models.user"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> "src.models.security_event"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> "src.models.fingerprint"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> "src.models.login_attempt"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> "src.models.scan_target"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> "app.config.db_config"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> "app.models.user"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> "app.models.security_event"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> "app.models.fingerprint"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> "app.models.login_attempt"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\database.py" -> "app.models.scan_target"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\github_manager.py" [label="github_manager.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\github_manager.py" -> requests
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\github_manager.py" -> typing
@@ -821,8 +821,8 @@ digraph {
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\notification.py" [label="notification.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\notification.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\notification.py" -> typing
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\notification.py" -> "src.models.security_event"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\notification.py" -> "src.services.auth_service"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\notification.py" -> "app.models.security_event"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\notification.py" -> "app.services.auth_service"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\src\services\optimization_framework.py" [label="optimization_framework.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\optimization_framework.py" -> asyncio
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\src\services\optimization_framework.py" -> logging
@@ -947,7 +947,7 @@ digraph {
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\tool_manager_tab.py" [label="tool_manager_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tabs\tool_manager_tab.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tabs\tool_manager_tab.py" -> "PyQt6.QtCore"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tabs\tool_manager_tab.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tabs\tool_manager_tab.py" -> "app.services.tool_manager"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tabs\tool_manager_tab.py" -> os
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\tabs\tool_tab.py" [label="tool_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tabs\tool_tab.py" -> "PyQt6.QtWidgets"
@@ -990,10 +990,10 @@ digraph {
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_bug_bounty_analyzer.py" [label="test_bug_bounty_analyzer.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_bug_bounty_analyzer.py" -> unittest
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_bug_bounty_analyzer.py" -> "unittest.mock"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_bug_bounty_analyzer.py" -> "src.services.bug_bounty_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_bug_bounty_analyzer.py" -> "src.config"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_bug_bounty_analyzer.py" -> "src.services.nuclei_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_bug_bounty_analyzer.py" -> "src.services.ai_system"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_bug_bounty_analyzer.py" -> "app.services.bug_bounty_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_bug_bounty_analyzer.py" -> "app.config"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_bug_bounty_analyzer.py" -> "app.services.nuclei_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_bug_bounty_analyzer.py" -> "app.services.ai_system"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_code_converter.py" [label="test_code_converter.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_code_converter.py" -> unittest
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_code_converter.py" -> "unittest.mock"
@@ -1001,8 +1001,8 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_code_converter.py" -> shutil
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_code_converter.py" -> ast
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_code_converter.py" -> astor
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_code_converter.py" -> "src.services.code_converter"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_code_converter.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_code_converter.py" -> "app.services.code_converter"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_code_converter.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_config_manager.py" [label="test_config_manager.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_config_manager.py" -> json
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_config_manager.py" -> os
@@ -1017,44 +1017,44 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_gui_tab_generator.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_gui_tab_generator.py" -> "PyQt6.QtTest"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_gui_tab_generator.py" -> "PyQt6.QtCore"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_gui_tab_generator.py" -> "src.services.gui_tab_generator"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_gui_tab_generator.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_gui_tab_generator.py" -> "app.services.gui_tab_generator"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_gui_tab_generator.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_hello_world.py" [label="test_hello_world.py"]
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_integration.py" [label="test_integration.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_integration.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_integration.py" -> requests
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_integration.py" -> "src.services.bug_bounty_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_integration.py" -> "src.services.nuclei_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_integration.py" -> "src.services.ai_system"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_integration.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_integration.py" -> "app.services.bug_bounty_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_integration.py" -> "app.services.nuclei_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_integration.py" -> "app.services.ai_system"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_integration.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_pytest_integration.py" [label="test_pytest_integration.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_pytest_integration.py" -> pytest
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_pytest_integration.py" -> "src.services.bug_bounty_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_pytest_integration.py" -> "src.services.nuclei_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_pytest_integration.py" -> "src.services.ai_system"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_pytest_integration.py" -> "src.config.config"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_pytest_integration.py" -> "app.services.bug_bounty_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_pytest_integration.py" -> "app.services.nuclei_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_pytest_integration.py" -> "app.services.ai_system"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_pytest_integration.py" -> "app.config.config"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager.py" [label="test_tool_manager.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager.py" -> "unittest.mock"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager.py" -> "app.services.tool_manager"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager.py" -> "unittest.mock"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager.py" -> "app.services.tool_manager"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager.py" -> "unittest.mock"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager.py" -> "app.services.tool_manager"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager_tab.py" [label="test_tool_manager_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager_tab.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager_tab.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager_tab.py" -> "unittest.mock"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager_tab.py" -> "src.gui.tabs.tool_manager_tab"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager_tab.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager_tab.py" -> "app.gui.tabs.tool_manager_tab"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_manager_tab.py" -> "app.services.tool_manager"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_tab.py" [label="test_tool_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_tab.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_tab.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_tab.py" -> "unittest.mock"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_tab.py" -> "src.gui.tabs.tool_tab"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_tab.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_tab.py" -> "app.gui.tabs.tool_tab"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\test_tool_tab.py" -> "app.services.tool_manager"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py" [label="ultimate_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py" -> sys
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py" -> os
@@ -1063,10 +1063,10 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py" -> asyncio
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py" -> "src.services.bug_bounty_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py" -> "src.services.nuclei_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py" -> "src.services.ai_system"
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py" -> "app.services.bug_bounty_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py" -> "app.services.nuclei_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py" -> "app.services.ai_system"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\tests\ultimate_test.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\tests\__init__.py" [label="__init__.py"]
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\check_config.py" [label="check_config.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\utils\check_config.py" -> os
@@ -1116,7 +1116,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\utils\setup_db.py" -> argparse
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\utils\setup_db.py" -> pathlib
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\utils\setup_db.py" -> json
-	C:"\Users\clabb\Desktop\BugHunter\nearly-there\utils\setup_db.py" -> "src.db.init_db"
+	C:"\Users\clabb\Desktop\BugHunter\nearly-there\utils\setup_db.py" -> "app.db.init_db"
 	"C:\Users\clabb\Desktop\BugHunter\nearly-there\utils\setup_env.py" [label="setup_env.py"]
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\utils\setup_env.py" -> os
 	C:"\Users\clabb\Desktop\BugHunter\nearly-there\utils\setup_env.py" -> json
@@ -1151,14 +1151,14 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> pathlib
 	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> datetime
-	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "src.config.db_config"
-	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "src.models.user"
-	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "src.models.security_event"
-	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "src.models.login_attempt"
-	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "src.models.session"
-	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "src.models.fingerprint"
-	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "src.services.database"
-	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "src.services.auth_service"
+	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "app.config.db_config"
+	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "app.models.user"
+	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "app.models.security_event"
+	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "app.models.login_attempt"
+	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "app.models.session"
+	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "app.models.fingerprint"
+	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "app.services.database"
+	C:"\Users\clabb\Desktop\BugHunter\Scripts\initialize_db.py" -> "app.services.auth_service"
 	"C:\Users\clabb\Desktop\BugHunter\Scripts\verify_env.py" [label="verify_env.py"]
 	C:"\Users\clabb\Desktop\BugHunter\Scripts\verify_env.py" -> os
 	C:"\Users\clabb\Desktop\BugHunter\Scripts\verify_env.py" -> dotenv
@@ -1200,7 +1200,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\services\ai_service_v2.py" -> config
 	C:"\Users\clabb\Desktop\BugHunter\services\ai_service_v2.py" -> logger_config
 	C:"\Users\clabb\Desktop\BugHunter\services\ai_service_v2.py" -> database
-	C:"\Users\clabb\Desktop\BugHunter\services\ai_service_v2.py" -> "src.models"
+	C:"\Users\clabb\Desktop\BugHunter\services\ai_service_v2.py" -> "app.models"
 	"C:\Users\clabb\Desktop\BugHunter\services\ai_service_v2_updated.py" [label="ai_service_v2_updated.py"]
 	C:"\Users\clabb\Desktop\BugHunter\services\ai_service_v2_updated.py" -> openai
 	C:"\Users\clabb\Desktop\BugHunter\services\ai_service_v2_updated.py" -> typing
@@ -1211,7 +1211,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\services\ai_service_v2_updated.py" -> config
 	C:"\Users\clabb\Desktop\BugHunter\services\ai_service_v2_updated.py" -> logger_config
 	C:"\Users\clabb\Desktop\BugHunter\services\ai_service_v2_updated.py" -> database
-	C:"\Users\clabb\Desktop\BugHunter\services\ai_service_v2_updated.py" -> "src.models"
+	C:"\Users\clabb\Desktop\BugHunter\services\ai_service_v2_updated.py" -> "app.models"
 	"C:\Users\clabb\Desktop\BugHunter\services\ai_system.py" [label="ai_system.py"]
 	C:"\Users\clabb\Desktop\BugHunter\services\ai_system.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\services\ai_system.py" -> json
@@ -1361,7 +1361,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\services\report_service.py" -> config
 	C:"\Users\clabb\Desktop\BugHunter\services\report_service.py" -> logger_config
 	C:"\Users\clabb\Desktop\BugHunter\services\report_service.py" -> database
-	C:"\Users\clabb\Desktop\BugHunter\services\report_service.py" -> "src.models"
+	C:"\Users\clabb\Desktop\BugHunter\services\report_service.py" -> "app.models"
 	C:"\Users\clabb\Desktop\BugHunter\services\report_service.py" -> middleware
 	"C:\Users\clabb\Desktop\BugHunter\services\role_manager.py" [label="role_manager.py"]
 	C:"\Users\clabb\Desktop\BugHunter\services\role_manager.py" -> os
@@ -1383,7 +1383,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\services\scan_service.py" -> config
 	C:"\Users\clabb\Desktop\BugHunter\services\scan_service.py" -> logger_config
 	C:"\Users\clabb\Desktop\BugHunter\services\scan_service.py" -> database
-	C:"\Users\clabb\Desktop\BugHunter\services\scan_service.py" -> "src.models"
+	C:"\Users\clabb\Desktop\BugHunter\services\scan_service.py" -> "app.models"
 	C:"\Users\clabb\Desktop\BugHunter\services\scan_service.py" -> middleware
 	"C:\Users\clabb\Desktop\BugHunter\services\scope_manager.py" [label="scope_manager.py"]
 	C:"\Users\clabb\Desktop\BugHunter\services\scope_manager.py" -> os
@@ -1430,9 +1430,9 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\services\user_auth.py" -> pathlib
 	C:"\Users\clabb\Desktop\BugHunter\services\user_auth.py" -> bcrypt
 	C:"\Users\clabb\Desktop\BugHunter\services\user_auth.py" -> "sqlalchemy.orm"
-	C:"\Users\clabb\Desktop\BugHunter\services\user_auth.py" -> "src.models"
+	C:"\Users\clabb\Desktop\BugHunter\services\user_auth.py" -> "app.models"
 	C:"\Users\clabb\Desktop\BugHunter\services\user_auth.py" -> "services.database"
-	C:"\Users\clabb\Desktop\BugHunter\services\user_auth.py" -> "src.models"
+	C:"\Users\clabb\Desktop\BugHunter\services\user_auth.py" -> "app.models"
 	C:"\Users\clabb\Desktop\BugHunter\services\user_auth.py" -> "services.database"
 	C:"\Users\clabb\Desktop\BugHunter\services\user_auth.py" -> os
 	"C:\Users\clabb\Desktop\BugHunter\services\user_management_dialog.py" [label="user_management_dialog.py"]
@@ -1476,8 +1476,8 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\src\config.py" -> json
 	C:"\Users\clabb\Desktop\BugHunter\src\config.py" -> secrets
 	"C:\Users\clabb\Desktop\BugHunter\src\core.py" [label="core.py"]
-	C:"\Users\clabb\Desktop\BugHunter\src\core.py" -> "src.config"
-	C:"\Users\clabb\Desktop\BugHunter\src\core.py" -> "src.logger"
+	C:"\Users\clabb\Desktop\BugHunter\src\core.py" -> "app.config"
+	C:"\Users\clabb\Desktop\BugHunter\src\core.py" -> "app.logger"
 	"C:\Users\clabb\Desktop\BugHunter\src\integrated_app.py" [label="integrated_app.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\integrated_app.py" -> sys
 	C:"\Users\clabb\Desktop\BugHunter\src\integrated_app.py" -> json
@@ -1524,35 +1524,35 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> pathlib
 	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "PyQt6.QtCore"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.gui.tabs.ai_chat_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.gui.tabs.scanner_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.gui.tabs.nuclei_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.gui.tabs.amass_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.gui.tabs.tools_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.gui.tabs.targets_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.gui.tabs.collaboration_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.gui.tabs.analytics_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.gui.tabs.settings_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.gui.tabs.wayback_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.gui.tabs.shodan_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.gui.tabs.scope_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.gui.main_window"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.config_manager"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.database"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.user_auth"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.tool_manager"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.vulnerability_scanner"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.ai_system"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.collaboration_system"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.analytics_system"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.wayback_machine_integration"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.shodan_integration"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.notification"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.scope_manager"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.role_manager"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.scanning_profiles"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.services.vulnerability_database"
-	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "src.logger_config"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.gui.tabs.ai_chat_tab"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.gui.tabs.scanner_tab"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.gui.tabs.nuclei_tab"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.gui.tabs.amass_tab"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.gui.tabs.tools_tab"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.gui.tabs.targets_tab"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.gui.tabs.collaboration_tab"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.gui.tabs.analytics_tab"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.gui.tabs.settings_tab"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.gui.tabs.wayback_tab"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.gui.tabs.shodan_tab"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.gui.tabs.scope_tab"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.gui.main_window"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.config_manager"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.database"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.user_auth"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.vulnerability_scanner"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.ai_system"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.collaboration_system"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.analytics_system"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.wayback_machine_integration"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.shodan_integration"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.notification"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.scope_manager"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.role_manager"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.scanning_profiles"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.services.vulnerability_database"
+	C:"\Users\clabb\Desktop\BugHunter\src\main.py" -> "app.logger_config"
 	"C:\Users\clabb\Desktop\BugHunter\src\main_gui.py" [label="main_gui.py"]
 	"C:\Users\clabb\Desktop\BugHunter\src\scanner_tab.py" [label="scanner_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\scanner_tab.py" -> "PyQt6.QtWidgets"
@@ -1560,19 +1560,19 @@ digraph {
 	"C:\Users\clabb\Desktop\BugHunter\src\tabs.py" [label="tabs.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\tabs.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\src\tabs.py" -> "tabs.ai_chat_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\tabs.py" -> "src.core"
+	C:"\Users\clabb\Desktop\BugHunter\src\tabs.py" -> "app.core"
 	"C:\Users\clabb\Desktop\BugHunter\src\tab_controller.py" [label="tab_controller.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\tab_controller.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\src\tab_controller.py" -> "tabs.ai_chat_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\tab_controller.py" -> "src.scanner_tab"
-	C:"\Users\clabb\Desktop\BugHunter\src\tab_controller.py" -> "src.core"
+	C:"\Users\clabb\Desktop\BugHunter\src\tab_controller.py" -> "app.scanner_tab"
+	C:"\Users\clabb\Desktop\BugHunter\src\tab_controller.py" -> "app.core"
 	"C:\Users\clabb\Desktop\BugHunter\src\test_pyqt.py" [label="test_pyqt.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\test_pyqt.py" -> sys
 	C:"\Users\clabb\Desktop\BugHunter\src\test_pyqt.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\src\test_pyqt.py" -> "PyQt6.QtCore"
 	C:"\Users\clabb\Desktop\BugHunter\src\test_pyqt.py" -> "PyQt6.QtCore"
 	"C:\Users\clabb\Desktop\BugHunter\src\__init__.py" [label="__init__.py"]
-	C:"\Users\clabb\Desktop\BugHunter\src\__init__.py" -> "src.config.config"
+	C:"\Users\clabb\Desktop\BugHunter\src\__init__.py" -> "app.config.config"
 	C:"\Users\clabb\Desktop\BugHunter\src\__init__.py" -> logging
 	"C:\Users\clabb\Desktop\BugHunter\src\config\config.py" [label="config.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\config\config.py" -> os
@@ -1585,9 +1585,9 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\src\config\db_config.py" -> "sqlalchemy.orm"
 	C:"\Users\clabb\Desktop\BugHunter\src\config\db_config.py" -> "urllib.parse"
 	C:"\Users\clabb\Desktop\BugHunter\src\config\db_config.py" -> bcrypt
-	C:"\Users\clabb\Desktop\BugHunter\src\config\db_config.py" -> "src.models.base"
-	C:"\Users\clabb\Desktop\BugHunter\src\config\db_config.py" -> "src.models.user"
-	C:"\Users\clabb\Desktop\BugHunter\src\config\db_config.py" -> "src.config.config"
+	C:"\Users\clabb\Desktop\BugHunter\src\config\db_config.py" -> "app.models.base"
+	C:"\Users\clabb\Desktop\BugHunter\src\config\db_config.py" -> "app.models.user"
+	C:"\Users\clabb\Desktop\BugHunter\src\config\db_config.py" -> "app.config.config"
 	"C:\Users\clabb\Desktop\BugHunter\src\config\__init__.py" [label="__init__.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\config\__init__.py" -> config
 	"C:\Users\clabb\Desktop\BugHunter\src\db\init_db.py" [label="init_db.py"]
@@ -1596,7 +1596,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\src\db\init_db.py" -> psycopg2
 	C:"\Users\clabb\Desktop\BugHunter\src\db\init_db.py" -> "psycopg2.extensions"
 	C:"\Users\clabb\Desktop\BugHunter\src\db\init_db.py" -> pathlib
-	C:"\Users\clabb\Desktop\BugHunter\src\db\init_db.py" -> "src.core"
+	C:"\Users\clabb\Desktop\BugHunter\src\db\init_db.py" -> "app.core"
 	"C:\Users\clabb\Desktop\BugHunter\src\gui\collaboration_dialog.py" [label="collaboration_dialog.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\collaboration_dialog.py" -> "PyQt6.QtWidgets"
 	"C:\Users\clabb\Desktop\BugHunter\src\gui\contribution_dialog.py" [label="contribution_dialog.py"]
@@ -1605,36 +1605,36 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\login_dialog.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\login_dialog.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\login_dialog.py" -> time
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\login_dialog.py" -> "src.gui.registration_dialog"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\login_dialog.py" -> "src.services.simple_auth"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\login_dialog.py" -> "app.gui.registration_dialog"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\login_dialog.py" -> "app.services.simple_auth"
 	"C:\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" [label="main_window.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "PyQt6.QtCore"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.gui.tabs"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.services.config_manager"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.services.auth_service"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.services.tool_manager"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.services.vulnerability_scanner"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.services.ai_system"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.services.collaboration_system"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.services.analytics_system"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.services.notification"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.services.scope_manager"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.services.role_manager"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.services.scanning_profiles"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.services.vulnerability_database"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.services.wayback_machine_integration"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "src.services.shodan_integration"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.gui.tabs"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.services.config_manager"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.services.auth_service"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.services.vulnerability_scanner"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.services.ai_system"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.services.collaboration_system"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.services.analytics_system"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.services.notification"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.services.scope_manager"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.services.role_manager"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.services.scanning_profiles"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.services.vulnerability_database"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.services.wayback_machine_integration"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\main_window.py" -> "app.services.shodan_integration"
 	"C:\Users\clabb\Desktop\BugHunter\src\gui\registration_dialog.py" [label="registration_dialog.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\registration_dialog.py" -> "PyQt6.QtWidgets"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\registration_dialog.py" -> "src.services.simple_auth"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\registration_dialog.py" -> "app.services.simple_auth"
 	"C:\Users\clabb\Desktop\BugHunter\src\gui\test_login_dialog.py" [label="test_login_dialog.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\test_login_dialog.py" -> pytest_mock
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\test_login_dialog.py" -> "unittest.mock"
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\test_login_dialog.py" -> "PyQt6.QtWidgets"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\test_login_dialog.py" -> "src.gui.login_dialog"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\test_login_dialog.py" -> "src.services.simple_auth"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\test_login_dialog.py" -> "app.gui.login_dialog"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\test_login_dialog.py" -> "app.services.simple_auth"
 	"C:\Users\clabb\Desktop\BugHunter\src\gui\theme.py" [label="theme.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\theme.py" -> pathlib
 	"C:\Users\clabb\Desktop\BugHunter\src\gui\user_management_dialog.py" [label="user_management_dialog.py"]
@@ -1643,8 +1643,8 @@ digraph {
 	"C:\Users\clabb\Desktop\BugHunter\src\gui\__init__.py" [label="__init__.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\__init__.py" -> sys
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\__init__.py" -> "PyQt6.QtWidgets"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\__init__.py" -> "src.gui.login_dialog"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\__init__.py" -> "src.gui.main_window"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\__init__.py" -> "app.gui.login_dialog"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\__init__.py" -> "app.gui.main_window"
 	"C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\ai_chat_tab.py" [label="ai_chat_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\ai_chat_tab.py" -> typing
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\ai_chat_tab.py" -> "PyQt6.QtWidgets"
@@ -1699,16 +1699,16 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\shodan_tab.py" -> logging
 	"C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\targets_tab.py" [label="targets_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\targets_tab.py" -> "PyQt6.QtWidgets"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\targets_tab.py" -> "src.services.scope_manager"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\targets_tab.py" -> "app.services.scope_manager"
 	"C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\tools_manager_tab.py" [label="tools_manager_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\tools_manager_tab.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\tools_manager_tab.py" -> "PyQt6.QtCore"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\tools_manager_tab.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\tools_manager_tab.py" -> "app.services.tool_manager"
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\tools_manager_tab.py" -> os
 	"C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\tools_tab.py" [label="tools_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\tools_tab.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\tools_tab.py" -> "PyQt6.QtCore"
-	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\tools_tab.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\tools_tab.py" -> "app.services.tool_manager"
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\tools_tab.py" -> "PyQt6.QtWidgets"
 	"C:\Users\clabb\Desktop\BugHunter\src\gui\tabs\wayback_tab.py" [label="wayback_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\gui\tabs\wayback_tab.py" -> "PyQt6.QtWidgets"
@@ -1735,42 +1735,42 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\src\models\fingerprint.py" -> datetime
 	C:"\Users\clabb\Desktop\BugHunter\src\models\fingerprint.py" -> sqlalchemy
 	C:"\Users\clabb\Desktop\BugHunter\src\models\fingerprint.py" -> "sqlalchemy.orm"
-	C:"\Users\clabb\Desktop\BugHunter\src\models\fingerprint.py" -> "src.models.base"
+	C:"\Users\clabb\Desktop\BugHunter\src\models\fingerprint.py" -> "app.models.base"
 	"C:\Users\clabb\Desktop\BugHunter\src\models\login_attempt.py" [label="login_attempt.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\models\login_attempt.py" -> datetime
 	C:"\Users\clabb\Desktop\BugHunter\src\models\login_attempt.py" -> sqlalchemy
 	C:"\Users\clabb\Desktop\BugHunter\src\models\login_attempt.py" -> "sqlalchemy.orm"
-	C:"\Users\clabb\Desktop\BugHunter\src\models\login_attempt.py" -> "src.models.base"
+	C:"\Users\clabb\Desktop\BugHunter\src\models\login_attempt.py" -> "app.models.base"
 	"C:\Users\clabb\Desktop\BugHunter\src\models\scan_target.py" [label="scan_target.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\models\scan_target.py" -> sqlalchemy
 	C:"\Users\clabb\Desktop\BugHunter\src\models\scan_target.py" -> "sqlalchemy.dialects.postgresql"
 	C:"\Users\clabb\Desktop\BugHunter\src\models\scan_target.py" -> "sqlalchemy.orm"
-	C:"\Users\clabb\Desktop\BugHunter\src\models\scan_target.py" -> "src.models.base"
+	C:"\Users\clabb\Desktop\BugHunter\src\models\scan_target.py" -> "app.models.base"
 	C:"\Users\clabb\Desktop\BugHunter\src\models\scan_target.py" -> datetime
 	"C:\Users\clabb\Desktop\BugHunter\src\models\security_event.py" [label="security_event.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\models\security_event.py" -> datetime
 	C:"\Users\clabb\Desktop\BugHunter\src\models\security_event.py" -> sqlalchemy
 	C:"\Users\clabb\Desktop\BugHunter\src\models\security_event.py" -> "sqlalchemy.orm"
-	C:"\Users\clabb\Desktop\BugHunter\src\models\security_event.py" -> "src.models.base"
+	C:"\Users\clabb\Desktop\BugHunter\src\models\security_event.py" -> "app.models.base"
 	"C:\Users\clabb\Desktop\BugHunter\src\models\session.py" [label="session.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\models\session.py" -> datetime
 	C:"\Users\clabb\Desktop\BugHunter\src\models\session.py" -> sqlalchemy
 	C:"\Users\clabb\Desktop\BugHunter\src\models\session.py" -> "sqlalchemy.orm"
-	C:"\Users\clabb\Desktop\BugHunter\src\models\session.py" -> "src.models.base"
+	C:"\Users\clabb\Desktop\BugHunter\src\models\session.py" -> "app.models.base"
 	"C:\Users\clabb\Desktop\BugHunter\src\models\user.py" [label="user.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\models\user.py" -> datetime
 	C:"\Users\clabb\Desktop\BugHunter\src\models\user.py" -> sqlalchemy
 	C:"\Users\clabb\Desktop\BugHunter\src\models\user.py" -> "sqlalchemy.orm"
-	C:"\Users\clabb\Desktop\BugHunter\src\models\user.py" -> "src.models.base"
+	C:"\Users\clabb\Desktop\BugHunter\src\models\user.py" -> "app.models.base"
 	C:"\Users\clabb\Desktop\BugHunter\src\models\user.py" -> bcrypt
 	C:"\Users\clabb\Desktop\BugHunter\src\models\user.py" -> bcrypt
 	"C:\Users\clabb\Desktop\BugHunter\src\models\vulnerability_db.py" [label="vulnerability_db.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\models\vulnerability_db.py" -> requests
 	"C:\Users\clabb\Desktop\BugHunter\src\models\__init__.py" [label="__init__.py"]
-	C:"\Users\clabb\Desktop\BugHunter\src\models\__init__.py" -> "src.models.user"
-	C:"\Users\clabb\Desktop\BugHunter\src\models\__init__.py" -> "src.models.session"
-	C:"\Users\clabb\Desktop\BugHunter\src\models\__init__.py" -> "src.models.login_attempt"
-	C:"\Users\clabb\Desktop\BugHunter\src\models\__init__.py" -> "src.models.scan_target"
+	C:"\Users\clabb\Desktop\BugHunter\src\models\__init__.py" -> "app.models.user"
+	C:"\Users\clabb\Desktop\BugHunter\src\models\__init__.py" -> "app.models.session"
+	C:"\Users\clabb\Desktop\BugHunter\src\models\__init__.py" -> "app.models.login_attempt"
+	C:"\Users\clabb\Desktop\BugHunter\src\models\__init__.py" -> "app.models.scan_target"
 	"C:\Users\clabb\Desktop\BugHunter\src\services\ai_system.py" [label="ai_system.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\services\ai_system.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\src\services\ai_system.py" -> json
@@ -1795,9 +1795,9 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\src\services\auth_service.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\src\services\auth_service.py" -> datetime
 	C:"\Users\clabb\Desktop\BugHunter\src\services\auth_service.py" -> typing
-	C:"\Users\clabb\Desktop\BugHunter\src\services\auth_service.py" -> "src.services.database"
-	C:"\Users\clabb\Desktop\BugHunter\src\services\auth_service.py" -> "src.models.security_event"
-	C:"\Users\clabb\Desktop\BugHunter\src\services\auth_service.py" -> "src.models.user"
+	C:"\Users\clabb\Desktop\BugHunter\src\services\auth_service.py" -> "app.services.database"
+	C:"\Users\clabb\Desktop\BugHunter\src\services\auth_service.py" -> "app.models.security_event"
+	C:"\Users\clabb\Desktop\BugHunter\src\services\auth_service.py" -> "app.models.user"
 	"C:\Users\clabb\Desktop\BugHunter\src\services\bug_bounty_analyzer.py" [label="bug_bounty_analyzer.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\services\bug_bounty_analyzer.py" -> json
 	C:"\Users\clabb\Desktop\BugHunter\src\services\bug_bounty_analyzer.py" -> typing
@@ -1827,12 +1827,12 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> "sqlalchemy.orm"
 	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> "sqlalchemy.exc"
 	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> typing
-	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> "src.config.db_config"
-	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> "src.models.user"
-	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> "src.models.security_event"
-	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> "src.models.fingerprint"
-	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> "src.models.login_attempt"
-	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> "src.models.scan_target"
+	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> "app.config.db_config"
+	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> "app.models.user"
+	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> "app.models.security_event"
+	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> "app.models.fingerprint"
+	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> "app.models.login_attempt"
+	C:"\Users\clabb\Desktop\BugHunter\src\services\database.py" -> "app.models.scan_target"
 	"C:\Users\clabb\Desktop\BugHunter\src\services\github_manager.py" [label="github_manager.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\services\github_manager.py" -> requests
 	C:"\Users\clabb\Desktop\BugHunter\src\services\github_manager.py" -> typing
@@ -1844,8 +1844,8 @@ digraph {
 	"C:\Users\clabb\Desktop\BugHunter\src\services\notification.py" [label="notification.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\services\notification.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\src\services\notification.py" -> typing
-	C:"\Users\clabb\Desktop\BugHunter\src\services\notification.py" -> "src.models.security_event"
-	C:"\Users\clabb\Desktop\BugHunter\src\services\notification.py" -> "src.services.auth_service"
+	C:"\Users\clabb\Desktop\BugHunter\src\services\notification.py" -> "app.models.security_event"
+	C:"\Users\clabb\Desktop\BugHunter\src\services\notification.py" -> "app.services.auth_service"
 	"C:\Users\clabb\Desktop\BugHunter\src\services\optimization_framework.py" [label="optimization_framework.py"]
 	C:"\Users\clabb\Desktop\BugHunter\src\services\optimization_framework.py" -> asyncio
 	C:"\Users\clabb\Desktop\BugHunter\src\services\optimization_framework.py" -> logging
@@ -1903,7 +1903,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\src\services\tool_manager.py" -> "services.tool_manager"
 	C:"\Users\clabb\Desktop\BugHunter\src\services\tool_manager.py" -> "services.vulnerability_scanner"
 	C:"\Users\clabb\Desktop\BugHunter\src\services\tool_manager.py" -> "services.ai_system"
-	C:"\Users\clabb\Desktop\BugHunter\src\services\tool_manager.py" -> "src.main"
+	C:"\Users\clabb\Desktop\BugHunter\src\services\tool_manager.py" -> "app.main"
 	C:"\Users\clabb\Desktop\BugHunter\src\services\tool_manager.py" -> "PyQt6.QtCore"
 	C:"\Users\clabb\Desktop\BugHunter\src\services\tool_manager.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\src\services\tool_manager.py" -> datetime
@@ -1982,7 +1982,7 @@ digraph {
 	"C:\Users\clabb\Desktop\BugHunter\tabs\tool_manager_tab.py" [label="tool_manager_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tabs\tool_manager_tab.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\tabs\tool_manager_tab.py" -> "PyQt6.QtCore"
-	C:"\Users\clabb\Desktop\BugHunter\tabs\tool_manager_tab.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\tabs\tool_manager_tab.py" -> "app.services.tool_manager"
 	C:"\Users\clabb\Desktop\BugHunter\tabs\tool_manager_tab.py" -> os
 	"C:\Users\clabb\Desktop\BugHunter\tabs\tool_tab.py" [label="tool_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tabs\tool_tab.py" -> "PyQt6.QtWidgets"
@@ -2006,72 +2006,72 @@ digraph {
 	"C:\Users\clabb\Desktop\BugHunter\taps\analytics_tab.py" [label="analytics_tab.py"]
 	"C:\Users\clabb\Desktop\BugHunter\tests\acceptance_test.py" [label="acceptance_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\acceptance_test.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\acceptance_test.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\acceptance_test.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\accessibility_test.py" [label="accessibility_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\accessibility_test.py" -> unittest
 	C:"\Users\clabb\Desktop\BugHunter\tests\accessibility_test.py" -> "PyQt6.QtWidgets"
-	C:"\Users\clabb\Desktop\BugHunter\tests\accessibility_test.py" -> "src.gui.main_window"
-	C:"\Users\clabb\Desktop\BugHunter\tests\accessibility_test.py" -> "src.services.config_manager"
-	C:"\Users\clabb\Desktop\BugHunter\tests\accessibility_test.py" -> "src.services.database"
-	C:"\Users\clabb\Desktop\BugHunter\tests\accessibility_test.py" -> "src.services.user_auth"
+	C:"\Users\clabb\Desktop\BugHunter\tests\accessibility_test.py" -> "app.gui.main_window"
+	C:"\Users\clabb\Desktop\BugHunter\tests\accessibility_test.py" -> "app.services.config_manager"
+	C:"\Users\clabb\Desktop\BugHunter\tests\accessibility_test.py" -> "app.services.database"
+	C:"\Users\clabb\Desktop\BugHunter\tests\accessibility_test.py" -> "app.services.user_auth"
 	"C:\Users\clabb\Desktop\BugHunter\tests\API_test.py" [label="API_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\API_test.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\API_test.py" -> "src.services.vulnerability_scanner"
+	C:"\Users\clabb\Desktop\BugHunter\tests\API_test.py" -> "app.services.vulnerability_scanner"
 	C:"\Users\clabb\Desktop\BugHunter\tests\API_test.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\API_test.py" -> "src.services.vulnerability_scanner"
+	C:"\Users\clabb\Desktop\BugHunter\tests\API_test.py" -> "app.services.vulnerability_scanner"
 	"C:\Users\clabb\Desktop\BugHunter\tests\backup_recovery_test.py" [label="backup_recovery_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\backup_recovery_test.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\backup_recovery_test.py" -> "src.services.database"
+	C:"\Users\clabb\Desktop\BugHunter\tests\backup_recovery_test.py" -> "app.services.database"
 	"C:\Users\clabb\Desktop\BugHunter\tests\code_quality_test.py" [label="code_quality_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\code_quality_test.py" -> unittest
 	C:"\Users\clabb\Desktop\BugHunter\tests\code_quality_test.py" -> "pylint.lint"
 	"C:\Users\clabb\Desktop\BugHunter\tests\compatibility.py" [label="compatibility.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\compatibility.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\compatibility.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\compatibility.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\confguration_test.py" [label="confguration_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\confguration_test.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\confguration_test.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\confguration_test.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\database_test.py" [label="database_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\database_test.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\database_test.py" -> "src.services.database"
+	C:"\Users\clabb\Desktop\BugHunter\tests\database_test.py" -> "app.services.database"
 	"C:\Users\clabb\Desktop\BugHunter\tests\data_validation_test.py" [label="data_validation_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\data_validation_test.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\data_validation_test.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\data_validation_test.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\dynamic_analysis_test.py" [label="dynamic_analysis_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\dynamic_analysis_test.py" -> unittest
 	C:"\Users\clabb\Desktop\BugHunter\tests\dynamic_analysis_test.py" -> subprocess
 	"C:\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py" [label="end_to_end_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py" -> unittest
 	C:"\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py" -> "PyQt6.QtWidgets"
-	C:"\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py" -> "src.gui.main_window"
-	C:"\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py" -> "src.services.config_manager"
-	C:"\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py" -> "src.services.database"
-	C:"\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py" -> "src.services.user_auth"
+	C:"\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py" -> "app.gui.main_window"
+	C:"\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py" -> "app.services.config_manager"
+	C:"\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py" -> "app.services.database"
+	C:"\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py" -> "app.services.user_auth"
 	C:"\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\end_to_end_test.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\error_handling_test.py" [label="error_handling_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\error_handling_test.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\error_handling_test.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\error_handling_test.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\import unittest.py" [label="import unittest.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\import unittest.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\import unittest.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\import unittest.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\localization_test.py" [label="localization_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\localization_test.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\localization_test.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\localization_test.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\logging_test.py" [label="logging_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\logging_test.py" -> unittest
 	C:"\Users\clabb\Desktop\BugHunter\tests\logging_test.py" -> logging
-	C:"\Users\clabb\Desktop\BugHunter\tests\logging_test.py" -> "src.logger_config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\logging_test.py" -> "app.logger_config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\performance.py" [label="performance.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\performance.py" -> unittest
 	C:"\Users\clabb\Desktop\BugHunter\tests\performance.py" -> time
-	C:"\Users\clabb\Desktop\BugHunter\tests\performance.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\performance.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\regression_tests.py" [label="regression_tests.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\regression_tests.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\regression_tests.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\regression_tests.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\security_test.py" [label="security_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\security_test.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\security_test.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\security_test.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\static_analysis_test.py" [label="static_analysis_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\static_analysis_test.py" -> unittest
 	C:"\Users\clabb\Desktop\BugHunter\tests\static_analysis_test.py" -> ast
@@ -2088,7 +2088,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_ai_system.py" -> "services.ai_system"
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_ai_system.py" -> redis
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_ai_system.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_ai_system.py" -> "src.services.ai_system"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_ai_system.py" -> "app.services.ai_system"
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_ai_tab.py" [label="test_ai_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_ai_tab.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_ai_tab.py" -> "PyQt6.QtWidgets"
@@ -2098,10 +2098,10 @@ digraph {
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_bug_bounty_analyzer.py" [label="test_bug_bounty_analyzer.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_bug_bounty_analyzer.py" -> unittest
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_bug_bounty_analyzer.py" -> "unittest.mock"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_bug_bounty_analyzer.py" -> "src.services.bug_bounty_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_bug_bounty_analyzer.py" -> "src.config"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_bug_bounty_analyzer.py" -> "src.services.nuclei_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_bug_bounty_analyzer.py" -> "src.services.ai_system"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_bug_bounty_analyzer.py" -> "app.services.bug_bounty_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_bug_bounty_analyzer.py" -> "app.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_bug_bounty_analyzer.py" -> "app.services.nuclei_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_bug_bounty_analyzer.py" -> "app.services.ai_system"
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_code_converter.py" [label="test_code_converter.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_code_converter.py" -> unittest
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_code_converter.py" -> "unittest.mock"
@@ -2109,8 +2109,8 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_code_converter.py" -> shutil
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_code_converter.py" -> ast
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_code_converter.py" -> astor
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_code_converter.py" -> "src.services.code_converter"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_code_converter.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_code_converter.py" -> "app.services.code_converter"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_code_converter.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_config_manager.py" [label="test_config_manager.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_config_manager.py" -> json
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_config_manager.py" -> os
@@ -2125,71 +2125,71 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_gui_tab_generator.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_gui_tab_generator.py" -> "PyQt6.QtTest"
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_gui_tab_generator.py" -> "PyQt6.QtCore"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_gui_tab_generator.py" -> "src.services.gui_tab_generator"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_gui_tab_generator.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_gui_tab_generator.py" -> "app.services.gui_tab_generator"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_gui_tab_generator.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_hello_world.py" [label="test_hello_world.py"]
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_integration.py" [label="test_integration.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_integration.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_integration.py" -> requests
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_integration.py" -> "src.services.bug_bounty_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_integration.py" -> "src.services.nuclei_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_integration.py" -> "src.services.ai_system"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_integration.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_integration.py" -> "app.services.bug_bounty_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_integration.py" -> "app.services.nuclei_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_integration.py" -> "app.services.ai_system"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_integration.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_load.py" [label="test_load.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_load.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_load.py" -> "src.services.vulnerability_scanner"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_load.py" -> "app.services.vulnerability_scanner"
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_login_dialog.py" [label="test_login_dialog.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_login_dialog.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_login_dialog.py" -> sys
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_login_dialog.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_login_dialog.py" -> typing
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_login_dialog.py" -> "unittest.mock"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_login_dialog.py" -> "src.gui.login_dialog"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_login_dialog.py" -> "src.gui.registration_dialog"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_login_dialog.py" -> "src.services.simple_auth"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_login_dialog.py" -> "app.gui.login_dialog"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_login_dialog.py" -> "app.gui.registration_dialog"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_login_dialog.py" -> "app.services.simple_auth"
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_pytest_integration.py" [label="test_pytest_integration.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_pytest_integration.py" -> pytest
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_pytest_integration.py" -> "src.services.bug_bounty_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_pytest_integration.py" -> "src.services.nuclei_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_pytest_integration.py" -> "src.services.ai_system"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_pytest_integration.py" -> "src.config.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_pytest_integration.py" -> "app.services.bug_bounty_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_pytest_integration.py" -> "app.services.nuclei_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_pytest_integration.py" -> "app.services.ai_system"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_pytest_integration.py" -> "app.config.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_sanity.py" [label="test_sanity.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_sanity.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_sanity.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_sanity.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_smoke.py" [label="test_smoke.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_smoke.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_smoke.py" -> "src.main"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_smoke.py" -> "app.main"
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_stress.py" [label="test_stress.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_stress.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_stress.py" -> "src.services.vulnerability_scanner"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_stress.py" -> "app.services.vulnerability_scanner"
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" [label="test_tool_manager.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> "unittest.mock"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> "app.services.tool_manager"
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> "unittest.mock"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> "app.services.tool_manager"
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> "app.services.tool_manager"
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> "unittest.mock"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager.py" -> "app.services.tool_manager"
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_tool_manager_tab.py" [label="test_tool_manager_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager_tab.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager_tab.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager_tab.py" -> "unittest.mock"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager_tab.py" -> "src.gui.tabs.tool_manager_tab"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager_tab.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager_tab.py" -> "app.gui.tabs.tool_manager_tab"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_manager_tab.py" -> "app.services.tool_manager"
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_tool_tab.py" [label="test_tool_tab.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_tab.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_tab.py" -> "PyQt6.QtWidgets"
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_tab.py" -> "unittest.mock"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_tab.py" -> "src.gui.tabs.tool_tab"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_tab.py" -> "src.services.tool_manager"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_tab.py" -> "app.gui.tabs.tool_tab"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_tool_tab.py" -> "app.services.tool_manager"
 	"C:\Users\clabb\Desktop\BugHunter\tests\test_vulnerability_scanner.py" [label="test_vulnerability_scanner.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\test_vulnerability_scanner.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_vulnerability_scanner.py" -> "src.services.vulnerability_scanner"
-	C:"\Users\clabb\Desktop\BugHunter\tests\test_vulnerability_scanner.py" -> "src.main"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_vulnerability_scanner.py" -> "app.services.vulnerability_scanner"
+	C:"\Users\clabb\Desktop\BugHunter\tests\test_vulnerability_scanner.py" -> "app.main"
 	"C:\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py" [label="ultimate_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py" -> sys
 	C:"\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py" -> os
@@ -2198,20 +2198,20 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py" -> logging
 	C:"\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py" -> pytest
 	C:"\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py" -> asyncio
-	C:"\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py" -> "src.services.bug_bounty_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py" -> "src.services.nuclei_analyzer"
-	C:"\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py" -> "src.services.ai_system"
-	C:"\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py" -> "app.services.bug_bounty_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py" -> "app.services.nuclei_analyzer"
+	C:"\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py" -> "app.services.ai_system"
+	C:"\Users\clabb\Desktop\BugHunter\tests\ultimate_test.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\unit_tests.py" [label="unit_tests.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\unit_tests.py" -> unittest
-	C:"\Users\clabb\Desktop\BugHunter\tests\unit_tests.py" -> "src.config"
+	C:"\Users\clabb\Desktop\BugHunter\tests\unit_tests.py" -> "app.config"
 	"C:\Users\clabb\Desktop\BugHunter\tests\usability_test.py" [label="usability_test.py"]
 	C:"\Users\clabb\Desktop\BugHunter\tests\usability_test.py" -> unittest
 	C:"\Users\clabb\Desktop\BugHunter\tests\usability_test.py" -> "PyQt6.QtWidgets"
-	C:"\Users\clabb\Desktop\BugHunter\tests\usability_test.py" -> "src.gui.main_window"
-	C:"\Users\clabb\Desktop\BugHunter\tests\usability_test.py" -> "src.services.config_manager"
-	C:"\Users\clabb\Desktop\BugHunter\tests\usability_test.py" -> "src.services.database"
-	C:"\Users\clabb\Desktop\BugHunter\tests\usability_test.py" -> "src.services.user_auth"
+	C:"\Users\clabb\Desktop\BugHunter\tests\usability_test.py" -> "app.gui.main_window"
+	C:"\Users\clabb\Desktop\BugHunter\tests\usability_test.py" -> "app.services.config_manager"
+	C:"\Users\clabb\Desktop\BugHunter\tests\usability_test.py" -> "app.services.database"
+	C:"\Users\clabb\Desktop\BugHunter\tests\usability_test.py" -> "app.services.user_auth"
 	"C:\Users\clabb\Desktop\BugHunter\tests\__init__.py" [label="__init__.py"]
 	"C:\Users\clabb\Desktop\BugHunter\utils\check_config.py" [label="check_config.py"]
 	C:"\Users\clabb\Desktop\BugHunter\utils\check_config.py" -> os
@@ -2261,7 +2261,7 @@ digraph {
 	C:"\Users\clabb\Desktop\BugHunter\utils\setup_db.py" -> argparse
 	C:"\Users\clabb\Desktop\BugHunter\utils\setup_db.py" -> pathlib
 	C:"\Users\clabb\Desktop\BugHunter\utils\setup_db.py" -> json
-	C:"\Users\clabb\Desktop\BugHunter\utils\setup_db.py" -> "src.db.init_db"
+	C:"\Users\clabb\Desktop\BugHunter\utils\setup_db.py" -> "app.db.init_db"
 	"C:\Users\clabb\Desktop\BugHunter\utils\setup_env.py" [label="setup_env.py"]
 	C:"\Users\clabb\Desktop\BugHunter\utils\setup_env.py" -> os
 	C:"\Users\clabb\Desktop\BugHunter\utils\setup_env.py" -> json

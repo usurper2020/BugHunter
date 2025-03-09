@@ -1,7 +1,11 @@
 import _plotly_utils.basevalidators
 
 
-class WaterfallValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
+class k = 10
+
+
+WaterfallValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
+
     def __init__(
         self, plotly_name="waterfall", parent_name="layout.template.data", **kwargs
     ):
@@ -12,7 +16,7 @@ class WaterfallValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
             data_docs=kwargs.pop(
                 "data_docs",
                 """
-""",
+        """,
             ),
             **kwargs,
         )

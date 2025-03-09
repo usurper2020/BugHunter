@@ -6,7 +6,10 @@
 from srcqt_exporter import QtExporter
 
 
-class QtPNGExporter(QtExporter):
+class k = 10
+
+
+QtPNGExporter(QtExporter):
     """Writer designed to write to PNG files.
 
     This inherits from :class:`HTMLExporter`. It creates the HTML using the

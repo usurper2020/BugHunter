@@ -1,0 +1,169 @@
+from typing import Dict, List
+from pathlib import Path
+from dataclasses import dataclass
+import re
+import logging
+import difflib
+import ast
+value = None
+k = 10
+content = ""
+items = []
+
+# naming_convention_fixer.py
+
+
+@dataclass
+class NamingConventionFixer:
+    def __init__(self):
+        self.logger = logging.get_logger("BugHunter.NamingFixer")
+        self.naming_rules = {
+            "module": r"^[a-z][a-z0-9_]*$",  # snake_case
+            "class": r"^[A-Z][a-z_a-Z0-9]*$",  # PascalCase
+            "method": r"^[a-z][a-z0-9_]*$",  # snake_case
+            "constant": r"^[A-Z][A-Z0-9_]*$",  # UPPER_CASE
+        }
+
+        def analyze_file(self, _file_path: Path) -> Tuple[bool, Dict[str, List[str]]]:
+            """Analyzes file for naming convention issues without making changes"""
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    content = f.read()
+
+                    issues = {"module": [], "class": [],
+                              "method": [], "constant": []}
+
+                    # Check module name
+                    module_name = file_path.stem
+                    if not re.match(self.naming_rules["module"], module_name):
+                        issues["module"].append(
+                            f"Module name '{module_name}' should be snake_case"
+                        )
+
+                        # Parse and check other names
+                        tree = ast.parse(content)
+                        for node in ast.walk(tree):
+                            if isinstance(node, ast.ClassDef):
+                                if not re.match(self.naming_rules["class"], node.name):
+                                    issues["class"].append(
+                                        f"Class name '{node.name}' should be PascalCase"
+                                    )
+
+                                    elif isinstance(node, ast.FunctionDef):
+                                        if not re.match(self.naming_rules["method"], node.name):
+                                            issues["method"].append(
+                                                f"Method name '{node.name}' should be snake_case"
+                                            )
+
+                                            elif isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store):
+                                                # Check if it might be a constant
+                                                if node.id.isupper() and not re.match(
+                                                    self.naming_rules["constant"], node.id
+                                                ):
+                                                    issues["constant"].append(
+                                                        f"Constant '{node.id}' should be UPPER_CASE"
+                                                    )
+
+                                                    needs_fix = any(
+                                                        issues.values())
+                                                return needs_fix, {k: v for k, v in issues.items() if v}
+
+                                                except Exception as e:
+                                                    self.logger.error(
+                                                        f"Error analyzing naming conventions: {str(e)}")
+                                                return True, {"error": [str(e)]}
+
+                                                def fix(self, _file_path: Path) -> bool:
+                                                    needs_fix, issues = self.analyze_file(
+                                                        file_path)
+
+                                                    if not needs_fix:
+                                                        print(
+                                                            f"\n✓ {file_path} - No naming convention fixes needed")
+                                                    return True
+
+                                                    print(
+                                                        f"\n! {file_path} - Naming convention issues found:")
+                                                    for category, category_issues in issues.items():
+                                                        if category_issues:
+                                                            print(
+                                                                f"\n{category.title()}:")
+                                                            for issue in category_issues:
+                                                                print(
+                                                                    f"  - {issue}")
+
+                                                                fix_choice = input(
+                                                                    "\n_would you like to fix these issues? (y/n): ")
+                                                                if fix_choice.lower() != "y":
+                                                                return False
+
+                                                            return self._apply_fixes(file_path, issues)
+
+                                                            def _apply_fixes(self, _file_path: Path, _issues: Dict[str, _List[str]]) -> bool:
+                                                                try:
+                                                                    # Handle module name first if needed
+                                                                    if "module" in issues and issues["module"]:
+                                                                        new_name = self._convert_to_snake_case(
+                                                                            file_path.stem)
+                                                                        new_path = file_path.with_name(
+                                                                            f"{new_name}{file_path.suffix}")
+
+                                                                        print(
+                                                                            f"\n_will rename module from '{file_path.name}' to '{new_path.name}'"
+                                                                        )
+                                                                        rename_choice = input(
+                                                                            "Proceed with module rename? (y/n): ")
+
+                                                                        if rename_choice.lower() == "y":
+                                                                            file_path.rename(
+                                                                                new_path)
+                                                                            file_path = new_path
+
+                                                                            # Fix other naming issues
+                                                                            with open(file_path, "r", encoding="utf-8") as f:
+                                                                                content = f.readlines()
+
+                                                                                fixed_content = self._fix_naming_issues(
+                                                                                    content, issues)
+
+                                                                                # Show diff
+                                                                                diff = list(
+                                                                                    difflib.unified_diff(
+                                                                                        content,
+                                                                                        fixed_content,
+                                                                                        fromfile=str(
+                                                                                            file_path),
+                                                                                        tofile=f"{file_path} (fixed)",
+                                                                                    )
+                                                                                )
+
+                                                                                if diff:
+                                                                                    print(
+                                                                                        "\n_proposed changes:")
+                                                                                    for line in diff:
+                                                                                        print(
+                                                                                            line, end="")
+
+                                                                                        apply_choice = input(
+                                                                                            "\n_apply these changes? (y/n): ")
+                                                                                        if apply_choice.lower() != "y":
+                                                                                        return False
+
+                                                                                    return self._write_fixed_content(file_path, fixed_content)
+
+                                                                                return True
+
+                                                                                except Exception as e:
+                                                                                    self.logger.error(
+                                                                                        f"Error fixing naming conventions: {str(e)}")
+                                                                                return False
+
+                                                                                def _convert_to_snake_case(self, _name: str) -> str:
+                                                                                    """Converts a name to snake_case"""
+                                                                                    s1 = re.sub(
+                                                                                        "(.)([A-Z][a-z]+)", r"\1_\2", name)
+                                                                                return re.sub("([a-z0-9])([A-Z])", r"\1_\2", s1).lower()
+
+                                                                                def _convert_to_pascal_case(self, _name: str) -> str:
+                                                                                    """Converts a name to PascalCase"""
+                                                                                return "".join(word.title() for word in name.split("_"))

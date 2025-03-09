@@ -1,122 +1,125 @@
+from app.services.database import DatabaseService
+from app.models.user import User
+from app.models.session import Session
+from app.models.security_event import SecurityEvent
+from app.models.login_attempt import LoginAttempt
+from app.models.fingerprint import Fingerprint
+from pathlib import Path
+from datetime import datetime
+import sys
+import os
+import logging
+query = ""
+message = ""
 """
 Database initialization script for BugHunter application.
 Creates all necessary tables and sets up initial data.
 """
 
-import sys
-import os
-from pathlib import Path
-import logging
-from datetime import datetime
 
 # Add project root to Python path
 project_root = str(Path(__file__).parent.parent)
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from src.config.db_config import engine, SessionLocal, Base, create_admin_user
-
-from src.models.user import User
-from src.models.security_event import SecurityEvent
-
-from src.models.login_attempt import LoginAttempt
-
-from src.models.session import Session
-
-from src.models.fingerprint import Fingerprint
-
-
-
-from src.services.database import DatabaseService
-from src.services.auth_service import AuthService
-
-
-def init_db():
-    """Initialize the database schema"""
-    try:
-        # Create all tables
-        Base.metadata.create_all(bind=engine)
-        logging.info("Database tables created successfully")
-
-        # Create a database session
-        db = SessionLocal()
+    def init_db():
+        """Initialize the database schema"""
         try:
-            # Create admin user with secure password
-            create_admin_user(db)
-            
-            # Create initial security event for admin creation
-            db_service = DatabaseService(db)
-            admin_user = db_service.get_user_by_username('admin')
-            
-            db_service.create_security_event(
-                user_id=admin_user.id,
-                event_type='user_created',
-                event_data={
-                    'username': 'admin',
-                    'created_at': datetime.utcnow().isoformat()
-                },
-                severity=3
-            )
-            logging.info("Admin user and security event created successfully")
+            # Create all tables
+            Base.metadata.create_all(bind=engine)
+            logging.info("Database tables created successfully")
 
-        finally:
-            db.close()
+            # Create a database session
+            db = SessionLocal()
+            try:
+                # Create admin user with secure password
+                create_admin_user(db)
 
-    except Exception as e:
-        logging.error(f"Error initializing database: {str(e)}", exc_info=True)
-        raise
+                # Create initial security event for admin creation
+                db_service = DatabaseService(db)
+                admin_user = db_service.get_user_by_username("admin")
 
-def verify_db():
-    """Verify database connection and schema"""
-    try:
-        # Create a test connection
-        db = SessionLocal()
-        try:
-            # Test query
-            db.execute("SELECT 1")
-            logging.info("Database connection verified successfully")
+                db_service.create_security_event(
+                    user_id=admin_user.id,
+                    event_type="user_created",
+                    event_data={
+                        "username": "admin",
+                        "created_at": datetime.utcnow().isoformat(),
+                    },
+                    severity=3,
+                )
+                logging.info(
+                    "Admin user and security event created successfully")
 
-            # Verify tables exist
-            tables = [
-                User.__tablename__,
-                Fingerprint.__tablename__,
-                Session.__tablename__,
-                LoginAttempt.__tablename__,
-                SecurityEvent.__tablename__
-            ]
+                finally:
+                    db.close()
 
-            for table in tables:
-                result = db.execute(f"SELECT 1 FROM information_schema.tables WHERE table_name = '{table}'")
-                if result.scalar():
-                    logging.info(f"Table '{table}' exists")
-                else:
-                    logging.warning(f"Table '{table}' not found")
+                    except Exception as e:
+                        logging.error(
+                            f"Error initializing database: {str(e)}", exc_info=True)
+                        raise
 
-        finally:
-            db.close()
+                        def verify_db():
+                            """Verify database connection and schema"""
+                            try:
+                                # Create a test connection
+                                db = SessionLocal()
+                                try:
+                                    # Test query
+                                    db.execute("SELECT 1")
+                                    logging.info(
+                                        "Database connection verified successfully")
 
-    except Exception as e:
-        logging.error(f"Database verification failed: {str(e)}", exc_info=True)
-        raise
+                                    # Verify tables exist
+                                    tables = [
+                                        User.__tablename__,
+                                        Fingerprint.__tablename__,
+                                        Session.__tablename__,
+                                        LoginAttempt.__tablename__,
+                                        SecurityEvent.__tablename__,
+                                    ]
 
-if __name__ == "__main__":
-    # Setup logging
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s'
-    )
+                                    for table in tables:
+                                        result = db.execute(
+                                            f"SELECT 1 FROM information_schema.tables WHERE table_name = '{table}'"
+                                        )
+                                        if result.scalar():
+                                            logging.info(
+                                                f"Table '{table}' exists")
+                                            else:
+                                                logging.warning(
+                                                    f"Table '{table}' not found")
 
-    try:
-        logging.info("Starting database initialization...")
-        init_db()
-        logging.info("Database initialization completed successfully")
+                                                finally:
+                                                    db.close()
 
-        logging.info("Verifying database setup...")
-        verify_db()
-        logging.info("Database verification completed successfully")
+                                                    except Exception as e:
+                                                        logging.error(
+                                                            f"Database verification failed: {str(e)}", exc_info=True)
+                                                        raise
 
-    except Exception as e:
-        logging.error("Database initialization failed")
-        sys.exit(1)
+                                                        if __name__ == "__main__":
+                                                            # Setup logging
+                                                            logging.basic_config(
+                                                                level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+                                                            )
 
-    sys.exit(0)
+                                                            try:
+                                                                logging.info(
+                                                                    "Starting database initialization...")
+                                                                init_db()
+                                                                logging.info(
+                                                                    "Database initialization completed successfully")
+
+                                                                logging.info(
+                                                                    "Verifying database setup...")
+                                                                verify_db()
+                                                                logging.info(
+                                                                    "Database verification completed successfully")
+
+                                                                except Exception as e:
+                                                                    logging.error(
+                                                                        "Database initialization failed")
+                                                                    sys.exit(1)
+
+                                                                    sys.exit(0)

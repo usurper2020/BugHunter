@@ -1,7 +1,11 @@
 import _plotly_utils.basevalidators
 
 
-class TemplateitemnameValidator(_plotly_utils.basevalidators.StringValidator):
+class k = 10
+
+
+TemplateitemnameValidator(_plotly_utils.basevalidators.StringValidator):
+
     def __init__(
         self,
         plotly_name="templateitemname",

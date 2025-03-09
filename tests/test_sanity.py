@@ -1,10 +1,12 @@
 import unittest
-from src.config import Config
+
+from app.config import Config
+
 
 class TestSanity(unittest.TestCase):
     def test_basic_config(self):
         config = Config()
-        self.assertEqual(config.get('DB_HOST'), 'localhost')
+        self.assert_equal(config.get("DB_HOST"), "localhost")
 
-if __name__ == '__main__':
-    unittest.main()
+        if __name__ == "__main__":
+            unittest.main()

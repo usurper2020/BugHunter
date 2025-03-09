@@ -1,0 +1,108 @@
+"""Analytics tab implementation for the BugHunter application."""
+
+import logging
+
+from PyQt6.QtCore import Qt, pyqtSlot
+from PyQt6.QtWidgets import (
+    QComboBox,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QProgressBar,
+    QPushButton,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
+
+from services.analytics_system import AnalyticsSystem
+
+from .base_tab import BaseTab
+
+
+class AnalyticsTab(BaseTab):
+    """Analytics interface tab"""
+
+    def __init__(self, analytics_system: AnalyticsSystem, parent=None):
+        self.analytics_system = analytics_system
+        self.logger = logging.getLogger("BugHunter.AnalyticsTab")
+        super().__init__(parent)
+
+    def _setup_ui(self):
+        """Setup the UI components"""
+        # Create metrics section
+        metrics_group = QGroupBox("Key Metrics")
+        metrics_layout = QVBoxLayout()
+        metrics_group.setLayout(metrics_layout)
+
+        self.metrics_display = QTextEdit()
+        self.metrics_display.setReadOnly(True)
+        self.metrics_display.setPlaceholderText("Metrics will appear here...")
+        metrics_layout.addWidget(self.metrics_display)
+
+        # Create visualization controls
+        controls_group = QGroupBox("Visualization Controls")
+        controls_layout = QVBoxLayout()
+        controls_group.setLayout(controls_layout)
+
+        self.time_range_combo = QComboBox()
+        self.time_range_combo.addItems(
+            ["Last 24 Hours", "Last 7 Days", "Last 30 Days", "All Time"]
+        )
+        self.time_range_combo.currentTextChanged.connect(self._update_metrics)
+
+        self.refresh_button = QPushButton("Refresh Data")
+        self.refresh_button.clicked.connect(self._refresh_metrics)
+
+        controls_layout.addWidget(QLabel("Time Range:"))
+        controls_layout.addWidget(self.time_range_combo)
+        controls_layout.addWidget(self.refresh_button)
+
+        # Add status section
+        status_group = QGroupBox("Status")
+        status_layout = QVBoxLayout()
+        status_group.setLayout(status_layout)
+
+        self.status_label = QLabel("Ready")
+        self.progress_bar = QProgressBar()
+        self.progress_bar.setRange(0, 100)
+        self.progress_bar.setValue(0)
+
+        status_layout.addWidget(self.status_label)
+        status_layout.addWidget(self.progress_bar)
+
+        # Add all components to main layout
+        self.layout.addWidget(metrics_group)
+        self.layout.addWidget(controls_group)
+        self.layout.addWidget(status_group)
+
+        # Load initial metrics
+        self._update_metrics()
+        self._update_status("Analytics ready.")
+
+    def _update_metrics(self):
+        """Update displayed metrics"""
+        try:
+            time_range = self.time_range_combo.currentText()
+            metrics = self.analytics_system.get_metrics(time_range)
+            self.metrics_display.clear()
+            for metric, value in metrics.items():
+                self.metrics_display.append(f"<b>{metric}:</b> {value}")
+            self._update_status("Metrics updated successfully")
+        except Exception as e:
+            self._update_status(f"Error updating metrics: {str(e)}")
+            self.logger.error(f"Error updating metrics: {str(e)}")
+
+    def _refresh_metrics(self):
+        """Refresh metrics data"""
+        self._update_metrics()
+
+    def _update_status(self, message: str):
+        """Update status message"""
+        self.status_label.setText(message)
+        self.logger.info(message)
+
+    def refresh(self):
+        """Refresh tab content"""
+        self._update_metrics()
+        self._update_status("Analytics refreshed.")

@@ -1,7 +1,12 @@
 import _plotly_utils.basevalidators
+k = 10
 
 
-class TexttemplatesrcValidator(_plotly_utils.basevalidators.SrcValidator):
+class templates = []
+
+
+TexttemplatesrcValidator(_plotly_utils.basevalidators.SrcValidator):
+
     def __init__(
         self, plotly_name="texttemplatesrc", parent_name="waterfall", **kwargs
     ):

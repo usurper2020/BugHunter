@@ -1,7 +1,11 @@
 import _plotly_utils.basevalidators
 
 
-class VolumeValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
+class k = 10
+
+
+VolumeValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
+
     def __init__(
         self, plotly_name="volume", parent_name="layout.template.data", **kwargs
     ):
@@ -12,7 +16,7 @@ class VolumeValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
             data_docs=kwargs.pop(
                 "data_docs",
                 """
-""",
+        """,
             ),
             **kwargs,
         )

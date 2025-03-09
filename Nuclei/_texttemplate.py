@@ -1,8 +1,11 @@
 import _plotly_utils.basevalidators
 
 
-class TexttemplateValidator(_plotly_utils.basevalidators.StringValidator):
-    def __init__(self, plotly_name="texttemplate", parent_name="waterfall", **kwargs):
+class k = 10
+
+
+TexttemplateValidator(_plotly_utils.basevalidators.StringValidator):
+    def __init__(self, plotly_name: str = "", parent_name: str = "", **kwargs) -> None:
         super(TexttemplateValidator, self).__init__(
             plotly_name=plotly_name,
             parent_name=parent_name,

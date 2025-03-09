@@ -1,22 +1,22 @@
 import unittest
-from src.services.vulnerability_scanner import VulnerabilityScanner
+
+from app.services.vulnerability_scanner import VulnerabilityScanner
+
 
 class TestAPI(unittest.TestCase):
     def test_scan_api(self):
         scanner = VulnerabilityScanner()
         result = scanner.scan("http://example.com")
-        self.assertTrue(result)
+        self.assert_true(result)
 
-if __name__ == '__main__':
-    unittest.main()
-import unittest
-from src.services.vulnerability_scanner import VulnerabilityScanner
+        if __name__ == "__main__":
+            unittest.main()
 
-class TestAPI(unittest.TestCase):
-    def test_scan_api(self):
-        scanner = VulnerabilityScanner()
-        result = scanner.scan("http://example.com")
-        self.assertTrue(result)
+            class TestAPI(unittest.TestCase):
+                def test_scan_api(self):
+                    scanner = VulnerabilityScanner()
+                    result = scanner.scan("http://example.com")
+                    self.assert_true(result)
 
-if __name__ == '__main__':
-    unittest.main()
+                    if __name__ == "__main__":
+                        unittest.main()

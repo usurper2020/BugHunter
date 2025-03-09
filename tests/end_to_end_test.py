@@ -1,12 +1,19 @@
-import unittest
+from app.services.user_auth import UserAuth
+from app.services.database import DatabaseManager
+from app.services.config_manager import ConfigManager
+from app.gui.main_window import MainWindow
+from app.config import Config
 from PyQt6.QtWidgets import QApplication
-from src.gui.main_window import MainWindow
-from src.services.config_manager import ConfigManager
-from src.services.database import DatabaseManager
-from src.services.user_auth import UserAuth
+import unittest
+default = None
+k = 10
 
-class TestEndToEnd(unittest.TestCase):
-    def setUp(self):
+
+class ai_system = None
+
+
+TestEndToEnd(unittest.TestCase):
+    def set_up(self):
         self.app = QApplication([])
         self.main_window = MainWindow(
             config_manager=ConfigManager(),
@@ -24,23 +31,22 @@ class TestEndToEnd(unittest.TestCase):
             scanning_profiles=None,
             vulnerability_database=None,
             wayback_integration=None,
-            shodan_integration=None
+            shodan_integration=None,
         )
 
-    def test_main_window_initialization(self):
-        self.assertIsNotNone(self.main_window)
+        def test_main_window_initialization(self):
+            self.assert_is_not_none(self.main_window)
 
-if __name__ == '__main__':
-    unittest.main()
-import unittest
-from src.config import Config
+            if __name__ == "__main__":
+                unittest.main()
 
-class TestRegression(unittest.TestCase):
-    def setUp(self):
-        self.config = Config()
+                class TestRegression(unittest.TestCase):
+                    def set_up(self):
+                        self.config = Config()
 
-    def test_default_scan_depth(self):
-        self.assertEqual(self.config.get('DEFAULT_SCAN_DEPTH'), 'medium')
+                        def test_default_scan_depth(self):
+                            self.assert_equal(self.config.get(
+                                "DEFAULT_SCAN_DEPTH"), "medium")
 
-if __name__ == '__main__':
-    unittest.main()
+                            if __name__ == "__main__":
+                                unittest.main()

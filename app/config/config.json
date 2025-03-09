@@ -1,0 +1,62 @@
+{
+    "database": {
+        "DB_HOST": "localhost",
+        "DB_PORT": 5432,
+        "DB_NAME": "bughunter_dbbughunter_lgincredentials",
+        "DB_USER": "postgres",
+        "DB_PASSWORD": "Qaz!Wsx@Edc#Rfv$"
+    },
+    "security": {
+        "JWT_SECRET_KEY": "3b106d6261d33bc4b0951637d87256fe2c641904d04e0643c0771152ae1dcad3",
+        "JWT_EXPIRATION_HOURS": 24,
+        "PASSWORD_MIN_LENGTH": 12,
+        "MAX_LOGIN_ATTEMPTS": 5,
+        "LOGIN_LOCKOUT_MINUTES": 15,
+        "RATE_LIMIT_REQUESTS": 100,
+        "RATE_LIMIT_WINDOW_MINUTES": 60,
+        "ENCRYPT_REPORTS": true
+    },
+    "scanning": {
+        "MAX_CONCURRENT_SCANS": 5,
+        "SCAN_TIMEOUT_MINUTES": 30,
+        "DEFAULT_SCAN_DEPTH": "medium",
+        "REPORT_RETENTION_DAYS": 30
+    },
+    "logging": {
+        "LOG_LEVEL": "INFO",
+        "LOG_FILE": "logs/bughunter.log",
+        "LOG_ROTATION_DAYS": 7
+    },
+    "caching": {
+        "REDIS_HOST": "localhost",
+        "REDIS_PORT": 6379,
+        "CACHE_TTL_MINUTES": 60
+    },
+    "directories": {
+        "TOOLS_DIRECTORY": "tools",
+        "REPORTS_DIRECTORY": "reports",
+        "CACHE_DIRECTORY": "cache",
+        "NUCLEI_TEMPLATES": "nuclei-templates"
+    },
+    "ai": {
+        "AI_API_TYPE": [
+            "openai",
+            "codegpt"
+        ],
+        "OPENAI_API_KEY": "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",
+        "CODEGPT_API_KEY": "sk-950e8c72-2f6d-4ed3-979f-4209bae61abf",
+        "AI_MODEL": "gpt-4",
+        "AI_TEMPERATURE": 0.7,
+        "AI_CACHE_TTL_MINUTES": 60,
+        "AI_MAX_TOKENS": 2000,
+        "AI_ANALYSIS_ENABLED": true
+    },
+    "integrations": {
+        "SHODAN_API_KEY": "",
+        "CODEGPT_WIDGET_ID": "83b8e7bc-6f29-4501-8690-2b1220a9c581"
+    },
+    "features": {
+        "ENABLE_COLLABORATION": true,
+        "ENABLE_ANALYTICS": true
+    }
+}

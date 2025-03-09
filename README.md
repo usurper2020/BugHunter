@@ -441,7 +441,7 @@ BugHunter
 │  ├─ _histogram2d.py
 │  ├─ _histogram2dcontour.py
 │  ├─ _hovertemplate.py
-│  ├─ _hovertemplatesrc.py
+│  ├─ _hovertemplateapp.py
 │  ├─ _icicle.py
 │  ├─ _image.py
 │  ├─ _indicator.py
@@ -475,7 +475,7 @@ BugHunter
 │  ├─ _template.py
 │  ├─ _templateitemname.py
 │  ├─ _texttemplate.py
-│  ├─ _texttemplatesrc.py
+│  ├─ _texttemplateapp.py
 │  ├─ _tickformatstops.py
 │  ├─ _treemap.py
 │  ├─ _violin.py
@@ -12022,7 +12022,7 @@ BugHunter
 │  │  ├─ _histogram2d.py
 │  │  ├─ _histogram2dcontour.py
 │  │  ├─ _hovertemplate.py
-│  │  ├─ _hovertemplatesrc.py
+│  │  ├─ _hovertemplateapp.py
 │  │  ├─ _icicle.py
 │  │  ├─ _image.py
 │  │  ├─ _indicator.py
@@ -12056,7 +12056,7 @@ BugHunter
 │  │  ├─ _template.py
 │  │  ├─ _templateitemname.py
 │  │  ├─ _texttemplate.py
-│  │  ├─ _texttemplatesrc.py
+│  │  ├─ _texttemplateapp.py
 │  │  ├─ _tickformatstops.py
 │  │  ├─ _treemap.py
 │  │  ├─ _violin.py
@@ -23235,7 +23235,7 @@ BugHunter
 │  ├─ _histogram2d.py
 │  ├─ _histogram2dcontour.py
 │  ├─ _hovertemplate.py
-│  ├─ _hovertemplatesrc.py
+│  ├─ _hovertemplateapp.py
 │  ├─ _icicle.py
 │  ├─ _image.py
 │  ├─ _indicator.py
@@ -23269,7 +23269,7 @@ BugHunter
 │  ├─ _template.py
 │  ├─ _templateitemname.py
 │  ├─ _texttemplate.py
-│  ├─ _texttemplatesrc.py
+│  ├─ _texttemplateapp.py
 │  ├─ _tickformatstops.py
 │  ├─ _treemap.py
 │  ├─ _violin.py
@@ -34826,7 +34826,7 @@ BugHunter
 │  │  ├─ _histogram2d.py
 │  │  ├─ _histogram2dcontour.py
 │  │  ├─ _hovertemplate.py
-│  │  ├─ _hovertemplatesrc.py
+│  │  ├─ _hovertemplateapp.py
 │  │  ├─ _icicle.py
 │  │  ├─ _image.py
 │  │  ├─ _indicator.py
@@ -34860,7 +34860,7 @@ BugHunter
 │  │  ├─ _template.py
 │  │  ├─ _templateitemname.py
 │  │  ├─ _texttemplate.py
-│  │  ├─ _texttemplatesrc.py
+│  │  ├─ _texttemplateapp.py
 │  │  ├─ _tickformatstops.py
 │  │  ├─ _treemap.py
 │  │  ├─ _violin.py
@@ -46039,7 +46039,7 @@ BugHunter
 │  ├─ _histogram2d.py
 │  ├─ _histogram2dcontour.py
 │  ├─ _hovertemplate.py
-│  ├─ _hovertemplatesrc.py
+│  ├─ _hovertemplateapp.py
 │  ├─ _icicle.py
 │  ├─ _image.py
 │  ├─ _indicator.py
@@ -46073,7 +46073,7 @@ BugHunter
 │  ├─ _template.py
 │  ├─ _templateitemname.py
 │  ├─ _texttemplate.py
-│  ├─ _texttemplatesrc.py
+│  ├─ _texttemplateapp.py
 │  ├─ _tickformatstops.py
 │  ├─ _treemap.py
 │  ├─ _violin.py

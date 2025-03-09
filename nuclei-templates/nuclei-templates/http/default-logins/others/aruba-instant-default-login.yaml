@@ -15,7 +15,7 @@ info:
     max-request: 1
     vendor: arubanetworks
     product: aruba_instant
-    fofa-query: body="jscripts/third_party/raphael-treemap.min.js" || body="jscripts/third_party/highcharts.src.js"
+    fofa-query: body="jscripts/third_party/raphael-treemap.min.js" || body="jscripts/third_party/highcharts.app.js"
   tags: aruba,default-login
 
 http:

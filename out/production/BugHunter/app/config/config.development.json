@@ -1,0 +1,24 @@
+// config/config.development.json
+{
+    "ai_service": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.9,
+        "max_tokens": 1024,
+        "api_key": "sk-proj-FcGdAouQIvt1JL8mq5q1w6OHDXzPd53bVG0x09-y94fWgGHFSxAxs0RhiaNMKJPTo79SGAdr1tT3BlbkFJ1EThnPL-kA6DgmkKfUEeiDzXEBpo6pHCYMLqW2Nz3k920kFORJ9uEXb2nNybYskhVVspj"
+    },
+    "nuclei": {
+        "templates_path": "./test-templates",
+        "timeout": 10,
+        "rate_limit": 50
+    },
+    "scanning": {
+        "concurrent_scans": 2,
+        "timeout": 60,
+        "retries": 1
+    },
+    "logging": {
+        "level": "DEBUG",
+        "file": "logs/bughunter-dev.log",
+        "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    }
+}

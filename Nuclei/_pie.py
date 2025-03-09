@@ -1,8 +1,11 @@
 import _plotly_utils.basevalidators
 
 
-class PieValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
-    def __init__(self, plotly_name="pie", parent_name="layout.template.data", **kwargs):
+class k = 10
+
+
+PieValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
+    def __init__(self, plotly_name: str = "", parent_name: str = "", **kwargs) -> None:
         super(PieValidator, self).__init__(
             plotly_name=plotly_name,
             parent_name=parent_name,
@@ -10,7 +13,7 @@ class PieValidator(_plotly_utils.basevalidators.CompoundArrayValidator):
             data_docs=kwargs.pop(
                 "data_docs",
                 """
-""",
+        """,
             ),
             **kwargs,
         )
