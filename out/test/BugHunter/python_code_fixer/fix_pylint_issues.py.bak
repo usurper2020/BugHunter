@@ -1,0 +1,128 @@
+import os
+import re
+from typing import List, Dict
+import logging
+
+def fix_import_order(file_content: str) -> str:
+    """Fix import order: standard lib, third party, local imports."""
+    import_lines = []
+    other_lines = []
+    current_line = ""
+    
+    # Separate imports from other code
+    for line in file_content.split('\n'):
+        if line.startswith('import ') or line.startswith('from '):
+            import_lines.append(line)
+        else:
+            other_lines.append(line)
+    
+    # Categorize imports
+    std_lib_imports = []
+    third_party_imports = []
+    local_imports = []
+    
+    for imp in import_lines:
+        if imp.startswith(('import os', 'import sys', 'import logging', 'from pathlib')):
+            std_lib_imports.append(imp)
+        elif imp.startswith(('from PyQt6', 'import PyQt6')):
+            third_party_imports.append(imp)
+        else:
+            local_imports.append(imp)
+    
+    # Combine imports in correct order
+    sorted_imports = std_lib_imports + [''] + third_party_imports + [''] + local_imports
+    return '\n'.join(sorted_imports + [''] + other_lines)
+
+def fix_logging_fstring(file_content: str) -> str:
+    """Replace f-string logging with %-formatting."""
+    pattern = r'logging\.[a-z]+\(f["\'](.+?)["\']'
+    
+    def replace_fstring(match):
+        content = match.group(1)
+        # Convert f-string to %-formatting
+        content = re.sub(r'{(.+?)}', r'%s', content)
+        return f'logging.info("{content}" % ('
+
+    return re.sub(pattern, replace_fstring, file_content)
+
+def fix_file_encoding(file_content: str) -> str:
+    """Add explicit encoding to open() calls."""
+    pattern = r'open\((.*?)\)'
+    return re.sub(pattern, r'open(\1, encoding="utf-8")', file_content)
+
+def fix_attribute_init(file_content: str) -> str:
+    """Move attribute definitions to __init__."""
+    class_pattern = r'class (\w+).*?:'
+    attr_pattern = r'self\.(\w+) = '
+    
+    classes = re.finditer(class_pattern, file_content)
+    for class_match in classes:
+        class_name = class_match.group(1)
+        # Find attributes defined outside __init__
+        attrs = re.finditer(attr_pattern, file_content)
+        init_method = f"    def __init__(self):\n"
+        for attr in attrs:
+            init_method += f"        self.{attr.group(1)} = None\n"
+        
+        # Add __init__ method if not exists
+        if "__init__" not in file_content:
+            file_content = file_content.replace(f"class {class_name}:", 
+                                             f"class {class_name}:\n{init_method}")
+    
+    return file_content
+
+def fix_snake_case(file_content: str) -> str:
+    """Convert camelCase to snake_case for method names."""
+    def to_snake_case(name):
+        s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+    
+    pattern = r'def ([a-zA-Z]+[a-zA-Z0-9]+)\('
+    
+    def replace_method_name(match):
+        return f'def {to_snake_case(match.group(1))}('
+    
+    return re.sub(pattern, replace_method_name, file_content)
+
+def fix_file(filepath: str) -> None:
+    """Apply all fixes to a single file."""
+    try:
+        with open(filepath, 'r', encoding='utf-8') as file:
+            content = file.read()
+        
+        # Apply fixes
+        content = fix_import_order(content)
+        content = fix_logging_fstring(content)
+        content = fix_file_encoding(content)
+        content = fix_attribute_init(content)
+        content = fix_snake_case(content)
+        
+        # Write fixed content
+        with open(filepath, 'w', encoding='utf-8') as file:
+            file.write(content)
+        
+        logging.info(f"Fixed issues in {filepath}")
+    except Exception as e:
+        logging.error(f"Error fixing {filepath}: {str(e)}")
+
+def main():
+    """Main function to fix pylint issues in all Python files."""
+    logging.basicConfig(level=logging.INFO)
+    
+    # Directory containing Python files
+    base_dir = "app"
+    
+    # Find all Python files
+    python_files = []
+    for root, _, files in os.walk(base_dir):
+        for file in files:
+            if file.endswith('.py'):
+                python_files.append(os.path.join(root, file))
+    
+    # Fix each file
+    for file in python_files:
+        fix_file(file)
+        logging.info(f"Processed {file}")
+
+if __name__ == "__main__":
+    main()

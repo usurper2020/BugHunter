@@ -1,0 +1,23 @@
+# config/nuclei.yaml
+templates:
+  - cves/
+  - vulnerabilities/
+  - misconfiguration/
+  - exposures/
+
+rate-limit: 150
+bulk-size: 25
+concurrency: 25
+timeout: 5
+
+headers:
+  - "User-Agent: BugHunter Scanner"
+
+severity:
+  - critical
+  - high
+  - medium
+  - low
+  - info
+
+output-directory: "reports/nuclei"

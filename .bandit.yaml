@@ -1,0 +1,43 @@
+# Bandit configuration file
+exclude_dirs:
+  - tests
+  - docs
+  - venv
+  - .venv
+  - .git
+  - __pycache__
+  - build
+  - dist
+
+skips:
+  - B101:tests/ # Skip assert warnings in test files
+
+format: screen
+output: bandit_results.json
+verbose: true
+
+# Test settings
+levels:
+  confidence: LOW
+  severity: MEDIUM
+
+context-lines: 3
+per_function_call_count: true
+baseline: bandit_baseline.json
+max_line_length: 100
+ignore-nosec: false
+number: 0
+
+# File patterns to exclude
+exclude:
+  - "*.md"
+  - "*.rst"
+  - "*.txt"
+  - "*.yaml"
+  - "*.yml"
+  - "*.json"
+  - "*.ini"
+  - "*.cfg"
+  - "*.toml"
+  - "setup.py"
+  - "conftest.py"

@@ -1,0 +1,14 @@
+PyQt6>=6.0.0
+asyncio>=3.4.3
+aiohttp>=3.8.1
+python-dotenv>=0.19.0
+pyjwt>=2.3.0
+requests>=2.27.1
+cryptography>=36.0.0
+pyyaml>=6.0
+colorama>=0.4.4
+tqdm>=4.62.3
+typing-extensions>=4.0.1
+openai>=0.27.0
+beautifulsoup4>=4.9.3
+rich>=10.11.0
